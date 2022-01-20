@@ -50,4 +50,7 @@ public class Challenge {
 
     @OneToMany(mappedBy = "challengeId")
     private List<ChallengeReview> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "challengeId")
+    private List<TransactionLog> logList = new ArrayList<>();
 }

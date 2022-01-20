@@ -3,11 +3,7 @@ package com.savle.togethersaving.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,13 +17,16 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class TransactionLog {
+public class TransactionLog extends BaseTime{
 
 	@Id
 	@GeneratedValue
 	private Long logId;
 
-	private Long challengeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="challenge_id")
+	private Challenge challengeId;
+
 
 	private LocalDate sendDate;
 
