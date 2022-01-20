@@ -3,7 +3,9 @@ package com.savle.togethersaving.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +22,13 @@ import lombok.Setter;
 public class ChallengeComment {
 
 	@Id
-	private Long userId;
+	private Long commentId;
 
-	private Long ChallengeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Challenge Challenge;
 
 	private String content;
 
