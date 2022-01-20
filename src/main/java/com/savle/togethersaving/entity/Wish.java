@@ -2,7 +2,8 @@ package com.savle.togethersaving.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,17 +14,8 @@ import javax.persistence.*;
 public class Wish {
 
     @Id
-    @GeneratedValue
-    @Column(name = "wish_id")
-    private Long wishId;
+    private String userId;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable= false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private Challenge challenge;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable= false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private User hopingPerson;
-
+    @Id
+    private String challengeId;
 }
