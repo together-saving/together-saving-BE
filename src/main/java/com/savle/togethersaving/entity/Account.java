@@ -1,8 +1,6 @@
 package com.savle.togethersaving.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +18,23 @@ public class Account {
 
 	@Id
 	@GeneratedValue
+	@Column(name="account_number")
 	private String accountNumber;
 
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User ownerId;
 
 	private Long balance;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name="account_type")
 	private AccountType accountType;
 
+	@Column(name="bank_name")
 	private String bankName;
 
 	private String thumbnail;
+
+
 }
