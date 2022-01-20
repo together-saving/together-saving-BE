@@ -2,6 +2,7 @@ package com.savle.togethersaving.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +19,10 @@ public class Challenge {
 
     @GeneratedValue
     @Id
+    @Column(name = "challenge_id")
     private Long challengeId;
 
+    @Column(name = "host_id", nullable = false)
     private Long hostId;
 
     private LocalDate startDate;
