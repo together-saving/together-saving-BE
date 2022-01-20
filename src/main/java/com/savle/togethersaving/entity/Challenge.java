@@ -2,16 +2,11 @@ package com.savle.togethersaving.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sun.istack.NotNull;
 
@@ -27,8 +22,6 @@ public class Challenge {
     @Id
     private Long challengeId;
 
-    // @NotNull
-    // private Long hostId;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -54,4 +47,7 @@ public class Challenge {
     private int period;
 
     private String thumbnail;
+
+    @OneToMany(mappedBy = "challengeId")
+    private List<ChallengeReview> reviewList = new ArrayList<>();
 }
