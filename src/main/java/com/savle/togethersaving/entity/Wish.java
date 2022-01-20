@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 @Setter
 @Getter
-public class WishChallenge {
+public class Wish {
 
     @Id
     private String userId;
