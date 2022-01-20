@@ -34,7 +34,11 @@ public class TransactionLog extends BaseTime{
 
 	private Long amount;
 
-	private String sendAccount;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="send_account")
+	private Account sendAccount;
 
-	private String receiveAccount;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="receive_account")
+	private Account receiveAccount;
 }

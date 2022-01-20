@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +21,6 @@ public class Account {
 
 	@Id
 	@GeneratedValue
-	@Column(name="account_number")
 	private String accountNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -34,5 +36,6 @@ public class Account {
 
 	private String thumbnail;
 
-
+	@OneToMany(mappedBy = "logId")
+	private List<TransactionLog> logList = new ArrayList<>();
 }
