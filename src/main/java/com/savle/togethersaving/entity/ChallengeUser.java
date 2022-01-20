@@ -13,18 +13,15 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-public class ChallengeUserEntity implements Serializable {
+public class ChallengeUser {
     @Id
     private Long challengeId;
 
     @Id
-    @Column
     private Long userId;
 
-    @Column
     private Long accumulatedBalance;
 
-    @Column
     private Boolean isAutomated; // 자동 저축 여부
 
 }
