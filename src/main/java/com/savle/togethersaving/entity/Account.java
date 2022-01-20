@@ -28,10 +28,8 @@ public class Account {
 	private Long balance;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name="account_type")
 	private AccountType accountType;
 
-	@Column(name="bank_name")
 	private String bankName;
 
 	private String thumbnail;

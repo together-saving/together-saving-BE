@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-public class ChallengeUserEntity implements Serializable {
+public class ChallengeUser implements Serializable {
     @Id
     private Long challengeId;
 
