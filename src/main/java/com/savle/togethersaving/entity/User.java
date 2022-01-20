@@ -11,35 +11,26 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
-public class UserEntity {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long userId;
 
-    @Column
     private String email;
 
-    @Column
     private String birth;
 
-    @Column
     private Boolean gender;
 
-    @Column
     private String phoneNumber;
 
-    @Column
     private String profilePicture;
 
-    @Column
     private String nickName;
 
-    @Column(columnDefinition = "boolean default false")
     private Boolean isAdmin;
 
-    @Column
     private Long point;
 
-    @Column
     private Long reward;
 }
