@@ -2,8 +2,7 @@ package com.savle.togethersaving.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +19,12 @@ import lombok.Setter;
 public class ChallengeReview {
 
 	@Id
-	private Long userId;
+	@GeneratedValue
+	private Long reviewId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User reviewerId;
 
 	private Long ChallengeId;
 

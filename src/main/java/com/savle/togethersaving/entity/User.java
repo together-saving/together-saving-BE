@@ -56,4 +56,7 @@ public class User {
 
     @OneToMany(mappedBy = "hopingPersonId")
     private List<Wish> wishedChallengesList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reviewerId")
+    private List<ChallengeReview> reviewList = new ArrayList<>();
 }
