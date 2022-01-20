@@ -33,6 +33,7 @@ public class Challenge {
     @NotNull
     private String title;
 
+    @Column(length = 900)
     private String content;
 
     private Long payment;
