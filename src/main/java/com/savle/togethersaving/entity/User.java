@@ -16,9 +16,9 @@ import java.util.List;
 @Setter
 @Getter
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @GeneratedValue
     private Long userId;
 
     @NotNull
@@ -31,13 +31,12 @@ public class User {
     private Boolean gender;
 
     @NotNull
-    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "profile_picture")
+
     private String profilePicture;
 
-    @Column(name = "nickname")
+
     @ColumnDefault("닉네임을 설정해주세요.")
     private String nickName;
 
@@ -53,5 +52,8 @@ public class User {
     private Long reward;
 
     @OneToMany(mappedBy = "ownerId")
-    private List<Account> accounts = new ArrayList<>();
+    private List<Account> accountList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hopingPersonId")
+    private List<Wish> wishedChallengesList = new ArrayList<>();
 }
