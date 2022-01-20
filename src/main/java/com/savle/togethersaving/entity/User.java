@@ -1,14 +1,9 @@
 package com.savle.togethersaving.entity;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,49 +11,26 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@DynamicInsert
 public class User {
-
     @Id
     @GeneratedValue
     private Long userId;
 
-    @NotNull
     private String email;
 
-    @NotNull
-    private LocalDate birth;
+    private String birth;
 
-    @NotNull
     private Boolean gender;
 
-    @NotNull
     private String phoneNumber;
-
 
     private String profilePicture;
 
+    private String nickName;
 
-    @ColumnDefault("'닉네임을 설정해주세요'")
-    private String nickname;
+    private Boolean isAdmin;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @ColumnDefault("'USER'")
-    private Role role;
-
-    @ColumnDefault("0")
     private Long point;
 
-    @ColumnDefault("0")
     private Long reward;
-
-    @OneToMany(mappedBy = "owner")
-    private List<Account> accountList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "hopingPerson")
-    private List<Wish> wishedChallengeList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "reviewer")
-    private List<ChallengeReview> reviewList = new ArrayList<>();
 }
