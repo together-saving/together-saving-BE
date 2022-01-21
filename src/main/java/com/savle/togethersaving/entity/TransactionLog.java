@@ -25,7 +25,8 @@ public class TransactionLog extends BaseTime{
 	private Long logId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="challenge_id", nullable= false, insertable = false)
+	@JoinColumn(name="challenge_id", nullable= false, insertable = false
+			, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
 	private Challenge challenge;
 
 	@NotNull

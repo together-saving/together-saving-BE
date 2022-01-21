@@ -18,11 +18,11 @@ public class ChallengeReview extends BaseTime {
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable= false)
+    @JoinColumn(name = "user_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id", nullable= false)
+    @JoinColumn(name = "challenge_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User challenge;
 
 

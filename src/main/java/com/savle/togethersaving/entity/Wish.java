@@ -17,12 +17,13 @@ public class Wish {
     @Column(name = "wish_id")
     private Long wishId;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable= false, insertable = false)
+    @JoinColumn(name="user_id", nullable= false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Challenge challenge;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable= false, insertable = false)
+    @JoinColumn(name="user_id", nullable= false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User hopingPerson;
 
 }

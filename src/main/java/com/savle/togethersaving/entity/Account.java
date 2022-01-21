@@ -25,7 +25,8 @@ public class Account {
 	private String accountNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id", nullable= false, insertable = false)
+	@JoinColumn(name="user_id", nullable= false, insertable = false
+			, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
 	private User owner;
 
 	@NotNull
