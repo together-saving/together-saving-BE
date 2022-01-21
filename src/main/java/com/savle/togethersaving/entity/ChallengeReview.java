@@ -1,15 +1,9 @@
 package com.savle.togethersaving.entity;
 
-import java.time.LocalDateTime;
+import com.sun.istack.NotNull;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -17,14 +11,22 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class ChallengeReview {
+public class ChallengeReview extends BaseTime {
 
-	@Id
-	private Long userId;
+    @Id
+    @GeneratedValue
+    private Long reviewId;
 
-	private Long ChallengeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private User reviewer;
 
-	private String content;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "challenge_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private Challenge challenge;
 
-	private LocalDateTime writeDate;
+
+    @NotNull
+    private String content;
+
 }

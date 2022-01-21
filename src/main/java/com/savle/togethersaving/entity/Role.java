@@ -1,6 +1,5 @@
 package com.savle.togethersaving.entity;
 
-public enum AccountType {
-
-	PHYSICAL, CMA
+public enum Role {
+    ADMIN, USER
 }

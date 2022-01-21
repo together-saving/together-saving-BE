@@ -3,12 +3,9 @@ package com.savle.togethersaving.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,21 +18,25 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class TransactionLog {
+public class TransactionLog extends BaseTime{
 
 	@Id
 	@GeneratedValue
 	private Long logId;
 
-	private Long challengeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="challenge_id", nullable= false, insertable = false
+			, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+	private Challenge challenge;
 
-	private LocalDate sendDate;
-
-	private LocalDateTime txTime;
-
+	@NotNull
 	private Long amount;
 
-	private String sendAccount;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="send_account", nullable= false, insertable = false)
+	private Account sendAccount;
 
-	private String receiveAccount;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="receive_account", nullable= false, insertable = false)
+	private Account receiveAccount;
 }
