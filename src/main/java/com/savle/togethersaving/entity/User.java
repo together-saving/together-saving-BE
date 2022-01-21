@@ -37,12 +37,12 @@ public class User {
     private String profilePicture;
 
 
-    @ColumnDefault("닉네임을 설정해주세요.")
+    @ColumnDefault("'닉네임을 설정해주세요.'")
     private String nickName;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("`USER`")
+    @ColumnDefault("'USER'")
     private Role role;
 
     @ColumnDefault("0")
