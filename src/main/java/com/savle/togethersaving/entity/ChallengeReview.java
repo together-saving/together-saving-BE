@@ -23,7 +23,7 @@ public class ChallengeReview extends BaseTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private User challenge;
+    private Challenge challenge;
 
 
     @NotNull
