@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-@IdClass(ChallengeTagPK.class)
+@IdClass(ChallengeUserPK.class)
 public class ChallengeUser {
     @Id
     private Long challengeId;
