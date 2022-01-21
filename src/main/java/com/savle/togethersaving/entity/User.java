@@ -3,6 +3,7 @@ package com.savle.togethersaving.entity;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@DynamicInsert
 public class User {
 
     @Id
@@ -37,12 +39,12 @@ public class User {
     private String profilePicture;
 
 
-    @ColumnDefault("닉네임을 설정해주세요.")
-    private String nickName;
+    @ColumnDefault("'닉네임을 설정해주세요'")
+    private String nickname;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("`USER`")
+    @ColumnDefault("'USER'")
     private Role role;
 
     @ColumnDefault("0")
@@ -51,12 +53,12 @@ public class User {
     @ColumnDefault("0")
     private Long reward;
 
-    @OneToMany(mappedBy = "ownerId")
+    @OneToMany(mappedBy = "owner")
     private List<Account> accountList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "hopingPersonId")
-    private List<Wish> wishedChallengesList = new ArrayList<>();
+    @OneToMany(mappedBy = "hopingPerson")
+    private List<Wish> wishedChallengeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reviewerId")
+    @OneToMany(mappedBy = "reviewer")
     private List<ChallengeReview> reviewList = new ArrayList<>();
 }

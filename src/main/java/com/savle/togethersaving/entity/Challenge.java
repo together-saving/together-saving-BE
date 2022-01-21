@@ -49,9 +49,9 @@ public class Challenge {
 
     private String thumbnail;
 
-    @OneToMany(mappedBy = "challengeId")
+    @OneToMany(mappedBy = "challenge")
     private List<ChallengeReview> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challengeId")
+    @OneToMany(mappedBy = "challenge")
     private List<TransactionLog> logList = new ArrayList<>();
 }

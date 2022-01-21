@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,21 +25,17 @@ public class TransactionLog extends BaseTime{
 	private Long logId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="challenge_id")
-	private Challenge challengeId;
+	@JoinColumn(name="challenge_id", nullable= false, insertable = false)
+	private Challenge challenge;
 
-
-	private LocalDate sendDate;
-
-	private LocalDateTime txTime;
-
+	@NotNull
 	private Long amount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="send_account")
+	@JoinColumn(name="send_account", nullable= false, insertable = false)
 	private Account sendAccount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="receive_account")
+	@JoinColumn(name="receive_account", nullable= false, insertable = false)
 	private Account receiveAccount;
 }

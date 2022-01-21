@@ -13,15 +13,16 @@ import javax.persistence.*;
 public class Wish {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "wish_id")
     private Long wishId;
 
-    @Id
-    private String challengeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable= false, insertable = false)
+    private Challenge challenge;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User hopingPersonId;
+    @JoinColumn(name="user_id", nullable= false, insertable = false)
+    private User hopingPerson;
 
 }

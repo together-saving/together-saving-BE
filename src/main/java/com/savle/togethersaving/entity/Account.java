@@ -2,6 +2,7 @@ package com.savle.togethersaving.entity;
 
 import javax.persistence.*;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,14 +25,17 @@ public class Account {
 	private String accountNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
-	private User ownerId;
+	@JoinColumn(name="user_id", nullable= false, insertable = false)
+	private User owner;
 
+	@NotNull
 	private Long balance;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 
+	@NotNull
 	private String bankName;
 
 	private String thumbnail;
