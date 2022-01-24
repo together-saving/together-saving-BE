@@ -19,8 +19,8 @@ import com.sun.istack.NotNull;
 @Entity
 public class Challenge {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long challengeId;
 
     @ManyToOne

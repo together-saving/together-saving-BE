@@ -21,7 +21,6 @@ import java.util.List;
 public class Account {
 
 	@Id
-	@GeneratedValue
 	private String accountNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)

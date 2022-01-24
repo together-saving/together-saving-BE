@@ -3,6 +3,7 @@ package com.savle.togethersaving.entity;
 import lombok.*;
 
 import javax.persistence.ConstraintMode;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Builder
 @NoArgsConstructor
@@ -19,17 +21,12 @@ import javax.persistence.ManyToOne;
 @Setter
 @Getter
 @Entity
-@IdClass(ChallengeFrequencyPK.class)
 public class ChallengeFrequency {
-
-    @Id
-    private Long challengeId;
-
-    @Id
-    @Enumerated(EnumType.STRING)
-    private Frequency frequency;
+    @EmbeddedId
+    private ChallengeFrequencyPK challengeFrequencyPK;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "challenge_id", nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @MapsId("challengeId")
     private Challenge challenge;
 }
