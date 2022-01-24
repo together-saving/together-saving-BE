@@ -18,24 +18,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
+@EqualsAndHashCode
 public class ChallengeTagPK implements Serializable {
 
 	private Long challengeId;
 
 	private String name;
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		ChallengeTagPK that = (ChallengeTagPK)o;
-		return challengeId.equals(that.challengeId) && name.equals(that.name);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(challengeId, name);
-	}
 }
