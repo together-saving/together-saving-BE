@@ -29,12 +29,13 @@ class ChallengeTagRepositoryTest {
 	@Test
 	void findChallengeTagsByChallenge() {
 		//given
-		Challenge previous = Challenge.builder().challengeId(1L)
-			.title("1")
+		Challenge previous = Challenge.builder()
+			.title("10")
 			.startDate(LocalDate.now().plusDays(1)).build();
 		challengeRepository.save(previous);
-		Tag tag1 = Tag.builder().name("tag1").build();
-		Tag tag2 = Tag.builder().name("tag2").build();
+
+		Tag tag1 = Tag.builder().name("tagone").build();
+		Tag tag2 = Tag.builder().name("tagtwo").build();
 		tagRepository.save(tag1);
 		tagRepository.save(tag2);
 		ChallengeTag build1 = ChallengeTag.builder()
@@ -50,7 +51,7 @@ class ChallengeTagRepositoryTest {
 		//when
 		List<ChallengeTag> tagList = challengeTagRepository.findChallengeTagsByChallenge(previous);
 		//then
-		Assertions.assertThat(tagList.get(0).getTag().getName()).isEqualTo("tag1");
-		Assertions.assertThat(tagList.get(1).getTag().getName()).isEqualTo("tag2");
+		Assertions.assertThat(tagList.get(0).getTag().getName()).isEqualTo("tagone");
+		Assertions.assertThat(tagList.get(1).getTag().getName()).isEqualTo("tagtwo");
 	}
 }
