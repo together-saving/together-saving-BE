@@ -5,6 +5,8 @@ import static java.time.temporal.ChronoUnit.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
 import com.savle.togethersaving.entity.Tag;
@@ -19,7 +21,7 @@ public class PopularChallengeDto {
 
 	private boolean isWished;
 
-	private long remainDate;
+	private String thumbnail;
 
 	private String title;
 
@@ -27,14 +29,14 @@ public class PopularChallengeDto {
 
 	private int period;
 
-	private String thumbnail;
+	private long remainDate;
 
 	private List<Tag> tags;
 
 	public static PopularChallengeDto challengeOf(Challenge challenge) {
 		PopularChallengeDto dto = new PopularChallengeDto();
 		dto.id = challenge.getChallengeId();
-		dto.remainDate = DAYS.between(challenge.getStartDate(), LocalDate.now());
+		dto.remainDate = DAYS.between(LocalDate.now(), challenge.getStartDate());
 		dto.title = challenge.getTitle();
 		dto.mode = challenge.getMode();
 		dto.period = challenge.getPeriod();
