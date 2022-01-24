@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ChallengeReview extends BaseTime {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
