@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class ChallengeComment {
+public class ChallengeComment extends BaseTime{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +40,4 @@ public class ChallengeComment {
 
 	private String content;
 
-	private LocalDateTime writeDate;
 }
