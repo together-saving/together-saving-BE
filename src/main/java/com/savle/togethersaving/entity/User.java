@@ -1,4 +1,5 @@
 package com.savle.togethersaving.entity;
+
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,10 +34,14 @@ public class User {
     @NotNull
     private String phoneNumber;
 
+
     private String profilePicture;
 
     @ColumnDefault("'닉네임을 설정해주세요.'")
     private String nickname;
+
+
+
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -56,5 +61,7 @@ public class User {
     private List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
-    private List<ChallengeReview> challengeReviewList = new ArrayList<>();
+
+    private List<ChallengeReview> reviewList = new ArrayList<>();
+
 }

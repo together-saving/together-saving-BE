@@ -33,3 +33,12 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    mainClass = "com.savle.togethersaving.TogetherSavingApplication"
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
