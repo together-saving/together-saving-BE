@@ -13,6 +13,8 @@ import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class ChallengeService {
@@ -36,9 +38,9 @@ public class ChallengeService {
 		dto.setWished(wishService.isWished(challenge, userId));
 		return dto;
 	}
-  
-  public Challenge getChallengeByChallengeId(Long challengeId) {
 
-    return challengeRepository.getById(challengeId);
-  }
+	public Challenge getChallengeByChallengeId(Long challengeId) {
+
+    	return challengeRepository.getById(challengeId);
+  	}
 }
