@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,9 +23,6 @@ class ReviewRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    EntityManager em;
-
     protected User user;
     protected Challenge challenge;
 
@@ -34,7 +30,7 @@ class ReviewRepositoryTest {
     @Test
     void reviewSaveTest() {
         createUserAndChallenge();
-        em.flush();
+
         ChallengeReview challengeReview = ChallengeReview.builder()
                 .reviewer(user)
                 .challenge(challenge)
