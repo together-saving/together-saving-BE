@@ -5,6 +5,7 @@ import static java.time.temporal.ChronoUnit.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.savle.togethersaving.entity.Challenge;
@@ -19,6 +20,7 @@ import lombok.Setter;
 public class PopularChallengeDto {
 	private Long id;
 
+	@JsonProperty(value="is_wished")
 	private boolean isWished;
 
 	private String thumbnail;

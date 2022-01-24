@@ -25,9 +25,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.ChallengeTag;
+import com.savle.togethersaving.entity.Tag;
 import com.savle.togethersaving.entity.User;
+import com.savle.togethersaving.entity.Wish;
 import com.savle.togethersaving.repository.ChallengeRepository;
+import com.savle.togethersaving.repository.ChallengeTagRepository;
 import com.savle.togethersaving.repository.UserRepository;
+import com.savle.togethersaving.repository.WishRepository;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -39,6 +44,12 @@ class ChallengeControllerTest {
 
 	@MockBean
 	private UserRepository userRepository;
+
+	@MockBean
+	private WishRepository wishRepository;
+
+	@MockBean
+	private ChallengeTagRepository challengeTagRepository;
 
 	@Autowired
 	public void setMockMvc(MockMvc mockMvc) {
@@ -66,6 +77,12 @@ class ChallengeControllerTest {
 				.findChallengesByStartDateGreaterThan(LocalDate.now(), Sort.by("members").descending()))
 			.willReturn(popularList);
 		given(userRepository.findById(1L)).willReturn(Optional.of(user));
+		given(wishRepository.existsByHopingPerson_UserIdAndChallenge(user.getUserId(), biggest))
+			.willReturn(true);
+		given(challengeTagRepository.findChallengeTagsByChallenge(biggest))
+			.willReturn(Arrays.asList(ChallengeTag.builder().challenge(biggest)
+															.tag(Tag.builder().name("tagTest").build())
+				.build()));
 
 		//when
 		ResultActions result = mockMvc.perform(
