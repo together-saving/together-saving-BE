@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ReviewCreateDto {
 
+    private Long userId;
     private Long challengeId;
     private String reviewContent;
 
