@@ -65,7 +65,7 @@ public class ReviewControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.userId", is(1)));
+                .andExpect(jsonPath("$.data.user_id", is(1)));
 
         verify(reviewService).saveReview(refEq(reviewCreateDto));
 

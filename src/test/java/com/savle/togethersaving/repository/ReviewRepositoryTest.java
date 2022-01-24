@@ -42,7 +42,7 @@ class ReviewRepositoryTest {
 
 
         assertThat(savedChallengeReview.getReviewId()).isEqualTo(1L);
-        assertThat(savedChallengeReview.getChallenge().getChallengeId()).isEqualTo(1L);
+        assertThat(savedChallengeReview.getChallenge().getTitle()).isEqualTo("돈 모으자");
         assertThat(savedChallengeReview.getReviewer().getUserId()).isEqualTo(1L);
         assertThat(savedChallengeReview.getContent()).isEqualTo("이거 재미있네요");
     }
