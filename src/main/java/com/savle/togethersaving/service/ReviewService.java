@@ -19,9 +19,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ReviewDto saveReview(Long userId, ReviewCreateDto reviewCreateDto) {
+    public ReviewDto saveReview(ReviewCreateDto reviewCreateDto) {
 
-        User user = userService.getUserByUserId(userId);
+        User user = userService.getUserByUserId(reviewCreateDto.getUserId());
         Challenge challenge = challengeService.getChallengeByChallengeId(reviewCreateDto.getChallengeId());
 
         ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
