@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -33,12 +34,10 @@ public class User {
     @NotNull
     private String phoneNumber;
 
-
     private String profilePicture;
 
-
     @ColumnDefault("'닉네임을 설정해주세요.'")
-    private String nickName;
+    private String nickname;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -58,5 +57,7 @@ public class User {
     private List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
+
     private List<ChallengeReview> reviewList = new ArrayList<>();
+
 }

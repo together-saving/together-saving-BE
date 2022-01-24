@@ -14,21 +14,13 @@ import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 
 @Service
+@RequiredArgsConstructor
 public class ChallengeService {
 
 	private final ChallengeRepository challengeRepository;
 	private final TagService tagService;
 	private final WishService wishService;
 	private final UserService userService;
-
-	@Autowired
-	public ChallengeService(ChallengeRepository challengeRepository,
-		TagService tagService, WishService wishService, UserService userService) {
-		this.challengeRepository = challengeRepository;
-		this.tagService = tagService;
-		this.wishService = wishService;
-		this.userService = userService;
-	}
 
 	public List<PopularChallengeDto> getPopularChallenges(Long userId) {
 		List<Challenge> challengeList = challengeRepository
@@ -44,4 +36,9 @@ public class ChallengeService {
 		dto.setWished(wishService.isWished(challenge, userId));
 		return dto;
 	}
+  
+  public Challenge getChallengeByChallengeId(Long challengeId) {
+
+    return challengeRepository.getById(challengeId);
+  }
 }
