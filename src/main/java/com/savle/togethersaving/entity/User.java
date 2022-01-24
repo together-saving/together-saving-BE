@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,7 +19,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @NotNull
@@ -36,9 +37,11 @@ public class User {
 
     private String profilePicture;
 
-
     @ColumnDefault("'닉네임을 설정해주세요.'")
-    private String nickName;
+    private String nickname;
+
+
+
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -58,5 +61,7 @@ public class User {
     private List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
+
     private List<ChallengeReview> reviewList = new ArrayList<>();
+
 }

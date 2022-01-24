@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,19 +15,29 @@ import javax.persistence.*;
 public class ChallengeReview extends BaseTime {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id", nullable= false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "challenge_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Challenge challenge;
 
 
     @NotNull
     private String content;
 
+
+    public static ChallengeReview createReview(User reviewer, Challenge challenge,String content) {
+
+        return ChallengeReview.builder()
+                .reviewer(reviewer)
+                .challenge(challenge)
+                .content(content)
+                .build();
+
+    }
 }
