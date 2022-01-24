@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
+import com.savle.togethersaving.repository.UserRepository;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -34,6 +37,9 @@ class ChallengeControllerTest {
 	@MockBean
 	private ChallengeRepository challengeRepository;
 
+	@MockBean
+	private UserRepository userRepository;
+
 	@Autowired
 	public void setMockMvc(MockMvc mockMvc) {
 		this.mockMvc = mockMvc;
@@ -42,15 +48,16 @@ class ChallengeControllerTest {
 	@Test
 	void getPopularChallengesTestV1() throws Exception {
 		//given
-		Challenge smallest = Challenge.builder()
+		User user = User.builder().userId(1L).email("1").birth(LocalDate.now()).gender(true).phoneNumber("123").build();
+		Challenge smallest = Challenge.builder().challengeId(1L)
 			.title("smallest")
 			.members(1L)
 			.startDate(LocalDate.now().plusDays(1)).build();
-		Challenge outdated = Challenge.builder()
+		Challenge outdated = Challenge.builder().challengeId(2L)
 			.title("outdated")
 			.members(2L)
 			.startDate(LocalDate.now().minusDays(1)).build();
-		Challenge biggest = Challenge.builder()
+		Challenge biggest = Challenge.builder().challengeId(3L)
 			.title("biggest")
 			.members(15L)
 			.startDate(LocalDate.now().plusDays(1)).build();
@@ -58,10 +65,12 @@ class ChallengeControllerTest {
 		given(challengeRepository
 				.findChallengesByStartDateGreaterThan(LocalDate.now(), Sort.by("members").descending()))
 			.willReturn(popularList);
+		given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
 		//when
 		ResultActions result = mockMvc.perform(
 			get("/api/v1/auth/challenges?criteria=popularity")
+				.header("user-id", 1L)
 				.accept(MediaType.APPLICATION_JSON)
 		);
 
@@ -70,9 +79,7 @@ class ChallengeControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data").isArray())
 			.andExpect(jsonPath("$.data[0].title", is("biggest")))
-			.andExpect(jsonPath("$.data[0].members", is(15)))
 			.andExpect(jsonPath("$.data[1].title", is("smallest")))
-			.andExpect(jsonPath("$.data[1].members", is(1)))
 		;
 	}
 }

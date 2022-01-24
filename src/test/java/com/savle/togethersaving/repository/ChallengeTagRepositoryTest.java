@@ -47,7 +47,9 @@ class ChallengeTagRepositoryTest {
 			.build();
 		challengeTagRepository.save(build1);
 		challengeTagRepository.save(build2);
+		//when
 		List<ChallengeTag> tagList = challengeTagRepository.findChallengeTagsByChallenge(previous);
+		//then
 		Assertions.assertThat(tagList.get(0).getTag().getName()).isEqualTo("tag1");
 		Assertions.assertThat(tagList.get(1).getTag().getName()).isEqualTo("tag2");
 	}
