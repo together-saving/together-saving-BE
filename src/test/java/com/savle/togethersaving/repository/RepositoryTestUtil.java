@@ -26,6 +26,8 @@ public class RepositoryTestUtil {
     protected ChallengeTagRepository challengeTagRepository;
     @Autowired
     protected WishRepository wishRepository;
+    @Autowired
+    protected ChallengeUserRepository challengeUserRepository;
 
     protected User user;
     protected Challenge previousChallenge;
@@ -37,6 +39,11 @@ public class RepositoryTestUtil {
     protected Challenge sevenChallenge;
     protected Challenge eightChallenge;
     protected Challenge nineChallenge;
+
+    protected ChallengeUser challengeUser1;
+    protected ChallengeUser challengeUser2;
+    protected ChallengeUser challengeUser3;
+
 
     protected Tag firstTag;
     protected Tag secondTag;
@@ -107,6 +114,7 @@ public class RepositoryTestUtil {
         userRepository.save(user);
         challengeRepository.save(previousChallenge);
         challengeRepository.save(afterChallenge);
+        challengeRepository.save(biggest);
         Arrays.asList(fourChallenge,fiveChallenge,sixChallenge,sevenChallenge,eightChallenge, nineChallenge)
             .stream().forEach(challenge -> {
                 challenge = buildChallenge();
@@ -153,5 +161,34 @@ public class RepositoryTestUtil {
                 .hopingPerson(user).build();
 
         wishRepository.save(wish);
+    }
+
+    void createChallengeUser(){
+
+        challengeUser1 = ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(1L,user.getUserId()))
+                .accumulatedBalance(0L)
+                .isAutomated(false)
+                .challenge(afterChallenge)
+                .user(user)
+                .build();
+        challengeUser2 = ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(2L,user.getUserId()))
+                .accumulatedBalance(0L)
+                .isAutomated(false)
+                .challenge(previousChallenge)
+                .user(user)
+                .build();
+        challengeUser3 = ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(3L,user.getUserId()))
+                .accumulatedBalance(0L)
+                .isAutomated(true)
+                .challenge(biggest)
+                .user(user)
+                .build();
+
+        challengeUserRepository.save(challengeUser1);
+        challengeUserRepository.save(challengeUser2);
+        challengeUserRepository.save(challengeUser3);
     }
 }

@@ -1,18 +1,27 @@
 package com.savle.togethersaving.service;
 
+import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
-import com.savle.togethersaving.entity.AccountType;
-import com.savle.togethersaving.entity.TransactionLog;
+import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.TransactionLogRepository;
+import com.savle.togethersaving.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
+
 
 
 public class UserServiceTest extends ServiceTestUtil {
@@ -23,18 +32,28 @@ public class UserServiceTest extends ServiceTestUtil {
     protected ChallengeService challengeService;
     @Mock
     private TransactionLogRepository transactionLogRepository;
+    @Mock
+    private ChallengeUserService challengeUserService;
+    @Mock
+    private TagService tagService;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private TransactionLogService transactionLogService;
+
 
     @InjectMocks
     private UserService userService;
 
 
-    @DisplayName("SaveReview() -리뷰 저장 성공")
+    @DisplayName("저축 성공")
     @Test
     void shouldSavingSuccessfully() {
 
         createUserAndChallenge();
         createTwoKindsOfAccounts();
         createDtos();
+        createTransactionLog();
 
         doReturn(sendAccount)
                 .when(accountService).findAccount(user.getUserId(), AccountType.PHYSICAL);
@@ -45,13 +64,6 @@ public class UserServiceTest extends ServiceTestUtil {
         doReturn(receiveAccount)
                 .when(accountService).findAccount(user.getUserId(), AccountType.CMA);
 
-        given(transactionLogRepository.save(any(TransactionLog.class))).will(invocation -> TransactionLog.builder()
-                .logId(1L)
-                .challenge(challenge)
-                .amount(createSavingDto.getChallengePayment())
-                .sendAccount(sendAccount)
-                .receiveAccount(receiveAccount)
-                .build());
 
         ResponseSavingsDto savingDto = userService.saveMoney(user.getUserId(), challenge.getChallengeId(), createSavingDto);
 
@@ -61,5 +73,6 @@ public class UserServiceTest extends ServiceTestUtil {
         assertEquals(savingDto.getReceiveAccountNumber(), "220-220");
         assertEquals(receiveAccount.getBalance(), 5000L);
     }
+
 
 }

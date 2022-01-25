@@ -17,6 +17,7 @@ public class ServiceTestUtil {
 
     protected Account receiveAccount;
     protected Account sendAccount;
+    protected TransactionLog transactionLog;
 
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
@@ -84,6 +85,16 @@ public class ServiceTestUtil {
                 .challengePayment(5000L)
                 .physicalAccountNumber("110-110")
                 .cmaAccountNumber("220-220")
+                .build();
+    }
+
+    void createTransactionLog(){
+        transactionLog = TransactionLog.builder()
+                .logId(1L)
+                .challenge(challenge)
+                .amount(createSavingDto.getChallengePayment())
+                .sendAccount(sendAccount)
+                .receiveAccount(receiveAccount)
                 .build();
     }
 
