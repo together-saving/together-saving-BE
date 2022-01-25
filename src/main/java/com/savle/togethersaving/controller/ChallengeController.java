@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.savle.togethersaving.Data;
+import com.savle.togethersaving.dto.Data;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
