@@ -34,6 +34,7 @@ public class ServiceTestUtil {
                 .role(Role.USER)
                 .point(0L)
                 .reward(0L)
+                .password("password")
                 .build();
 
         challenge = Challenge.builder()
