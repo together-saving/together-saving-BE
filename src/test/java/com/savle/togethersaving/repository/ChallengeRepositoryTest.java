@@ -94,25 +94,38 @@ class ChallengeRepositoryTest {
 		userRepository.save(user);
 
 		Challenge previous = Challenge.builder()
-			.title("1")
-				.content("asdasd")
-			.members(1L)
 				.host(user)
+				.startDate(LocalDate.now().plusDays(2L))
+				.title("돈 모으자")
+				.content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+				.payment(5000L)
+				.members(14L)
+				.mode(Mode.FREE)
 				.entryFee(5000L)
-			.startDate(LocalDate.now().plusDays(1)).build();
+				.period(3)
+				.thumbnail("http://qweqweqwe.com").build();
 		Challenge after = Challenge.builder()
-			.title("2")
-				.content("content")
-			.members(2L)
 				.host(user)
+				.startDate(LocalDate.now().plusDays(2L))
+				.title("돈 모으자")
+				.content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+				.payment(5000L)
+				.members(13L)
+				.mode(Mode.FREE)
 				.entryFee(5000L)
-			.startDate(LocalDate.now().minusDays(1)).build();
+				.period(3)
+				.thumbnail("http://qweqweqwe.com").build();
 		Challenge biggest = Challenge.builder()
-			.title("3")
-				.content("hahahoho")
-			.members(15L)
 				.host(user)
-			.startDate(LocalDate.now().plusDays(1)).build();
+				.startDate(LocalDate.now().plusDays(2L))
+				.title("돈 모으자")
+				.content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+				.payment(5000L)
+				.members(15L)
+				.mode(Mode.FREE)
+				.entryFee(5000L)
+				.period(3)
+				.thumbnail("http://qweqweqwe.com").build();
 		challengeRepository.save(previous);
 		challengeRepository.save(after);
 		challengeRepository.save(biggest);
