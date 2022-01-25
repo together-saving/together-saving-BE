@@ -1,26 +1,21 @@
 package com.savle.togethersaving.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
+import lombok.*;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
+import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-@EqualsAndHashCode
 public class ChallengeUserPK implements Serializable {
 
-	private Long challengeId;
+    private Long challengeId;
 
-	private Long userId;
+    private Long userId;
+
 }

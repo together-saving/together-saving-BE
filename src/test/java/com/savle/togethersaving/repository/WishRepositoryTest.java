@@ -34,7 +34,7 @@ class WishRepositoryTest {
 		Challenge previous = Challenge.builder()
 			.title("1")
 			.startDate(LocalDate.now().plusDays(1)).build();
-		User user = User.builder().email("1").birth(LocalDate.now()).gender(true).phoneNumber("123").build();
+		User user = User.builder().email("1").birth(LocalDate.now()).gender(true).password("1234").phoneNumber("123").build();
 		userRepository.save(user);
 		challengeRepository.save(previous);
 

@@ -1,8 +1,12 @@
 package com.savle.togethersaving.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
-import com.savle.togethersaving.dto.review.ReviewDto;
+import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.Mode;
+import com.savle.togethersaving.entity.Role;
+import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.is;
@@ -26,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("MemberController 테스트")
+@DisplayName("Review Controller test")
 public class ReviewControllerTest {
 
     @Autowired
@@ -50,7 +55,7 @@ public class ReviewControllerTest {
                 .build();
 
         given(reviewService.saveReview(refEq(reviewCreateDto))).willReturn(
-                ReviewDto.builder()
+                ResponseReviewDto.builder()
                         .challengeId(reviewCreateDto.getChallengeId())
                         .userId(reviewCreateDto.getUserId())
                         .reviewId(1L)

@@ -1,7 +1,7 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
-import com.savle.togethersaving.dto.review.ReviewDto;
+import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
@@ -19,7 +19,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ReviewDto saveReview(ReviewCreateDto reviewCreateDto) {
+    public ResponseReviewDto saveReview(ReviewCreateDto reviewCreateDto) {
 
         User user = userService.getUserByUserId(reviewCreateDto.getUserId());
         Challenge challenge = challengeService.getChallengeByChallengeId(reviewCreateDto.getChallengeId());
@@ -27,7 +27,7 @@ public class ReviewService {
         ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
         ChallengeReview savedReview = reviewRepository.save(review);
 
-        return ReviewDto.builder()
+        return ResponseReviewDto.builder()
                 .challengeId(savedReview.getChallenge().getChallengeId())
                 .userId(savedReview.getReviewer().getUserId())
                 .writeDate(savedReview.getCreatedAt())

@@ -21,7 +21,7 @@ import lombok.Setter;
 public class TransactionLog extends BaseTime{
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long logId;
 
 	@ManyToOne(fetch = FetchType.LAZY)

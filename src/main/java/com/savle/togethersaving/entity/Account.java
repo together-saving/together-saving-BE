@@ -42,4 +42,12 @@ public class Account {
 
 	@OneToMany(mappedBy = "logId")
 	private List<TransactionLog> logList = new ArrayList<>();
+
+	public void withdraw(Long withdrawalAmount){
+		this.balance -= withdrawalAmount;
+	}
+
+	public void deposit(Long depositAmount){
+		this.balance += depositAmount;
+	}
 }

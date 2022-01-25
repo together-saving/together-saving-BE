@@ -1,18 +1,11 @@
 package com.savle.togethersaving.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ConstraintMode;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -33,9 +26,10 @@ public class ChallengeTag {
     @MapsId("name")
     private Tag tag;
 
-    public ChallengeTag (ChallengeTagPK challengeTagPK, Challenge challenge, Tag tag) {
+    public ChallengeTag(ChallengeTagPK challengeTagPK, Challenge challenge, Tag tag) {
         this.challengeTagPK = new ChallengeTagPK();
         this.challenge = challenge;
         this.tag = tag;
     }
 }
+
