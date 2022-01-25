@@ -33,10 +33,10 @@ public class Wish {
 
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="challenge_id", updatable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+	@JoinColumn(name="challenge_id", /*updatable = false, insertable = false,*/ nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
 	private Challenge challenge;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id", updatable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+	@JoinColumn(name="user_id", /*updatable = false, insertable = false,*/ nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
 	private User hopingPerson;
 }
