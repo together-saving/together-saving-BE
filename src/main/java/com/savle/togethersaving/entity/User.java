@@ -34,14 +34,10 @@ public class User {
     @NotNull
     private String phoneNumber;
 
-
     private String profilePicture;
 
     @ColumnDefault("'닉네임을 설정해주세요.'")
     private String nickname;
-
-
-
 
     @NotNull
     @Enumerated(EnumType.STRING)

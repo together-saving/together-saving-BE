@@ -4,6 +4,7 @@ import com.savle.togethersaving.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ReviewRepositoryTest {
 
     @Autowired
@@ -38,12 +40,12 @@ class ReviewRepositoryTest {
                 .build();
 
         reviewRepository.save(challengeReview);
-        ChallengeReview savedChallengeReview = reviewRepository.findById(1L).orElseThrow();
+        ChallengeReview savedChallengeReview = reviewRepository.findById(challengeReview.getReviewId()).orElseThrow();
 
 
-        assertThat(savedChallengeReview.getReviewId()).isEqualTo(1L);
-        assertThat(savedChallengeReview.getChallenge().getChallengeId()).isEqualTo(1L);
-        assertThat(savedChallengeReview.getReviewer().getUserId()).isEqualTo(1L);
+        assertThat(savedChallengeReview.getReviewId()).isEqualTo(challengeReview.getReviewId());
+        assertThat(savedChallengeReview.getChallenge().getTitle()).isEqualTo("돈 모으자");
+        assertThat(savedChallengeReview.getReviewer().getUserId()).isEqualTo(user.getUserId());
         assertThat(savedChallengeReview.getContent()).isEqualTo("이거 재미있네요");
     }
 

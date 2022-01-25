@@ -20,17 +20,10 @@ public class UserService {
     private final AccountService accountService;
     private final TransactionLogRepository transactionLogRepository;
 
-    public User getUserByUserId(Long userId){
+    public User getUserByUserId(Long userId) {
 
         return userRepository.getById(userId);
     }
-
-//    public void findParticipatingChallenges(Long userId){
-//        //유저가 진행중인 challenges들을 가져온다.
-//
-//        // 해당 챌린지들의 tag들을 가져온다.
-//        challengeService.
-//    }
 
     @Transactional
     public ResponseSavingsDto saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
@@ -38,16 +31,16 @@ public class UserService {
         Long amount = createSavingDto.getChallengePayment();
 
         // 유저id로 physical 계좌를 찾기
-        Account sendAccount = accountService.findAccount(userId,AccountType.PHYSICAL);
+        Account sendAccount = accountService.findAccount(userId, AccountType.PHYSICAL);
 
         Account receiveAccount = null;
         // physical 계좌에 저축할 돈보다 돈이 많은지 검사.
-        if(sendAccount.getBalance() -amount >= 0){
+        if (sendAccount.getBalance() - amount >= 0) {
 
             //해당 챌린지 조회
             Challenge challenge = challengeService.getChallengeByChallengeId(challengeId);
             // 받을 계좌 조회
-            receiveAccount = accountService.findAccount(userId,AccountType.CMA);
+            receiveAccount = accountService.findAccount(userId, AccountType.CMA);
 
             sendAccount.withdraw(amount);
             receiveAccount.deposit(amount);
@@ -73,3 +66,5 @@ public class UserService {
     }
 
 }
+
+
