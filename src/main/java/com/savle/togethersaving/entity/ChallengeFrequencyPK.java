@@ -1,19 +1,20 @@
 package com.savle.togethersaving.entity;
 
+import lombok.*;
+
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+@EqualsAndHashCode
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class ChallengeFrequencyPK implements Serializable {
 
-	private Long challengeId;
+    private Long challengeId;
 
-	private Frequency frequency;
+    private Frequency frequency;
+
 }
