@@ -56,6 +56,7 @@ class ReviewRepositoryTest {
                 .email("sheep@naver.com")
                 .birth(LocalDate.of(2020, 01, 01))
                 .gender(true)
+                .password("1234")
                 .phoneNumber("010-1234-5678")
                 .profilePicture("http://asdasd.com")
                 .nickname("NICK")

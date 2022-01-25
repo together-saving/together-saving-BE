@@ -22,7 +22,6 @@ public class ChallengeService {
 	private final ChallengeRepository challengeRepository;
 	private final TagService tagService;
 	private final WishService wishService;
-	private final UserService userService;
 
 	public List<PopularChallengeDto> getPopularChallenges(Long userId) {
 		List<Challenge> challengeList = challengeRepository
