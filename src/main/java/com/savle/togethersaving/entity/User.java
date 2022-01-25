@@ -43,9 +43,6 @@ public class User {
     private String nickname;
 
     @NotNull
-    private String password;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'USER'")
     private Role role;
