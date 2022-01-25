@@ -1,17 +1,12 @@
 package com.savle.togethersaving.service;
 
-import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.dto.review.ResponseReviewDto;
-import com.savle.togethersaving.entity.*;
+import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,7 +14,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 
 
-class ReviewServiceTest extends ServiceTestUtil{
+class ReviewServiceTest extends ServiceTestUtil {
 
     @Mock
     protected UserService userService;
