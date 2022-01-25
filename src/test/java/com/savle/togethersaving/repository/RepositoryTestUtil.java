@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -30,6 +31,12 @@ public class RepositoryTestUtil {
     protected Challenge previousChallenge;
     protected Challenge afterChallenge;
     protected Challenge biggest;
+    protected Challenge fourChallenge;
+    protected Challenge fiveChallenge;
+    protected Challenge sixChallenge;
+    protected Challenge sevenChallenge;
+    protected Challenge eightChallenge;
+    protected Challenge nineChallenge;
 
     protected Tag firstTag;
     protected Tag secondTag;
@@ -66,7 +73,7 @@ public class RepositoryTestUtil {
                 .title("돈 모으자")
                 .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
                 .payment(5000L)
-                .members(13L)
+                .members(11L)
                 .mode(Mode.FREE)
                 .entryFee(5000L)
                 .period(3)
@@ -78,7 +85,7 @@ public class RepositoryTestUtil {
                 .title("돈 모으자")
                 .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지였다")
                 .payment(15000L)
-                .members(14L)
+                .members(13L)
                 .mode(Mode.FREE)
                 .entryFee(5000L)
                 .period(3)
@@ -100,6 +107,25 @@ public class RepositoryTestUtil {
         userRepository.save(user);
         challengeRepository.save(previousChallenge);
         challengeRepository.save(afterChallenge);
+        Arrays.asList(fourChallenge,fiveChallenge,sixChallenge,sevenChallenge,eightChallenge, nineChallenge)
+            .stream().forEach(challenge -> {
+                challenge = buildChallenge();
+                challengeRepository.save(challenge);
+        });
+    }
+
+    private Challenge buildChallenge() {
+        return Challenge.builder()
+            .host(user)
+            .startDate(LocalDate.now().plusDays(2L))
+            .title("돈 모으자")
+            .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+            .payment(5000L)
+            .members(13L)
+            .mode(Mode.FREE)
+            .entryFee(5000L)
+            .period(3)
+            .thumbnail("http://qweqweqwe.com").build();
     }
 
     void createTagsAndChallengeTag() {
