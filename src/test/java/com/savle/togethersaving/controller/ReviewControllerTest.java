@@ -1,23 +1,13 @@
 package com.savle.togethersaving.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.Role;
-import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.is;
@@ -29,16 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @DisplayName("Review Controller test")
-public class ReviewControllerTest {
+public class ReviewControllerTest extends ControllerTestUtil {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @MockBean
     ReviewService reviewService;
