@@ -1,7 +1,7 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
-import com.savle.togethersaving.dto.review.ReviewDto;
+import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -86,7 +86,7 @@ class ReviewServiceTest {
                 .build());
 
 
-        ReviewDto savedReviewDto = reviewService.saveReview(reviewCreateDto);
+        ResponseReviewDto savedReviewDto = reviewService.saveReview(reviewCreateDto);
 
 
         assertEquals(savedReviewDto.getChallengeId(), 1L);
