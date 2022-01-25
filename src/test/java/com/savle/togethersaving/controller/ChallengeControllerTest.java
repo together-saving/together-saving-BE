@@ -9,6 +9,7 @@ import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.repository.WishRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -49,7 +50,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
         List<Challenge> popularList = Arrays.asList(biggestChallenge, previousChallenge);
         given(challengeRepository
-                .findChallengesByStartDateGreaterThan(LocalDate.now(), Sort.by("members").descending()))
+                .findChallengesByStartDateGreaterThan(LocalDate.now(), PageRequest.of(0, 7, Sort.by("members").descending())))
                 .willReturn(popularList);
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         given(wishRepository.existsByHopingPerson_UserIdAndChallenge(user.getUserId(), biggestChallenge))
@@ -61,7 +62,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/v1/auth/challenges?criteria=popularity")
+                get("/api/v1/auth/challenges?page=0&sort=members,DESC")
                         .header("user-id", 1L)
                         .accept(MediaType.APPLICATION_JSON)
         );
