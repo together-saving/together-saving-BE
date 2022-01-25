@@ -2,9 +2,8 @@ package com.savle.togethersaving.controller;
 
 
 import com.savle.togethersaving.dto.Data;
-import com.savle.togethersaving.dto.review.ResponseReviewDto;
-import com.savle.togethersaving.dto.user.CreateSavingDto;
-import com.savle.togethersaving.dto.user.ResponseSavingDto;
+import com.savle.togethersaving.dto.user.CreateSavingsDto;
+import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/challenges/{challengeId}/saving")
-    public ResponseEntity<Data<ResponseSavingDto>> savingMoney(@PathVariable Long challengeId,
-                                                             @RequestBody CreateSavingDto createSavingDto) {
+    public ResponseEntity<Data<ResponseSavingsDto>> savingMoney(@PathVariable Long challengeId,
+                                                                @RequestBody CreateSavingsDto createSavingDto) {
 
         Long userId = 1L;
 
