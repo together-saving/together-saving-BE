@@ -25,7 +25,7 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
                 = challengeRepository.findChallengesByStartDateGreaterThan(LocalDate.now());
 
         //then
-        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(7);
+        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(8);
     }
 
     @Test

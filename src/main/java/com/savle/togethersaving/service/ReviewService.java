@@ -7,10 +7,12 @@ import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class ReviewService {
 
