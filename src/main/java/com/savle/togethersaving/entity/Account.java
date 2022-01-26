@@ -41,7 +41,7 @@ public class Account {
 	private String thumbnail;
 
 	@OneToMany(mappedBy = "logId")
-	private List<TransactionLog> logList = new ArrayList<>();
+	private final List<TransactionLog> logList = new ArrayList<>();
 
 	public void withdraw(Long withdrawalAmount){
 		this.balance -= withdrawalAmount;

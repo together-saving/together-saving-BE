@@ -54,13 +54,14 @@ public class User {
     private Long reward;
 
     @OneToMany(mappedBy = "owner")
-    private List<Account> accountList = new ArrayList<>();
+    private final List<Account> accountList = new ArrayList<>();
 
     @OneToMany(mappedBy = "hopingPerson")
-    private List<Wish> wishedChallengesList = new ArrayList<>();
+    private final List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
 
-    private List<ChallengeReview> reviewList = new ArrayList<>();
+    private final List<ChallengeReview> reviewList = new ArrayList<>();
+
 
 }
