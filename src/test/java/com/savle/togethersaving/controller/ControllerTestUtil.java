@@ -28,6 +28,7 @@ public class ControllerTestUtil {
     void createUserAndChallenge() {
 
         user = User.builder()
+                .userId(1L)
                 .email("sheep@naver.com")
                 .birth(LocalDate.of(2020, 01, 01))
                 .gender(true)
@@ -42,6 +43,7 @@ public class ControllerTestUtil {
 
 
         previousChallenge = Challenge.builder()
+                .challengeId(1L)
                 .host(user)
                 .startDate(LocalDate.now().plusDays(2L))
                 .title("돈 모으자1")
