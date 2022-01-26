@@ -1,6 +1,5 @@
 package com.savle.togethersaving.service;
 
-import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.TransactionLogRepository;
@@ -9,17 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 
 
@@ -51,7 +43,7 @@ public class UserServiceTest extends ServiceTestUtil {
     void shouldSavingSuccessfully() {
 
         createUserAndChallenge();
-        createTwoKindsOfAccounts();
+        createTwoKindsOfUserAccountsAndAdminAccount();
         createDtos();
         createTransactionLog();
 

@@ -21,6 +21,7 @@ public class ChallengeService {
     private final UserService userService;
     private final AccountService accountService;
     private final TransactionLogService transactionLogService;
+    private final ChallengeUserService challengeUserService;
 
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
         List<Challenge> challengeList = challengeRepository
@@ -38,6 +39,7 @@ public class ChallengeService {
     }
 
     public void payForChallenge(Long userId, Long challengeId) {
+        User user = userService.getUserByUserId(userId);
         //중앙 cma 계좌 조회
         User admin = userService.getAdmin();
 
@@ -63,8 +65,19 @@ public class ChallengeService {
                     .receiveAccount(receiveAccount)
                     .build();
 
-            transactionLogService.saveTransaction(transactionLog);
+            TransactionLog savedTransactionLog = transactionLogService.saveTransaction(transactionLog);
+
+            savedTransactionLog.changeSendAccount(sendAccount);
+            savedTransactionLog.changeReceiveAccount(receiveAccount);
+            savedTransactionLog.changeChallengeLog(challenge);
         }
+
+        ChallengeUser challengeUser = ChallengeUser.builder()
+                .challenge(challenge)
+                .user(user)
+                .build();
+
+        challengeUserService.saveChallengeUser(challengeUser);
 
 
     }

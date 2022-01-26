@@ -6,6 +6,7 @@ import com.savle.togethersaving.repository.ChallengeUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,5 +22,10 @@ public class ChallengeUserService {
 
         // 유저를 찾는다.
         return challengeUserRepository.findAllByUser(user, pageable);
+    }
+
+    @Transactional
+    public void saveChallengeUser(ChallengeUser challengeUser){
+        challengeUserRepository.save(challengeUser);
     }
 }

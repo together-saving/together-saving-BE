@@ -47,8 +47,6 @@ public class ChallengeController {
 
 	@PostMapping("/challenges/{challengeId}/payment")
 	public void payChallenge(@PathVariable Long challengeId) {
-
-
 		Long userId = 1L;
 		challengeService.payForChallenge(userId,challengeId);
 	}

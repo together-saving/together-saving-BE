@@ -60,7 +60,6 @@ public class User {
     private final List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
-
     private final List<ChallengeReview> reviewList = new ArrayList<>();
 
 

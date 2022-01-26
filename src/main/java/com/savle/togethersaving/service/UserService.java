@@ -83,7 +83,11 @@ public class UserService {
                     .receiveAccount(receiveAccount)
                     .build();
 
-            transactionLogService.saveTransaction(transactionLog);
+            TransactionLog savedTransactionLog = transactionLogService.saveTransaction(transactionLog);
+
+            savedTransactionLog.changeSendAccount(sendAccount);
+            savedTransactionLog.changeReceiveAccount(receiveAccount);
+            savedTransactionLog.changeChallengeLog(challenge);
         }
 
         return ResponseSavingsDto

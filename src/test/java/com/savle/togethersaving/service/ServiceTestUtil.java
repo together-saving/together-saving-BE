@@ -13,11 +13,14 @@ import java.time.LocalDate;
 public class ServiceTestUtil {
 
     protected User user;
+    protected User admin;
     protected Challenge challenge;
 
     protected Account receiveAccount;
     protected Account sendAccount;
+    protected Account adminReceiveAccount;
     protected TransactionLog transactionLog;
+    protected TransactionLog payTransactionLog;
 
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
@@ -38,6 +41,20 @@ public class ServiceTestUtil {
                 .password("password")
                 .build();
 
+        admin = User.builder()
+                .userId(2L)
+                .email("admin@naver.com")
+                .birth(LocalDate.of(2021, 11, 11))
+                .gender(true)
+                .phoneNumber("010-5678-1234")
+                .profilePicture("http://qweqweqweqwe.com")
+                .nickname("Admin-NICK")
+                .role(Role.ADMIN)
+                .point(0L)
+                .reward(0L)
+                .password("password")
+                .build();
+
         challenge = Challenge.builder()
                 .challengeId(1L)
                 .host(user)
@@ -53,7 +70,7 @@ public class ServiceTestUtil {
                 .build();
     }
 
-    void createTwoKindsOfAccounts() {
+    void createTwoKindsOfUserAccountsAndAdminAccount() {
 
         sendAccount = Account
                 .builder()
@@ -68,6 +85,15 @@ public class ServiceTestUtil {
                 .builder()
                 .accountNumber("220-220")
                 .owner(user)
+                .balance(0L)
+                .accountType(AccountType.CMA)
+                .bankName("kakao-cma")
+                .build();
+
+        adminReceiveAccount = Account
+                .builder()
+                .accountNumber("admin-admin")
+                .owner(admin)
                 .balance(0L)
                 .accountType(AccountType.CMA)
                 .bankName("kakao-cma")
@@ -92,6 +118,14 @@ public class ServiceTestUtil {
                 .logId(1L)
                 .challenge(challenge)
                 .amount(createSavingDto.getChallengePayment())
+                .sendAccount(sendAccount)
+                .receiveAccount(receiveAccount)
+                .build();
+
+        payTransactionLog = TransactionLog.builder()
+                .logId(2L)
+                .challenge(challenge)
+                .amount(challenge.getEntryFee())
                 .sendAccount(sendAccount)
                 .receiveAccount(receiveAccount)
                 .build();
