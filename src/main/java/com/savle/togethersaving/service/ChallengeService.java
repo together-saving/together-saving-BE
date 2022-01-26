@@ -24,6 +24,7 @@ public class ChallengeService {
 	private final ChallengeRepository challengeRepository;
 	private final TagService tagService;
 	private final WishService wishService;
+	private final UserService userService;
 
 	public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
 		List<Challenge> challengeList = challengeRepository
@@ -38,6 +39,14 @@ public class ChallengeService {
 		dto.setTags(tagService.tagsOf(challenge));
 		dto.setWished(wishService.isWished(challenge, userId));
 		return dto;
+	}
+
+	public void payForChallenge(Long userId,Long challengeId){
+		User user = userService.getUserByUserId(userId);
+		Challenge challenge = getChallengeByChallengeId(challengeId);
+
+		Long entryFee = challenge.getEntryFee();
+
 	}
 
 	public Challenge getChallengeByChallengeId(Long challengeId) {
