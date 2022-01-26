@@ -72,6 +72,7 @@ public class ServiceTestUtil {
                 .accountType(AccountType.CMA)
                 .bankName("kakao-cma")
                 .build();
+
     }
 
     void createDtos() {
