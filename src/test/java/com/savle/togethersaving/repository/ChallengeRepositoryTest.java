@@ -18,6 +18,7 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
     @DisplayName("아직 시작하지 않은 모든 챌린지들을 조회한다. 성공하는 케이스")
     void beforeStartChallengeTest() {
         //given
+        int beforeSize = challengeRepository.findChallengesByStartDateGreaterThan(LocalDate.now()).size();
         createUserAndChallengeSaved();
 
         //when
@@ -25,7 +26,7 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
                 = challengeRepository.findChallengesByStartDateGreaterThan(LocalDate.now());
 
         //then
-        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(8);
+        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(beforeSize+8);
     }
 
     @Test
