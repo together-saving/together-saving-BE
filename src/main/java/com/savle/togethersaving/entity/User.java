@@ -1,5 +1,6 @@
 package com.savle.togethersaving.entity;
 
+import com.savle.togethersaving.config.RoleConverter;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -43,7 +44,7 @@ public class User {
     private String nickname;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = RoleConverter.class)
     @ColumnDefault("'USER'")
     private Role role;
 

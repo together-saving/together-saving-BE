@@ -39,18 +39,29 @@ class WishControllerTest extends ControllerTestUtil{
 	@Test
 	void addWish() throws Exception {
 		createUserAndChallenge();
-
 		//given
 		given(wishService.addWish(1L, 1L))
 			.willReturn(Wish.builder().wishId(1L).hopingPerson(user).challenge(previousChallenge).build());
-
 		//when
 		ResultActions result = mockMvc.perform(
 			post("/api/v1/users/challenges/1/wish")
 				.header("user-id", 1L)
 				.accept(MediaType.APPLICATION_JSON)
 		);
+		//then
+		result.andDo(print())
+			.andExpect(status().isOk())
+		;
+	}
 
+	@Test
+	void deleteWish() throws Exception {
+		createUserAndChallenge();
+		ResultActions result = mockMvc.perform(
+			delete("/api/v1/users/challenges/1/wish")
+				.header("user-id", 1L)
+				.accept(MediaType.APPLICATION_JSON)
+		);
 		//then
 		result.andDo(print())
 			.andExpect(status().isOk())
