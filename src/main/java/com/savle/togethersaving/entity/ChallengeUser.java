@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
@@ -14,7 +13,7 @@ import javax.persistence.*;
 public class ChallengeUser {
 
     @EmbeddedId
-    private ChallengeUserPK challengeUserPK = new ChallengeUserPK();
+    private ChallengeUserPK challengeUserPK;
 
     private Long accumulatedBalance;
 
@@ -29,4 +28,12 @@ public class ChallengeUser {
     @JoinColumn(name = "user_id", nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     @MapsId("userId")
     private User user;
+
+    public ChallengeUser(ChallengeUserPK challengeUserPK, Long accumulatedBalance, Boolean isAutomated, Challenge challenge, User user) {
+        this.challengeUserPK = new ChallengeUserPK();
+        this.accumulatedBalance = accumulatedBalance;
+        this.isAutomated = isAutomated;
+        this.challenge = challenge;
+        this.user = user;
+    }
 }
