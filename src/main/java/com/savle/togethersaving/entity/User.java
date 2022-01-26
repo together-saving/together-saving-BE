@@ -1,5 +1,6 @@
 package com.savle.togethersaving.entity;
 
+import com.savle.togethersaving.config.RoleConverter;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -43,7 +44,7 @@ public class User {
     private String nickname;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = RoleConverter.class)
     @ColumnDefault("'USER'")
     private Role role;
 
@@ -54,13 +55,14 @@ public class User {
     private Long reward;
 
     @OneToMany(mappedBy = "owner")
-    private List<Account> accountList = new ArrayList<>();
+    private final List<Account> accountList = new ArrayList<>();
 
     @OneToMany(mappedBy = "hopingPerson")
-    private List<Wish> wishedChallengesList = new ArrayList<>();
+    private final List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
 
-    private List<ChallengeReview> reviewList = new ArrayList<>();
+    private final List<ChallengeReview> reviewList = new ArrayList<>();
+
 
 }

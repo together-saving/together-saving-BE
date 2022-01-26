@@ -17,9 +17,11 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/reviews")
-    public ResponseEntity<Data<ResponseReviewDto>> addReview(@RequestBody ReviewCreateDto review) {
+    public ResponseEntity addReview(@RequestBody ReviewCreateDto review) {
 
-        return  new ResponseEntity<>(new Data<>(reviewService.saveReview(review)), HttpStatus.OK);
+        Long userId = 1L;
+        reviewService.saveReview(userId,review);
+        return  new ResponseEntity(HttpStatus.OK);
     }
 
 }

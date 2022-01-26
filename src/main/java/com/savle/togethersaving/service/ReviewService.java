@@ -6,9 +6,9 @@ import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ReviewRepository;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +21,17 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ResponseReviewDto saveReview(ReviewCreateDto reviewCreateDto) {
+    public ResponseReviewDto saveReview(Long userId,ReviewCreateDto reviewCreateDto) {
 
-        User user = userService.getUserByUserId(reviewCreateDto.getUserId());
+        User user = userService.getUserByUserId(userId);
         Challenge challenge = challengeService.getChallengeByChallengeId(reviewCreateDto.getChallengeId());
 
         ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
         ChallengeReview savedReview = reviewRepository.save(review);
+
+        savedReview.changeReviewListOfUser(user);
+        savedReview.changeReviewListOfChallenge(challenge);
+
 
         return ResponseReviewDto.builder()
                 .challengeId(savedReview.getChallenge().getChallengeId())

@@ -35,7 +35,7 @@ class ReviewServiceTest extends ServiceTestUtil {
         createDtos();
 
         doReturn(user)
-                .when(userService).getUserByUserId(reviewCreateDto.getUserId());
+                .when(userService).getUserByUserId(user.getUserId());
 
         doReturn(challenge)
                 .when(challengeService).getChallengeByChallengeId(reviewCreateDto.getChallengeId());
@@ -48,7 +48,7 @@ class ReviewServiceTest extends ServiceTestUtil {
                 .build());
 
 
-        ResponseReviewDto savedReviewDto = reviewService.saveReview(reviewCreateDto);
+        ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(),reviewCreateDto);
 
 
         assertEquals(savedReviewDto.getChallengeId(), 1L);
