@@ -19,4 +19,18 @@ class WishRepositoryTest extends RepositoryTestUtil {
         Assertions.assertThat(wishRepository.existsByHopingPerson_UserIdAndChallenge(
                 user.getUserId(), previousChallenge)).isEqualTo(true);
     }
+
+    @Test
+    void deleteWish() {
+        createUserAndChallengeSaved();
+        createWish();
+        Wish wish1 = wishRepository
+            .findWishByChallenge_ChallengeIdAndHopingPerson_UserId
+                (this.wish.getChallenge().getChallengeId(), this.wish.getHopingPerson().getUserId()).get();
+        Assertions.assertThat(wish.getChallenge()).isEqualTo(wish1.getChallenge());
+        Assertions.assertThat(wish.getHopingPerson()).isEqualTo(wish1.getHopingPerson());
+        wishRepository.delete(wish);
+        Wish invalidWish = wishRepository.findById(this.wish.getWishId()).orElse(null);
+        Assertions.assertThat(invalidWish).isNull();
+    }
 }
