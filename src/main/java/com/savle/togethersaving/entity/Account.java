@@ -2,6 +2,8 @@ package com.savle.togethersaving.entity;
 
 import javax.persistence.*;
 
+import com.savle.togethersaving.config.AccountConverter;
+import com.savle.togethersaving.config.RoleConverter;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +34,7 @@ public class Account {
 	private Long balance;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
+	@Convert(converter = AccountConverter.class)
 	private AccountType accountType;
 
 	@NotNull
