@@ -40,4 +40,14 @@ public class ChallengeReview extends BaseTime {
                 .build();
 
     }
+
+    public void changeReviewListOfUser(User user){
+        this.reviewer = user;
+        reviewer.getReviewList().add(this);
+    }
+
+    public void changeReviewListOfChallenge(Challenge challenge){
+        this.challenge = challenge;
+        challenge.getChallengeReviewList().add(this);
+    }
 }
