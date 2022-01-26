@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +25,9 @@ public class ChallengeService {
 	private final TagService tagService;
 	private final WishService wishService;
 
-	public List<PopularChallengeDto> getPopularChallenges(Long userId) {
+	public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
 		List<Challenge> challengeList = challengeRepository
-			.findChallengesByStartDateGreaterThan(LocalDate.now(), Sort.by("members").descending());
+			.findChallengesByStartDateGreaterThan(LocalDate.now(), pageable);
 		return challengeList.stream()
 			.map(challenge -> mapToPopularDto(challenge, userId))
 			.collect(Collectors.toList());

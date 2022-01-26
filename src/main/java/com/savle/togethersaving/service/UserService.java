@@ -1,14 +1,22 @@
 package com.savle.togethersaving.service;
 
 
+import com.savle.togethersaving.dto.PopularChallengeDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
+import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.savle.togethersaving.repository.TransactionLogRepository;
 import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -17,8 +25,27 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ChallengeService challengeService;
+    private final ChallengeUserService challengeUserService;
     private final AccountService accountService;
-    private final TransactionLogRepository transactionLogRepository;
+    private final TransactionLogService transactionLogService;
+    private final TagService tagService;
+
+
+    public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
+        User user = getUserByUserId(userId);
+        List<ChallengeUser> challengeUserList = challengeUserService.getChallengeUser(user,pageable);
+
+        return challengeUserList.stream()
+                .map(cu -> mapToResponseMyChallengeDto(cu.getChallenge()))
+                .collect(Collectors.toList());
+
+    }
+
+    private ResponseMyChallengeDto mapToResponseMyChallengeDto(Challenge challenge) {
+        ResponseMyChallengeDto dto = ResponseMyChallengeDto.toDto(challenge);
+        dto.setTags(tagService.tagsOf(challenge));
+        return dto;
+    }
 
     public User getUserByUserId(Long userId) {
 
@@ -52,7 +79,7 @@ public class UserService {
                     .receiveAccount(receiveAccount)
                     .build();
 
-            transactionLogRepository.save(transactionLog);
+            transactionLogService.saveTransaction(transactionLog);
         }
 
         return ResponseSavingsDto

@@ -4,6 +4,7 @@ import com.savle.togethersaving.entity.Challenge;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
                 = challengeRepository.findChallengesByStartDateGreaterThan(LocalDate.now());
 
         //then
-        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(1);
+        Assertions.assertThat(challengesByStartDateAfter.size()).isEqualTo(8);
     }
 
     @Test
@@ -40,8 +41,8 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
         //when
         List<Challenge> popularChallenges
                 = challengeRepository
-                .findChallengesByStartDateGreaterThan(LocalDate.now(), Sort.by("members").descending());
+                .findChallengesByStartDateGreaterThan(LocalDate.now(), PageRequest.of(1, 7, Sort.by("members").descending()));
         //then
-        Assertions.assertThat(popularChallenges.get(0).getMembers()).isEqualTo(15L);
+        Assertions.assertThat(popularChallenges.get(0).getMembers()).isEqualTo(11L);
     }
 }

@@ -23,7 +23,7 @@ public class TagService {
 
 	public List<Tag> tagsOf(Challenge challenge) {
 		return challengeTagRepository.findChallengeTagsByChallenge(challenge)
-			.stream().map(column -> column.getTag())
+			.stream().map(c -> c.getTag())
 			.collect(Collectors.toList());
 	}
 }
