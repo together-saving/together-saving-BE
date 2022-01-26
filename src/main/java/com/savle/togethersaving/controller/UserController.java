@@ -3,9 +3,13 @@ package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.Data;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
+import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,4 +29,14 @@ public class UserController {
 
         return  new ResponseEntity<>(new Data<>(userService.saveMoney(userId,challengeId,createSavingDto)), HttpStatus.OK);
     }
+
+    @GetMapping("/challenges")
+    public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(
+            @PageableDefault(value = 7) Pageable pageable) {
+
+        Long userId = 1L;
+
+        return  new ResponseEntity<>(new Data(userService.getMyParticipatingChallenges(userId,pageable)), HttpStatus.OK);
+    }
+
 }
