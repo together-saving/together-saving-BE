@@ -52,6 +52,10 @@ public class UserService {
         return userRepository.getById(userId);
     }
 
+    public User getAdmin(){
+        return userRepository.getUserByRole(Role.ADMIN);
+    }
+
     @Transactional
     public ResponseSavingsDto saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
 

@@ -1,6 +1,5 @@
 package com.savle.togethersaving.controller;
 
-import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
@@ -8,15 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
-import java.time.LocalDateTime;
-
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.refEq;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -46,7 +40,7 @@ public class ReviewControllerTest extends ControllerTestUtil {
                         .content(content))
                 .andExpect(status().isOk());
 
-        verify(reviewService).saveReview(any(Long.class),refEq(reviewCreateDto));
+        verify(reviewService).saveReview(any(Long.class), refEq(reviewCreateDto));
 
 
     }

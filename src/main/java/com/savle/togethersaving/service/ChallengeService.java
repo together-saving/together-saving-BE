@@ -1,56 +1,76 @@
 package com.savle.togethersaving.service;
 
+import com.savle.togethersaving.dto.PopularChallengeDto;
+import com.savle.togethersaving.entity.*;
+import com.savle.togethersaving.repository.ChallengeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import com.savle.togethersaving.dto.PopularChallengeDto;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.User;
-import com.savle.togethersaving.repository.ChallengeRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ChallengeService {
 
-	private final ChallengeRepository challengeRepository;
-	private final TagService tagService;
-	private final WishService wishService;
-	private final UserService userService;
+    private final ChallengeRepository challengeRepository;
+    private final TagService tagService;
+    private final WishService wishService;
+    private final UserService userService;
+    private final AccountService accountService;
+    private final TransactionLogService transactionLogService;
 
-	public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
-		List<Challenge> challengeList = challengeRepository
-			.findChallengesByStartDateGreaterThan(LocalDate.now(), pageable);
-		return challengeList.stream()
-			.map(challenge -> mapToPopularDto(challenge, userId))
-			.collect(Collectors.toList());
-	}
+    public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
+        List<Challenge> challengeList = challengeRepository
+                .findChallengesByStartDateGreaterThan(LocalDate.now(), pageable);
+        return challengeList.stream()
+                .map(challenge -> mapToPopularDto(challenge, userId))
+                .collect(Collectors.toList());
+    }
 
-	private PopularChallengeDto mapToPopularDto(Challenge challenge, Long userId) {
-		PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
-		dto.setTags(tagService.tagsOf(challenge));
-		dto.setWished(wishService.isWished(challenge, userId));
-		return dto;
-	}
+    private PopularChallengeDto mapToPopularDto(Challenge challenge, Long userId) {
+        PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
+        dto.setTags(tagService.tagsOf(challenge));
+        dto.setWished(wishService.isWished(challenge, userId));
+        return dto;
+    }
 
-	public void payForChallenge(Long userId,Long challengeId){
-		User user = userService.getUserByUserId(userId);
-		Challenge challenge = getChallengeByChallengeId(challengeId);
+    public void payForChallenge(Long userId, Long challengeId) {
+        //중앙 cma 계좌 조회
+        User admin = userService.getAdmin();
 
-		Long entryFee = challenge.getEntryFee();
+        Challenge challenge = getChallengeByChallengeId(challengeId);
+        Long entryFee = challenge.getEntryFee();
+        // 유저id로 physical 계좌를 찾기
+        Account sendAccount = accountService.findAccount(userId, AccountType.PHYSICAL);
 
-	}
+        Account receiveAccount = null;
+        // physical 계좌에 결제금 보다 돈이 많은지 검사.
+        if (sendAccount.getBalance() - entryFee >= 0) {
 
-	public Challenge getChallengeByChallengeId(Long challengeId) {
+            // 받을 계좌 조회
+            receiveAccount = accountService.findAccount(admin.getUserId(), AccountType.CMA);
 
-    	return challengeRepository.getById(challengeId);
-  	}
+            sendAccount.withdraw(entryFee);
+            receiveAccount.deposit(entryFee);
+            //거래 내역 저장
+            TransactionLog transactionLog = TransactionLog.builder()
+                    .challenge(challenge)
+                    .amount(entryFee)
+                    .sendAccount(sendAccount)
+                    .receiveAccount(receiveAccount)
+                    .build();
+
+            transactionLogService.saveTransaction(transactionLog);
+        }
+
+
+    }
+
+    public Challenge getChallengeByChallengeId(Long challengeId) {
+
+        return challengeRepository.getById(challengeId);
+    }
 }

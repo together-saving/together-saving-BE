@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ChallengeUser {
 
     @EmbeddedId
-    private ChallengeUserPK challengeUserPK = new ChallengeUserPK();
+    private ChallengeUserPK challengeUserPK;
 
     private Long accumulatedBalance;
 
