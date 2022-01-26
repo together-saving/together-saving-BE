@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.savle.togethersaving.config.ModeConverter;
 import com.sun.istack.NotNull;
 
 
@@ -40,7 +41,7 @@ public class Challenge {
 
     private Long members;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ModeConverter.class)
     private Mode mode;
 
     private Long entryFee;
