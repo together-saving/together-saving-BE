@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -78,16 +80,18 @@ class ChallengeUserRepositoryTest {
                 .thumbnail("http://qweqweqwe.com").build();
         challengeRepository.saveAll(Arrays.asList(challenge, challenge2));
 
+/*
         ChallengeUserPK challengeUserPK = new ChallengeUserPK();
         challengeUserPK.setChallengeId(challenge.getChallengeId());
         challengeUserPK.setUserId(user.getUserId());
+*/
 
 
         ChallengeUser challengeUser = ChallengeUser.builder()
                 .isAutomated(false)
                 .challenge(challenge)
                 .user(user)
-                .challengeUserPK(challengeUserPK)
+//                .challengeUserPK(challengeUserPK)
                 .accumulatedBalance(0L).build();
 
 //        challengeUserRepository.findAll();
@@ -99,9 +103,10 @@ class ChallengeUserRepositoryTest {
                 challenge.getChallengeId(),user.getUserId());
 //        //then
         Assertions.assertThat(challengeUserTest.getAccumulatedBalance()).isEqualTo(0L);
-//        Assertions.assertThat(challengeUserTest.getChallenge().getChallengeId()).isEqualTo(0L);
-//        Assertions.assertThat(challengeUserTest.getUser().getUserId()).isEqualTo(0L);
+        Assertions.assertThat(challengeUserTest.getChallenge().getChallengeId()).isEqualTo(0L);
+        Assertions.assertThat(challengeUserTest.getUser().getUserId()).isEqualTo(0L);
         Assertions.assertThat(challengeUserTest.getIsAutomated()).isFalse();
     }
+
 
 }
