@@ -74,7 +74,6 @@ public class ServiceTestUtil {
 
     void createDtos() {
         reviewCreateDto = ReviewCreateDto.builder()
-                .userId(1L)
                 .challengeId(1L)
                 .reviewContent("즐겁네요")
                 .build();
