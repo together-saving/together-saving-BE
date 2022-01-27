@@ -6,6 +6,7 @@ import com.savle.togethersaving.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ChallengeService {
         return dto;
     }
 
+    @Transactional
     public void payForChallenge(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
         //중앙 cma 계좌 조회
@@ -67,21 +69,19 @@ public class ChallengeService {
 
             TransactionLog savedTransactionLog =transactionLogRepository.save(transactionLog);
 
-            savedTransactionLog.changeSendAccount(sendAccount);
-            savedTransactionLog.changeReceiveAccount(receiveAccount);
-            savedTransactionLog.changeChallengeLog(challenge);
+            savedTransactionLog.addSendAccountLog(sendAccount);
+            savedTransactionLog.addReceiveAccountLog(receiveAccount);
+            savedTransactionLog.addChallengeLog(challenge);
 
+            ChallengeUser challengeUser = ChallengeUser.builder()
+                    .challenge(challenge)
+                    .user(user)
+                    .build();
+
+            challengeUserRepository.save(challengeUser);
+
+            challenge.addMember();
         }
-
-        ChallengeUser challengeUser = ChallengeUser.builder()
-                .challenge(challenge)
-                .user(user)
-                .build();
-
-        challengeUserRepository.save(challengeUser);
-
-        challenge.addMember();
-
     }
 
     public Challenge getChallengeByChallengeId(Long challengeId) {
