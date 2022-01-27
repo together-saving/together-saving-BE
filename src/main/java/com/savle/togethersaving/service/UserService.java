@@ -1,14 +1,12 @@
 package com.savle.togethersaving.service;
 
 
-import com.savle.togethersaving.dto.PopularChallengeDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
-import org.springframework.data.domain.Page;
+import com.savle.togethersaving.repository.AccountRepository;
 import org.springframework.data.domain.Pageable;
-import com.savle.togethersaving.repository.TransactionLogRepository;
 import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ChallengeService challengeService;
     private final ChallengeUserService challengeUserService;
-    private final AccountService accountService;
+    private final AccountRepository accountRepository;
     private final TransactionLogService transactionLogService;
     private final TagService tagService;
 
@@ -52,9 +50,6 @@ public class UserService {
         return userRepository.getById(userId);
     }
 
-    public User getAdmin(){
-        return userRepository.getUserByRole(Role.ADMIN);
-    }
 
     @Transactional
     public ResponseSavingsDto saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
@@ -62,7 +57,7 @@ public class UserService {
         Long amount = createSavingDto.getChallengePayment();
 
         // 유저id로 physical 계좌를 찾기
-        Account sendAccount = accountService.findAccount(userId, AccountType.PHYSICAL);
+        Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
 
         Account receiveAccount = null;
         // physical 계좌에 저축할 돈보다 돈이 많은지 검사.
@@ -71,7 +66,7 @@ public class UserService {
             //해당 챌린지 조회
             Challenge challenge = challengeService.getChallengeByChallengeId(challengeId);
             // 받을 계좌 조회
-            receiveAccount = accountService.findAccount(userId, AccountType.CMA);
+            receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
             sendAccount.withdraw(amount);
             receiveAccount.deposit(amount);
