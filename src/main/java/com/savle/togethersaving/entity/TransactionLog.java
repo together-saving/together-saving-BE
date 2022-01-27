@@ -18,32 +18,31 @@ public class TransactionLog extends BaseTime {
     private Long logId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id", nullable = false, insertable = false
-            , foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "challenge_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Challenge challenge;
 
     @NotNull
     private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "send_account", nullable = false, insertable = false)
+    @JoinColumn(name = "send_account", nullable = false)
     private Account sendAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receive_account", nullable = false, insertable = false)
+    @JoinColumn(name = "receive_account", nullable = false)
     private Account receiveAccount;
 
-    public void changeSendAccount(Account sendAccount) {
+    public void addSendAccountLog(Account sendAccount) {
         this.sendAccount = sendAccount;
         this.sendAccount.getLogList().add(this);
     }
 
-    public void changeReceiveAccount(Account receiveAccount) {
+    public void addReceiveAccountLog(Account receiveAccount) {
         this.receiveAccount = receiveAccount;
         this.receiveAccount.getLogList().add(this);
     }
 
-    public void changeChallengeLog(Challenge challenge){
+    public void addChallengeLog(Challenge challenge){
         this.challenge = challenge;
         this.challenge.getLogList().add(this);
     }
