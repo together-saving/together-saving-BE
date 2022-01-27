@@ -24,8 +24,4 @@ public class ChallengeUserService {
         return challengeUserRepository.findAllByUser(user, pageable);
     }
 
-    @Transactional
-    public void saveChallengeUser(ChallengeUser challengeUser){
-        challengeUserRepository.save(challengeUser);
-    }
 }

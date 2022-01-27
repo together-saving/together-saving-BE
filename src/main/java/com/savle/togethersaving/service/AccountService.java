@@ -12,8 +12,5 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public Account findAccount(Long userId,AccountType accountType) {
-      return  accountRepository.findAccountByOwnerAndAccountType(userId, accountType);
-    }
 
 }

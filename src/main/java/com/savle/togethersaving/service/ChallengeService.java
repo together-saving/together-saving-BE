@@ -2,7 +2,7 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.PopularChallengeDto;
 import com.savle.togethersaving.entity.*;
-import com.savle.togethersaving.repository.ChallengeRepository;
+import com.savle.togethersaving.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final TagService tagService;
     private final WishService wishService;
-    private final UserService userService;
-    private final AccountService accountService;
-    private final TransactionLogService transactionLogService;
-    private final ChallengeUserService challengeUserService;
+    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
+    private final TransactionLogRepository transactionLogRepository;
+    private final ChallengeUserRepository challengeUserRepository;
 
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
         List<Challenge> challengeList = challengeRepository
@@ -39,21 +39,21 @@ public class ChallengeService {
     }
 
     public void payForChallenge(Long userId, Long challengeId) {
-        User user = userService.getUserByUserId(userId);
+        User user = userRepository.getUserByUserId(userId);
         //중앙 cma 계좌 조회
-        User admin = userService.getAdmin();
+        User admin = userRepository.getUserByRole(Role.ADMIN);
 
         Challenge challenge = getChallengeByChallengeId(challengeId);
         Long entryFee = challenge.getEntryFee();
         // 유저id로 physical 계좌를 찾기
-        Account sendAccount = accountService.findAccount(userId, AccountType.PHYSICAL);
+        Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
 
         Account receiveAccount = null;
         // physical 계좌에 결제금 보다 돈이 많은지 검사.
         if (sendAccount.getBalance() - entryFee >= 0) {
 
             // 받을 계좌 조회
-            receiveAccount = accountService.findAccount(admin.getUserId(), AccountType.CMA);
+            receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(admin.getUserId(), AccountType.CMA);
 
             sendAccount.withdraw(entryFee);
             receiveAccount.deposit(entryFee);
@@ -65,11 +65,12 @@ public class ChallengeService {
                     .receiveAccount(receiveAccount)
                     .build();
 
-            TransactionLog savedTransactionLog = transactionLogService.saveTransaction(transactionLog);
+            TransactionLog savedTransactionLog =transactionLogRepository.save(transactionLog);
 
             savedTransactionLog.changeSendAccount(sendAccount);
             savedTransactionLog.changeReceiveAccount(receiveAccount);
             savedTransactionLog.changeChallengeLog(challenge);
+
         }
 
         ChallengeUser challengeUser = ChallengeUser.builder()
@@ -77,8 +78,9 @@ public class ChallengeService {
                 .user(user)
                 .build();
 
-        challengeUserService.saveChallengeUser(challengeUser);
+        challengeUserRepository.save(challengeUser);
 
+        challenge.addMember();
 
     }
 
