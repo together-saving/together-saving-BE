@@ -1,8 +1,9 @@
 package com.savle.togethersaving.entity;
 
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -33,6 +34,7 @@ public class ChallengeUser {
     @MapsId("userId")
     private User user;
 
+
     public ChallengeUser(ChallengeUserPK challengeUserPK, Long accumulatedBalance, Boolean isAutomated
             , Challenge challenge, User user) {
         this.challengeUserPK = new ChallengeUserPK();
@@ -42,7 +44,8 @@ public class ChallengeUser {
         this.user = user;
     }
 
-    public void addBalance(Long amount){
+    public void addBalance(Long amount) {
         this.accumulatedBalance += amount;
     }
+
 }

@@ -1,8 +1,10 @@
 package com.savle.togethersaving.entity;
 
-public enum AccountType {
+import java.util.Locale;
 
+public enum AccountType {
 	PHYSICAL, CMA;
+
 
 
 	public String toDbValue() {
@@ -11,4 +13,5 @@ public enum AccountType {
 	public static AccountType from(String dbData) {
 		return AccountType.valueOf(dbData.toUpperCase());
 	}
+
 }

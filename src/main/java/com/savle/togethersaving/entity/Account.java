@@ -1,6 +1,6 @@
 package com.savle.togethersaving.entity;
 
-import com.savle.togethersaving.config.AccountTypeConverter;
+import com.savle.togethersaving.config.AccountConverter;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -27,9 +27,11 @@ public class Account {
     @NotNull
     private Long balance;
 
+
     @NotNull
-    @Convert(converter = AccountTypeConverter.class)
+    @Convert(converter = AccountConverter.class)
     private AccountType accountType;
+
 
     @NotNull
     private String bankName;
