@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
@@ -33,6 +32,15 @@ public class ChallengeUser {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     @MapsId("userId")
     private User user;
+
+    public ChallengeUser(ChallengeUserPK challengeUserPK, Long accumulatedBalance, Boolean isAutomated
+            , Challenge challenge, User user) {
+        this.challengeUserPK = new ChallengeUserPK();
+        this.accumulatedBalance = 0L;
+        this.isAutomated = false;
+        this.challenge = challenge;
+        this.user = user;
+    }
 
     public void addBalance(Long amount){
         this.accumulatedBalance += amount;
