@@ -40,7 +40,7 @@ public class ReviewControllerTest extends ControllerTestUtil {
                         .content(content))
                 .andExpect(status().isOk());
 
-        verify(reviewService).saveReview(any(Long.class), refEq(reviewCreateDto));
+        verify(reviewService).saveReview(any(Long.class), any(ReviewCreateDto.class));
 
 
     }
