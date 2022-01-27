@@ -19,8 +19,9 @@ public class ServiceTestUtil {
     protected Account receiveAccount;
     protected Account sendAccount;
     protected Account adminReceiveAccount;
-    protected TransactionLog transactionLog;
+    protected TransactionLog saveTransactionLog;
     protected TransactionLog payTransactionLog;
+    protected ChallengeUser challengeUser;
 
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
@@ -105,16 +106,16 @@ public class ServiceTestUtil {
                 .challengeId(1L)
                 .reviewContent("즐겁네요")
                 .build();
-
         createSavingDto = CreateSavingsDto.builder()
                 .challengePayment(5000L)
                 .physicalAccountNumber("110-110")
                 .cmaAccountNumber("220-220")
                 .build();
+
     }
 
     void createTransactionLog(){
-        transactionLog = TransactionLog.builder()
+        saveTransactionLog = TransactionLog.builder()
                 .logId(1L)
                 .challenge(challenge)
                 .amount(createSavingDto.getChallengePayment())
@@ -123,11 +124,21 @@ public class ServiceTestUtil {
                 .build();
 
         payTransactionLog = TransactionLog.builder()
-                .logId(2L)
+                .logId(1L)
                 .challenge(challenge)
                 .amount(challenge.getEntryFee())
                 .sendAccount(sendAccount)
                 .receiveAccount(receiveAccount)
+                .build();
+    }
+
+    void createChallengeUser(){
+        challengeUser = ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(1L,user.getUserId()))
+                .accumulatedBalance(0L)
+                .isAutomated(false)
+                .challenge(challenge)
+                .user(user)
                 .build();
     }
 
