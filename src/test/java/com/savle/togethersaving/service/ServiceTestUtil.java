@@ -109,7 +109,7 @@ public class ServiceTestUtil {
                 .reviewContent("즐겁네요")
                 .build();
         createSavingDto = CreateSavingsDto.builder()
-                .challengePayment(5000L)
+                .savingAmount(5000L)
                 .physicalAccountNumber("110-110")
                 .cmaAccountNumber("220-220")
                 .build();
@@ -120,7 +120,7 @@ public class ServiceTestUtil {
         saveTransactionLog = TransactionLog.builder()
                 .logId(1L)
                 .challenge(challenge)
-                .amount(createSavingDto.getChallengePayment())
+                .amount(createSavingDto.getSavingAmount())
                 .sendAccount(sendAccount)
                 .receiveAccount(receiveAccount)
                 .build();

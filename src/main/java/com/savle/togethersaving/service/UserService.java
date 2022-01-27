@@ -53,7 +53,7 @@ public class UserService {
     @Transactional
     public void saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
         User user = userRepository.getUserByUserId(userId);
-        Long amount = createSavingDto.getChallengePayment();
+        Long amount = createSavingDto.getSavingAmount();
 
         // 유저id로 physical 계좌를 찾기
         Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
@@ -73,7 +73,7 @@ public class UserService {
             //거래 내역 저장
             TransactionLog transactionLog = TransactionLog.builder()
                     .challenge(challenge)
-                    .amount(createSavingDto.getChallengePayment())
+                    .amount(createSavingDto.getSavingAmount())
                     .sendAccount(sendAccount)
                     .receiveAccount(receiveAccount)
                     .build();

@@ -21,8 +21,6 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
 
-
-    // api/v1/auth/challenges?criteria={popularity 또는 valid}&page={몇 페이지인지}
     @GetMapping("/auth/challenges")
     public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
                                               @RequestParam String criteria,@RequestParam int page) {
