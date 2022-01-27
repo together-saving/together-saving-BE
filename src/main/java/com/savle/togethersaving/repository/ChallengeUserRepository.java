@@ -6,10 +6,13 @@ import com.savle.togethersaving.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, ChallengeUserPK> {
 
     List<ChallengeUser> findAllByUser(User user, Pageable pageable);
+    ChallengeUser findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(Long challengeId, Long userId);
 }

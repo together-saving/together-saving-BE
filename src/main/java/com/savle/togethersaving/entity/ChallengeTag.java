@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 public class ChallengeTag {
     @EmbeddedId
-    private ChallengeTagPK challengeTagPK = new ChallengeTagPK();
+    private ChallengeTagPK challengeTagPK;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
