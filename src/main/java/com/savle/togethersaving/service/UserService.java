@@ -3,11 +3,9 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
-import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
-import com.savle.togethersaving.repository.AccountRepository;
+import com.savle.togethersaving.repository.*;
 import org.springframework.data.domain.Pageable;
-import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +20,11 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ChallengeService challengeService;
+    private final ChallengeRepository challengeRepository;
     private final ChallengeUserService challengeUserService;
+    private final ChallengeUserRepository challengeUserRepository;
     private final AccountRepository accountRepository;
-    private final TransactionLogService transactionLogService;
+    private final TransactionLogRepository transactionLogRepository;
     private final TagService tagService;
 
 
@@ -52,8 +51,8 @@ public class UserService {
 
 
     @Transactional
-    public ResponseSavingsDto saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
-
+    public void saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
+        User user = userRepository.getUserByUserId(userId);
         Long amount = createSavingDto.getChallengePayment();
 
         // 유저id로 physical 계좌를 찾기
@@ -64,7 +63,8 @@ public class UserService {
         if (sendAccount.getBalance() - amount >= 0) {
 
             //해당 챌린지 조회
-            Challenge challenge = challengeService.getChallengeByChallengeId(challengeId);
+            Challenge challenge = challengeRepository.getById(challengeId);
+
             // 받을 계좌 조회
             receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
@@ -78,21 +78,25 @@ public class UserService {
                     .receiveAccount(receiveAccount)
                     .build();
 
-            TransactionLog savedTransactionLog = transactionLogService.saveTransaction(transactionLog);
+            TransactionLog savedTransactionLog = transactionLogRepository.save(transactionLog);
 
-            savedTransactionLog.changeSendAccount(sendAccount);
-            savedTransactionLog.changeReceiveAccount(receiveAccount);
-            savedTransactionLog.changeChallengeLog(challenge);
+            savedTransactionLog.addSendAccountLog(sendAccount);
+            savedTransactionLog.addReceiveAccountLog(receiveAccount);
+            savedTransactionLog.addChallengeLog(challenge);
+
+            ChallengeUser challengeUser = ChallengeUser.builder()
+                    .challengeUserPK(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()))
+                    .accumulatedBalance(0L)
+                    .isAutomated(false)
+                    .challenge(challenge)
+                    .user(user)
+                    .build();
+
+            challengeUserRepository.save(challengeUser);
+
+           challengeUser = challengeUserRepository.getById(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
+           challengeUser.addBalance(amount);
         }
-
-        return ResponseSavingsDto
-                .builder()
-                .amount(amount)
-                .sendAccountNumber(sendAccount.getAccountNumber())
-                .sendAccountBankName(sendAccount.getBankName())
-                .receiveAccountNumber(receiveAccount.getAccountNumber())
-                .receiveAccountBankName(receiveAccount.getBankName())
-                .build();
     }
 
 }
