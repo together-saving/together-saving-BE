@@ -57,7 +57,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/v1/auth/challenges?page=0&sort=members,DESC")
+                get("/api/v1/auth/challenges?criteria=popularity&page=0")
                         .header("user-id", 1L)
                         .accept(MediaType.APPLICATION_JSON)
         );

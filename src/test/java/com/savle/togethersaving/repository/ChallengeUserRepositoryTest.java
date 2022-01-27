@@ -21,11 +21,11 @@ public class ChallengeUserRepositoryTest extends RepositoryTestUtil {
         //when
 
         List<ChallengeUser> participatingChallenges
-                = challengeUserRepository.findAllByUser(user, PageRequest.of(1, 2));
+                = challengeUserRepository.findAllByUser(user, PageRequest.of(0, 2));
 
         //then
-        Assertions.assertThat(participatingChallenges.size()).isEqualTo(1);
-        Assertions.assertThat(participatingChallenges.get(0).getIsAutomated()).isEqualTo(true);
+        Assertions.assertThat(participatingChallenges.size()).isEqualTo(2);
+
     }
 
 }

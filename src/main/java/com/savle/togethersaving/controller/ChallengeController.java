@@ -4,6 +4,7 @@ import com.savle.togethersaving.dto.Data;
 import com.savle.togethersaving.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -20,16 +21,20 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
 
-    /**
-     * queryParameter = page, sort
-     *
-     * @param userId
-     * @param pageable
-     * @return
-     */
+
+    // api/v1/auth/challenges?criteria={popularity 또는 valid}&page={몇 페이지인지}
     @GetMapping("/auth/challenges")
     public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
-                                              @PageableDefault(value = 7, sort = "startTime", direction = Sort.Direction.ASC) Pageable pageable) {
+                                              @RequestParam String criteria,@RequestParam int page) {
+
+        PageRequest pageable = null;
+        if(criteria.equals("popularity")){
+            pageable = PageRequest.of(page,7,Sort.by("members").descending());
+        }else if(criteria.equals("valid")){
+            pageable = PageRequest.of(page,7,Sort.by("challenge.members").descending());
+        }
+
+
         return new ResponseEntity<>(new Data(challengeService.getChallenges(userId, pageable)), HttpStatus.OK);
     }
 
