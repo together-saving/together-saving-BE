@@ -35,16 +35,6 @@ public class UserControllerTest extends ControllerTestUtil {
                 .cmaAccountNumber("220-220")
                 .build();
 
-        given(userService.saveMoney(1L, 1L, createSavingDto)).willReturn(
-                ResponseSavingsDto
-                        .builder()
-                        .amount(5000L)
-                        .sendAccountNumber("110-110")
-                        .sendAccountBankName("kakao")
-                        .receiveAccountNumber("220-220")
-                        .receiveAccountBankName("kakao-cma")
-                        .build()
-        );
 
         String content = objectMapper.writeValueAsString(createSavingDto);
 
