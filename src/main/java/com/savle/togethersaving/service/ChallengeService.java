@@ -1,6 +1,8 @@
 package com.savle.togethersaving.service;
 
+import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
+import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ public class ChallengeService {
     private final AccountRepository accountRepository;
     private final TransactionLogRepository transactionLogRepository;
     private final ChallengeUserRepository challengeUserRepository;
+    private final ReviewService reviewService;
+    private final ChallengeFrequencyRepository frequencyRepository;
 
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
         List<Challenge> challengeList = challengeRepository
@@ -87,5 +91,18 @@ public class ChallengeService {
     public Challenge getChallengeByChallengeId(Long challengeId) {
 
         return challengeRepository.getById(challengeId);
+    }
+
+    public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
+        return mapToDetailDto(challengeRepository.getById(challengeId), userId);
+    }
+
+    private ChallengeDetailDto mapToDetailDto(Challenge challenge, Long userId) {
+        ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(challenge);
+        dto.setTags(tagService.tagsOf(challenge));
+        dto.setParticipated(wishService.isWished(challenge, userId));
+        dto.setChallengeReviews(reviewService.reviewDtoOf(challenge.getChallengeId()));
+        dto.setChallengeFrequency(frequencyRepository.findAllByChallengeFrequencyPK_ChallengeId(challenge.getChallengeId()));
+        return dto;
     }
 }

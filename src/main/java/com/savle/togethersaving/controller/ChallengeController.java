@@ -1,6 +1,7 @@
 package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.Data;
+import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.repository.ChallengeUserRepository;
 import com.savle.togethersaving.service.ChallengeService;
@@ -51,7 +52,8 @@ public class ChallengeController {
     @GetMapping("/auth/challenges/{challengeId}")
     public HttpEntity<?> detailChallenge(@RequestHeader(name = "user-id") Long userId,
                                          @PathVariable Long challengeId) {
-        challengeUserService.isParticipated(challengeId, userId);
-        return null;
+        ChallengeDetailDto detailDto = challengeService.getChallengeDetail(challengeId, userId);
+
+        return new ResponseEntity<>(new Data(detailDto), HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.entity.ChallengeReview;
+import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,10 @@ class ReviewServiceTest extends ServiceTestUtil {
 
     @Mock
     protected UserService userService;
+    //@Mock
+    //protected ChallengeService challengeService;
     @Mock
-    protected ChallengeService challengeService;
+    protected ChallengeRepository challengeRepository;
     @Mock
     private ReviewRepository reviewRepository;
 
@@ -38,7 +41,7 @@ class ReviewServiceTest extends ServiceTestUtil {
                 .when(userService).getUserByUserId(user.getUserId());
 
         doReturn(challenge)
-                .when(challengeService).getChallengeByChallengeId(reviewCreateDto.getChallengeId());
+                .when(challengeRepository).getById(reviewCreateDto.getChallengeId());
 
         given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
                 .reviewId(1L)

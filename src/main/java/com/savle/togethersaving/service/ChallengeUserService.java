@@ -23,10 +23,4 @@ public class ChallengeUserService {
         // 유저를 찾는다.
         return challengeUserRepository.findAllByUser(user, pageable);
     }
-
-    public boolean isParticipated(Long challengeId, Long userId) {
-        return challengeUserRepository
-            .existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
-    }
-
 }
