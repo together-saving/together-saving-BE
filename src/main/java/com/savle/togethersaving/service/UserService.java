@@ -84,17 +84,8 @@ public class UserService {
             savedTransactionLog.addReceiveAccountLog(receiveAccount);
             savedTransactionLog.addChallengeLog(challenge);
 
-            ChallengeUser challengeUser = ChallengeUser.builder()
-                    .challengeUserPK(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()))
-                    .accumulatedBalance(0L)
-                    .isAutomated(false)
-                    .challenge(challenge)
-                    .user(user)
-                    .build();
 
-            challengeUserRepository.save(challengeUser);
-
-           challengeUser = challengeUserRepository.getById(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
+          ChallengeUser challengeUser = challengeUserRepository.getById(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
            challengeUser.addBalance(amount);
         }
     }
