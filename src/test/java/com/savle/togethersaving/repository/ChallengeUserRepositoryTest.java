@@ -28,4 +28,14 @@ public class ChallengeUserRepositoryTest extends RepositoryTestUtil {
 
     }
 
+    @Test
+    void 참여여부테스트() {
+        createUserAndChallengeSaved();
+        createChallengeUser();
+
+        boolean isParticipated = challengeUserRepository
+            .existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(
+                afterChallenge.getChallengeId(), user.getUserId());
+        Assertions.assertThat(isParticipated).isTrue();
+    }
 }
