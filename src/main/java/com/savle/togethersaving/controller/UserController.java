@@ -5,7 +5,6 @@ import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.dto.user.*;
-import com.savle.togethersaving.entity.Role;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.service.ReviewService;
 import com.savle.togethersaving.service.UserService;
@@ -66,7 +65,7 @@ public class UserController {
                     .reward(0L)
                     .build();
 
-            userService.create(user);
+            userService.createUser(user);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
 

@@ -1,24 +1,22 @@
 package com.savle.togethersaving.service;
 
 
-import com.savle.togethersaving.dto.PopularChallengeDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.savle.togethersaving.repository.TransactionLogRepository;
 import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -31,9 +29,9 @@ public class UserService {
     private final TagService tagService;
 
 
-    public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
+    public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId, Pageable pageable) {
         User user = getUserByUserId(userId);
-        List<ChallengeUser> challengeUserList = challengeUserService.getChallengeUser(user,pageable);
+        List<ChallengeUser> challengeUserList = challengeUserService.getChallengeUser(user, pageable);
 
         return challengeUserList.stream()
                 .map(cu -> mapToResponseMyChallengeDto(cu.getChallenge()))
@@ -92,6 +90,16 @@ public class UserService {
                 .build();
     }
 
+
+    public User createUser(final User user) {
+
+        final String email = user.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            log.warn("Email already exists {}", email);
+            throw new RuntimeException("Email already exists");
+        }
+        return userRepository.save(user);
+    }
 }
 
 
