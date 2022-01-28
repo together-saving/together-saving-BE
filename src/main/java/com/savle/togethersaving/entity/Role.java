@@ -3,7 +3,7 @@ package com.savle.togethersaving.entity;
 import java.util.Locale;
 
 public enum Role {
-    ADMIN, USER;
+    ROLE_ADMIN, ROLE_USER;
 
     public String toDbValue() {
         return this.name().toLowerCase();
