@@ -37,12 +37,6 @@ public class ChallengeController {
 		this.challengeRepository = challengeRepository;
 	}
 
-	/**
-	 * queryParameter = page, sort
-	 * @param userId
-	 * @param pageable
-	 * @return
-	 */
 	@GetMapping("/v1/auth/challenges")
 	public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
 			@PageableDefault(value = 7, sort = "startTime", direction = Sort.Direction.ASC) Pageable pageable) {
