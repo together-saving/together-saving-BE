@@ -24,4 +24,9 @@ public class ChallengeUserService {
         return challengeUserRepository.findAllByUser(user, pageable);
     }
 
+    public boolean isParticipated(Long challengeId, Long userId) {
+        return challengeUserRepository
+            .existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
+    }
+
 }

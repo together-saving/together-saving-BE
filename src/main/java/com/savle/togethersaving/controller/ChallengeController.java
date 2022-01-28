@@ -1,7 +1,11 @@
 package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.Data;
+import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.repository.ChallengeUserRepository;
 import com.savle.togethersaving.service.ChallengeService;
+import com.savle.togethersaving.service.ChallengeUserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
+    private final ChallengeUserService challengeUserService;
 
     @GetMapping("/auth/challenges")
     public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
@@ -32,7 +37,6 @@ public class ChallengeController {
             pageable = PageRequest.of(page,7,Sort.by("challenge.members").descending());
         }
 
-
         return new ResponseEntity<>(new Data(challengeService.getChallenges(userId, pageable)), HttpStatus.OK);
     }
 
@@ -42,5 +46,12 @@ public class ChallengeController {
         challengeService.payForChallenge(userId, challengeId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/auth/challenges/{challengeId}")
+    public HttpEntity<?> detailChallenge(@RequestHeader(name = "user-id") Long userId,
+                                         @PathVariable Long challengeId) {
+        challengeUserService.isParticipated(challengeId, userId);
+        return null;
     }
 }

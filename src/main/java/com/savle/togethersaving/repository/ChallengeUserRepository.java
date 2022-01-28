@@ -22,4 +22,5 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, Ch
     List<ChallengeUser> findAllByUser(User user, Pageable pageable);
 
     ChallengeUser findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(Long challengeId, Long userId);
+    boolean existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(Long challengeId, Long userId);
 }
