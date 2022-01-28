@@ -15,4 +15,4 @@ spring:
         format_sql: true
 
 server:
-  port: 35731
+  port: 8881
