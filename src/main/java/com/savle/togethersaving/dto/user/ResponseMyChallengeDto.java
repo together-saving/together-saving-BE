@@ -1,7 +1,5 @@
 package com.savle.togethersaving.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.savle.togethersaving.dto.PopularChallengeDto;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
 import com.savle.togethersaving.entity.Tag;
@@ -12,8 +10,6 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 @Builder
 @Getter
