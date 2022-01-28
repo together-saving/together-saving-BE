@@ -1,13 +1,7 @@
 package com.savle.togethersaving.controller;
 
-import com.savle.togethersaving.dto.PopularChallengeDto;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.ChallengeTag;
+import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
 import com.savle.togethersaving.entity.Tag;
-import com.savle.togethersaving.repository.ChallengeRepository;
-import com.savle.togethersaving.repository.ChallengeTagRepository;
-import com.savle.togethersaving.repository.UserRepository;
-import com.savle.togethersaving.repository.WishRepository;
 import com.savle.togethersaving.service.ChallengeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,10 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.is;

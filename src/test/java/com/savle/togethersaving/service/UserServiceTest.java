@@ -69,7 +69,6 @@ public class UserServiceTest extends ServiceTestUtil {
 
 
         verify(transactionLogRepository, times(1)).save(any(TransactionLog.class));
-        verify(challengeUserRepository, times(1)).save(any(ChallengeUser.class));
 
     }
 

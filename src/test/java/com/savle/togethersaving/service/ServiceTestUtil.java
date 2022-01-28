@@ -110,8 +110,6 @@ public class ServiceTestUtil {
                 .build();
         createSavingDto = CreateSavingsDto.builder()
                 .savingAmount(5000L)
-                .physicalAccountNumber("110-110")
-                .cmaAccountNumber("220-220")
                 .build();
 
     }
