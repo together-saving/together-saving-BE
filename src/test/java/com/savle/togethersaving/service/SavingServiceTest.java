@@ -43,12 +43,10 @@ class SavingServiceTest /*extends ServiceTestUtil*/ {
     @Test
     void getMySavingHistory() {
         //given
-//        createUserAndChallenge();
-//        createDtos();
-//        createTwoKindsOfAccounts();
+
         savingService.getSavingStatus(1L,1L);
 
-        System.out.println(        savingService.getSavingStatus(1L,1L));
+        System.out.println( savingService.getSavingStatus(1L,1L));
 
     }
 

@@ -13,11 +13,15 @@ import java.time.LocalDate;
 public class ServiceTestUtil {
 
     protected User user;
+    protected User admin;
     protected Challenge challenge;
 
     protected Account receiveAccount;
     protected Account sendAccount;
-    protected TransactionLog transactionLog;
+    protected Account adminReceiveAccount;
+    protected TransactionLog saveTransactionLog;
+    protected TransactionLog payTransactionLog;
+    protected ChallengeUser challengeUser;
 
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
@@ -38,6 +42,20 @@ public class ServiceTestUtil {
                 .password("password")
                 .build();
 
+        admin = User.builder()
+                .userId(2L)
+                .email("admin@naver.com")
+                .birth(LocalDate.of(2021, 11, 11))
+                .gender(true)
+                .phoneNumber("010-5678-1234")
+                .profilePicture("http://qweqweqweqwe.com")
+                .nickname("Admin-NICK")
+                .role(Role.ADMIN)
+                .point(0L)
+                .reward(0L)
+                .password("password")
+                .build();
+
         challenge = Challenge.builder()
                 .challengeId(1L)
                 .host(user)
@@ -53,7 +71,7 @@ public class ServiceTestUtil {
                 .build();
     }
 
-    void createTwoKindsOfAccounts() {
+    void createTwoKindsOfUserAccountsAndAdminAccount() {
 
         sendAccount = Account
                 .builder()
@@ -73,6 +91,16 @@ public class ServiceTestUtil {
                 .bankName("kakao-cma")
                 .build();
 
+
+        adminReceiveAccount = Account
+                .builder()
+                .accountNumber("admin-admin")
+                .owner(admin)
+                .balance(0L)
+                .accountType(AccountType.CMA)
+                .bankName("kakao-cma")
+                .build();
+
     }
 
     void createDtos() {
@@ -80,21 +108,39 @@ public class ServiceTestUtil {
                 .challengeId(1L)
                 .reviewContent("즐겁네요")
                 .build();
-
         createSavingDto = CreateSavingsDto.builder()
-                .challengePayment(5000L)
+                .savingAmount(5000L)
                 .physicalAccountNumber("110-110")
                 .cmaAccountNumber("220-220")
                 .build();
+
     }
 
     void createTransactionLog(){
-        transactionLog = TransactionLog.builder()
+        saveTransactionLog = TransactionLog.builder()
                 .logId(1L)
                 .challenge(challenge)
-                .amount(createSavingDto.getChallengePayment())
+                .amount(createSavingDto.getSavingAmount())
                 .sendAccount(sendAccount)
                 .receiveAccount(receiveAccount)
+                .build();
+
+        payTransactionLog = TransactionLog.builder()
+                .logId(1L)
+                .challenge(challenge)
+                .amount(challenge.getEntryFee())
+                .sendAccount(sendAccount)
+                .receiveAccount(receiveAccount)
+                .build();
+    }
+
+    void createChallengeUser(){
+        challengeUser = ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(1L,user.getUserId()))
+                .accumulatedBalance(0L)
+                .isAutomated(false)
+                .challenge(challenge)
+                .user(user)
                 .build();
     }
 

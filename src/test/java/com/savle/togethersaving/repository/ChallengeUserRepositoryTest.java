@@ -4,6 +4,7 @@ import com.savle.togethersaving.entity.ChallengeUser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -20,10 +21,11 @@ public class ChallengeUserRepositoryTest extends RepositoryTestUtil {
         //when
 
         List<ChallengeUser> participatingChallenges
-                = challengeUserRepository.findAllByUser(user, PageRequest.of(1, 2));
+                = challengeUserRepository.findAllByUser(user, PageRequest.of(0, 2));
 
         //then
-        Assertions.assertThat(participatingChallenges.size()).isEqualTo(1);
-        Assertions.assertThat(participatingChallenges.get(0).getIsAutomated()).isEqualTo(true);
+        Assertions.assertThat(participatingChallenges.size()).isEqualTo(2);
+
     }
+
 }

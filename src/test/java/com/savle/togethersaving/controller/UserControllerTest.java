@@ -1,7 +1,6 @@
 package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
-import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,21 +28,11 @@ public class UserControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
         CreateSavingsDto createSavingDto = CreateSavingsDto.builder()
-                .challengePayment(5000L)
+                .savingAmount(5000L)
                 .physicalAccountNumber("110-110")
                 .cmaAccountNumber("220-220")
                 .build();
 
-        given(userService.saveMoney(1L, 1L, createSavingDto)).willReturn(
-                ResponseSavingsDto
-                        .builder()
-                        .amount(5000L)
-                        .sendAccountNumber("110-110")
-                        .sendAccountBankName("kakao")
-                        .receiveAccountNumber("220-220")
-                        .receiveAccountBankName("kakao-cma")
-                        .build()
-        );
 
         String content = objectMapper.writeValueAsString(createSavingDto);
 

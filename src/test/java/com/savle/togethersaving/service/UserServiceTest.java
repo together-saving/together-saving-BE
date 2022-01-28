@@ -1,35 +1,25 @@
 package com.savle.togethersaving.service;
 
-import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
-import com.savle.togethersaving.dto.user.ResponseSavingsDto;
-import com.savle.togethersaving.entity.*;
-import com.savle.togethersaving.repository.TransactionLogRepository;
-import com.savle.togethersaving.repository.UserRepository;
+import com.savle.togethersaving.entity.AccountType;
+import com.savle.togethersaving.entity.ChallengeUser;
+import com.savle.togethersaving.entity.ChallengeUserPK;
+import com.savle.togethersaving.entity.TransactionLog;
+import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-
+import static org.mockito.Mockito.*;
 
 
 public class UserServiceTest extends ServiceTestUtil {
 
     @Mock
-    protected AccountService accountService;
+    protected AccountRepository accountRepository;
     @Mock
-    protected ChallengeService challengeService;
+    protected ChallengeRepository challengeRepository;
     @Mock
     private TransactionLogRepository transactionLogRepository;
     @Mock
@@ -39,39 +29,48 @@ public class UserServiceTest extends ServiceTestUtil {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private TransactionLogService transactionLogService;
+    private ChallengeUserRepository challengeUserRepository;
 
 
     @InjectMocks
     private UserService userService;
 
 
-    @DisplayName("저축 성공")
+    @DisplayName("saveMoney -> 저축 성공")
     @Test
     void shouldSavingSuccessfully() {
 
         createUserAndChallenge();
-        createTwoKindsOfAccounts();
+        createTwoKindsOfUserAccountsAndAdminAccount();
         createDtos();
         createTransactionLog();
+        createChallengeUser();
+
+        doReturn(user)
+                .when(userRepository).getUserByUserId(user.getUserId());
 
         doReturn(sendAccount)
-                .when(accountService).findAccount(user.getUserId(), AccountType.PHYSICAL);
+                .when(accountRepository).findAccountByOwner_UserIdAndAccountType(user.getUserId(), AccountType.PHYSICAL);
 
         doReturn(challenge)
-                .when(challengeService).getChallengeByChallengeId(challenge.getChallengeId());
+                .when(challengeRepository).getById(challenge.getChallengeId());
 
         doReturn(receiveAccount)
-                .when(accountService).findAccount(user.getUserId(), AccountType.CMA);
+                .when(accountRepository).findAccountByOwner_UserIdAndAccountType(user.getUserId(), AccountType.CMA);
 
 
-        ResponseSavingsDto savingDto = userService.saveMoney(user.getUserId(), challenge.getChallengeId(), createSavingDto);
+        doReturn(saveTransactionLog)
+                .when(transactionLogRepository).save(any(TransactionLog.class));
+
+        doReturn(challengeUser)
+                .when(challengeUserRepository).getById(any(ChallengeUserPK.class));
+
+        userService.saveMoney(user.getUserId(), challenge.getChallengeId(), createSavingDto);
 
 
-        assertEquals(savingDto.getAmount(), 5000L);
-        assertEquals(savingDto.getSendAccountNumber(), "110-110");
-        assertEquals(savingDto.getReceiveAccountNumber(), "220-220");
-        assertEquals(receiveAccount.getBalance(), 5000L);
+        verify(transactionLogRepository, times(1)).save(any(TransactionLog.class));
+        verify(challengeUserRepository, times(1)).save(any(ChallengeUser.class));
+
     }
 
 
