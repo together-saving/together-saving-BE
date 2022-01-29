@@ -41,7 +41,7 @@ public class ReviewControllerTest extends ControllerTestUtil {
 
         String content = objectMapper.writeValueAsString(reviewCreateDto);
 
-        mockMvc.perform(post("/api/v1/reviews")
+        mockMvc.perform(post("/api/v1/users/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk());

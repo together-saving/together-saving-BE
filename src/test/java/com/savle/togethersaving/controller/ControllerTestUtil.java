@@ -36,7 +36,7 @@ public class ControllerTestUtil {
                 .phoneNumber("010-1234-5678")
                 .profilePicture("http://asdasd.com")
                 .nickname("NICK")
-                .role(Role.USER)
+                .role("user")
                 .point(0L)
                 .reward(0L)
                 .build();
