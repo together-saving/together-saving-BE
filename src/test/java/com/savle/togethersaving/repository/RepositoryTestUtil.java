@@ -195,26 +195,4 @@ public class RepositoryTestUtil {
         challengeUserRepository.save(challengeUser3);
     }
 
-    void createAccount() {
-        sendAccount = Account
-                .builder()
-                .accountNumber("110-110")
-                .owner(user)
-                .balance(10000L)
-                .accountType(AccountType.PHYSICAL)
-                .bankName("kakao")
-                .build();
-
-        receiveAccount = Account
-                .builder()
-                .accountNumber("220-220")
-                .owner(user)
-                .balance(0L)
-                .accountType(AccountType.CMA)
-                .bankName("kakao-cma")
-                .build();
-
-        accountRepository.save(sendAccount);
-        accountRepository.save(receiveAccount);
-    }
 }

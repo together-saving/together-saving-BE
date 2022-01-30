@@ -24,6 +24,19 @@ public class ChallengeService {
     private final TransactionLogRepository transactionLogRepository;
     private final ChallengeUserRepository challengeUserRepository;
 
+
+    @Transactional
+    public void changeAutoSettings(Long userId, Long challengeId){
+        ChallengeUser challengeUser = challengeUserRepository
+                .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
+
+        if(!challengeUser.getIsAutomated()){
+            challengeUser.setIsAutomated(true);
+        }else{
+            challengeUser.setIsAutomated(false);
+        }
+    }
+
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
         List<Challenge> challengeList = challengeRepository
                 .findChallengesByStartDateGreaterThan(LocalDate.now(), pageable);

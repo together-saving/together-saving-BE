@@ -48,7 +48,7 @@ class ReviewServiceTest extends ServiceTestUtil {
                 .build());
 
 
-        ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(),reviewCreateDto);
+        ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(), reviewCreateDto);
 
 
         assertEquals(savedReviewDto.getChallengeId(), 1L);
