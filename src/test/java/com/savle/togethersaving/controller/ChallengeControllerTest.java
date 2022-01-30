@@ -37,7 +37,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
         //given
         createUserAndChallenge();
 
-        List<PopularChallengeDto> popularList = Arrays.asList(biggestChallenge, previousChallenge).stream()
+        List<PopularChallengeDto> popularList = Arrays.asList(challenge3, challenge1).stream()
                 .map(challenge -> {
                     PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
                     dto.setTags(Arrays.asList(Tag.builder().name("tag1").build(), Tag.builder().name("tag2").build()));
@@ -64,11 +64,11 @@ class ChallengeControllerTest extends ControllerTestUtil {
     }
 
     @Test
-    void payChallengeTest() throws Exception{
+    void payChallengeTest() throws Exception {
 
         createUserAndChallenge();
 
-       doNothing().when(challengeService).payForChallenge(any(Long.class),any(Long.class));
+        doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
 
         ResultActions result = mockMvc.perform(
                 post("/api/v1/challenges/1/payment")

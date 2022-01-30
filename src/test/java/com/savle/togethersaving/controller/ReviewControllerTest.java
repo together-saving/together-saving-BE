@@ -8,7 +8,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +27,7 @@ public class ReviewControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
         ReviewCreateDto reviewCreateDto = ReviewCreateDto.builder()
-                .challengeId(previousChallenge.getChallengeId())
+                .challengeId(challenge1.getChallengeId())
                 .reviewContent("fun")
                 .build();
 
