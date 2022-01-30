@@ -14,8 +14,8 @@ public class TransactionLogService {
     private final TransactionLogRepository transactionLogRepository;
 
     @Transactional
-    public void saveTransaction(TransactionLog transactionLog){
+    public TransactionLog saveTransaction(TransactionLog transactionLog){
 
-        transactionLogRepository.save(transactionLog);
+        return transactionLogRepository.save(transactionLog);
     }
 }

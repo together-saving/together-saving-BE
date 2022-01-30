@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateSavingsDto {
-
-    private Long challengePayment;
-    private String physicalAccountNumber;
-    private String cmaAccountNumber;
+    private Long savingAmount;
 }

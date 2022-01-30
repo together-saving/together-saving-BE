@@ -1,16 +1,9 @@
 package com.savle.togethersaving.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 import javax.persistence.*;
-
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Builder
 @NoArgsConstructor
@@ -18,25 +11,39 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class TransactionLog extends BaseTime{
+public class TransactionLog extends BaseTime {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long logId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long logId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="challenge_id", nullable= false, insertable = false
-			, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-	private Challenge challenge;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "challenge_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private Challenge challenge;
 
-	@NotNull
-	private Long amount;
+    @NotNull
+    private Long amount;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="send_account", nullable= false, insertable = false)
-	private Account sendAccount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "send_account", nullable = false)
+    private Account sendAccount;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="receive_account", nullable= false, insertable = false)
-	private Account receiveAccount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receive_account", nullable = false)
+    private Account receiveAccount;
+
+    public void addSendAccountLog(Account sendAccount) {
+        this.sendAccount = sendAccount;
+        this.sendAccount.getLogList().add(this);
+    }
+
+    public void addReceiveAccountLog(Account receiveAccount) {
+        this.receiveAccount = receiveAccount;
+        this.receiveAccount.getLogList().add(this);
+    }
+
+    public void addChallengeLog(Challenge challenge){
+        this.challenge = challenge;
+        this.challenge.getLogList().add(this);
+    }
 }

@@ -2,7 +2,10 @@ package com.savle.togethersaving.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.savle.togethersaving.entity.*;
+import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.Mode;
+import com.savle.togethersaving.entity.Role;
+import com.savle.togethersaving.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +23,9 @@ public class ControllerTestUtil {
     protected ObjectMapper objectMapper;
 
     protected User user;
-    protected Challenge previousChallenge;
-    protected Challenge afterChallenge;
-    protected Challenge biggestChallenge;
+    protected Challenge challenge1;
+    protected Challenge challenge2;
+    protected Challenge challenge3;
 
 
     void createUserAndChallenge() {
@@ -42,38 +45,40 @@ public class ControllerTestUtil {
                 .build();
 
 
-        previousChallenge = Challenge.builder()
+        challenge1 = Challenge.builder()
                 .challengeId(1L)
                 .host(user)
                 .startDate(LocalDate.now().plusDays(2L))
                 .title("돈 모으자1")
                 .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
                 .payment(5000L)
-                .members(13L)
+                .members(1L)
                 .mode(Mode.FREE)
                 .entryFee(5000L)
-                .period(3)
+                .period(1)
                 .thumbnail("http://qweqweqwe.com").build();
 
-        afterChallenge = Challenge.builder()
+        challenge2 = Challenge.builder()
+                .challengeId(2L)
                 .host(user)
                 .startDate(LocalDate.now().minusDays(2L))
                 .title("돈 모으자2")
                 .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지였다")
                 .payment(15000L)
-                .members(14L)
+                .members(2L)
                 .mode(Mode.FREE)
                 .entryFee(5000L)
-                .period(3)
+                .period(2)
                 .thumbnail("http://qweqweqwe.com").build();
 
-        biggestChallenge = Challenge.builder()
+        challenge3 = Challenge.builder()
+                .challengeId(3L)
                 .host(user)
                 .startDate(LocalDate.now().plusDays(2L))
                 .title("돈 모으자3")
                 .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
                 .payment(5000L)
-                .members(15L)
+                .members(3L)
                 .mode(Mode.FREE)
                 .entryFee(5000L)
                 .period(3)

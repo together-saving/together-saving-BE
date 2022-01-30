@@ -28,6 +28,9 @@ public class RepositoryTestUtil {
     protected WishRepository wishRepository;
     @Autowired
     protected ChallengeUserRepository challengeUserRepository;
+    @Autowired
+    protected AccountRepository accountRepository;
+
 
     protected User user;
     protected Challenge previousChallenge;
@@ -191,4 +194,5 @@ public class RepositoryTestUtil {
         challengeUserRepository.save(challengeUser2);
         challengeUserRepository.save(challengeUser3);
     }
+
 }

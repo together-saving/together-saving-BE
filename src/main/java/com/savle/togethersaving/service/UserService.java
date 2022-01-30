@@ -3,9 +3,13 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
-import com.savle.togethersaving.dto.user.ResponseSavingsDto;
 import com.savle.togethersaving.entity.*;
+
 import com.savle.togethersaving.repository.UserRepository;
+
+import com.savle.togethersaving.repository.*;
+import org.springframework.data.domain.Pageable;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +26,16 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ChallengeService challengeService;
-    private final ChallengeUserService challengeUserService;
-    private final AccountService accountService;
-    private final TransactionLogService transactionLogService;
+    private final ChallengeRepository challengeRepository;
+    private final ChallengeUserRepository challengeUserRepository;
+    private final AccountRepository accountRepository;
+    private final TransactionLogRepository transactionLogRepository;
     private final TagService tagService;
 
 
-    public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId, Pageable pageable) {
-        User user = getUserByUserId(userId);
-        List<ChallengeUser> challengeUserList = challengeUserService.getChallengeUser(user, pageable);
+
+    public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
+        List<ChallengeUser> challengeUserList = challengeUserRepository.findAllByUser_UserId(userId, pageable);
 
         return challengeUserList.stream()
                 .map(cu -> mapToResponseMyChallengeDto(cu.getChallenge()))
@@ -50,44 +54,44 @@ public class UserService {
         return userRepository.getById(userId);
     }
 
+
     @Transactional
-    public ResponseSavingsDto saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
+    public void saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
+        User user = userRepository.getUserByUserId(userId);
+        Long amount = createSavingDto.getSavingAmount();
 
-        Long amount = createSavingDto.getChallengePayment();
 
-        // 유저id로 physical 계좌를 찾기
-        Account sendAccount = accountService.findAccount(userId, AccountType.PHYSICAL);
+        Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
 
         Account receiveAccount = null;
-        // physical 계좌에 저축할 돈보다 돈이 많은지 검사.
+
         if (sendAccount.getBalance() - amount >= 0) {
 
-            //해당 챌린지 조회
-            Challenge challenge = challengeService.getChallengeByChallengeId(challengeId);
-            // 받을 계좌 조회
-            receiveAccount = accountService.findAccount(userId, AccountType.CMA);
+            Challenge challenge = challengeRepository.getById(challengeId);
+
+            receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
             sendAccount.withdraw(amount);
             receiveAccount.deposit(amount);
-            //거래 내역 저장
+
             TransactionLog transactionLog = TransactionLog.builder()
                     .challenge(challenge)
-                    .amount(createSavingDto.getChallengePayment())
+                    .amount(createSavingDto.getSavingAmount())
                     .sendAccount(sendAccount)
                     .receiveAccount(receiveAccount)
                     .build();
 
-            transactionLogService.saveTransaction(transactionLog);
-        }
+            TransactionLog savedTransactionLog = transactionLogRepository.save(transactionLog);
 
-        return ResponseSavingsDto
-                .builder()
-                .amount(amount)
-                .sendAccountNumber(sendAccount.getAccountNumber())
-                .sendAccountBankName(sendAccount.getBankName())
-                .receiveAccountNumber(receiveAccount.getAccountNumber())
-                .receiveAccountBankName(receiveAccount.getBankName())
-                .build();
+            savedTransactionLog.addSendAccountLog(sendAccount);
+            savedTransactionLog.addReceiveAccountLog(receiveAccount);
+            savedTransactionLog.addChallengeLog(challenge);
+
+
+          ChallengeUser challengeUser = challengeUserRepository.getById(
+                  new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
+           challengeUser.addBalance(amount);
+        }
     }
 
 

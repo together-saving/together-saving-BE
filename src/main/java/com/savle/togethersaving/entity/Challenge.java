@@ -58,4 +58,8 @@ public class Challenge {
 
     @OneToMany(mappedBy = "challenge")
     private final List<ChallengeTag> tagList = new ArrayList<>();
+
+    public void addMember(){
+        this.members ++;
+    }
 }
