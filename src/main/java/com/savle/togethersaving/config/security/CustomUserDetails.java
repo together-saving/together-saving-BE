@@ -24,7 +24,7 @@ public class CustomUserDetails implements UserDetails {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         String str= user.getRole();
-        if(str!="" && str!=null){
+        if(str != "" && str != null){
             if(user.getRole().equals("user")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             }else if(user.getRole().equals("admin")) {

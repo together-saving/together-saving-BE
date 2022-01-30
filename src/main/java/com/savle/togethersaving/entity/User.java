@@ -1,6 +1,5 @@
 package com.savle.togethersaving.entity;
 
-import com.savle.togethersaving.config.RoleConverter;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -8,7 +7,6 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -43,7 +41,6 @@ public class User {
 
     @ColumnDefault("'닉네임을 설정해주세요.'")
     private String nickname;
-
 
     private String role;
 
