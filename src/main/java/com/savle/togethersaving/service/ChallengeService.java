@@ -26,7 +26,7 @@ public class ChallengeService {
 
 
     @Transactional
-    public void changeAutoSettings(Long userId, Long challengeId,Boolean isAuto){
+    public void changeAutoSettings(Long userId, Long challengeId){
         ChallengeUser challengeUser = challengeUserRepository
                 .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
 
@@ -35,7 +35,6 @@ public class ChallengeService {
         }else{
             challengeUser.setIsAutomated(false);
         }
-        challengeUser.setIsAutomated(isAuto);
     }
 
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
