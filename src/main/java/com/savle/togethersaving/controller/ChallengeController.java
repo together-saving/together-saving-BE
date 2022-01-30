@@ -37,9 +37,17 @@ public class ChallengeController {
     }
 
     @PostMapping("/challenges/{challengeId}/payment")
-    public HttpEntity<?> payChallenge(@PathVariable Long challengeId) {
+    public HttpEntity<?> changeAutoSetting(@PathVariable Long challengeId) {
         Long userId = 1L;
         challengeService.payForChallenge(userId, challengeId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/challenges/{challengeId}/auto")
+    public HttpEntity<?> modifyAutoSetting(@PathVariable Long challengeId,@RequestParam Boolean auto) {
+        Long userId = 1L;
+        challengeService.changeAutoSettings(userId, challengeId,auto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
