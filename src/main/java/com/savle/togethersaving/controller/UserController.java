@@ -6,7 +6,9 @@ import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
+
+
 
     private final UserService userService;
 
@@ -30,8 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/challenges")
-    public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(
-            @PageableDefault(value = 7) Pageable pageable) {
+    public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(@RequestParam int page) {
+
+        PageRequest pageable = PageRequest.of(page,7, Sort.by("challenge.members").descending());
 
         Long userId = 1L;
 

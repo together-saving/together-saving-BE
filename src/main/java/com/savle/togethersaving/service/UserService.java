@@ -21,7 +21,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ChallengeRepository challengeRepository;
-    private final ChallengeUserService challengeUserService;
     private final ChallengeUserRepository challengeUserRepository;
     private final AccountRepository accountRepository;
     private final TransactionLogRepository transactionLogRepository;
@@ -29,8 +28,7 @@ public class UserService {
 
 
     public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
-        User user = getUserByUserId(userId);
-        List<ChallengeUser> challengeUserList = challengeUserService.getChallengeUser(user,pageable);
+        List<ChallengeUser> challengeUserList = challengeUserRepository.findAllByUser_UserId(userId, pageable);
 
         return challengeUserList.stream()
                 .map(cu -> mapToResponseMyChallengeDto(cu.getChallenge()))
@@ -85,7 +83,8 @@ public class UserService {
             savedTransactionLog.addChallengeLog(challenge);
 
 
-          ChallengeUser challengeUser = challengeUserRepository.getById(new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
+          ChallengeUser challengeUser = challengeUserRepository.getById(
+                  new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
            challengeUser.addBalance(amount);
         }
     }
