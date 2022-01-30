@@ -50,7 +50,7 @@ public class ServiceTestUtil {
                 .phoneNumber("010-5678-1234")
                 .profilePicture("http://qweqweqweqwe.com")
                 .nickname("Admin-NICK")
-                .role(Role.ADMIN)
+                .role("ADMIN")
                 .point(0L)
                 .reward(0L)
                 .password("password")

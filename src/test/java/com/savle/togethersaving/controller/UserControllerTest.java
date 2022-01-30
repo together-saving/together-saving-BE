@@ -1,8 +1,12 @@
 package com.savle.togethersaving.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.savle.togethersaving.config.security.JwtProperties;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.entity.Tag;
+import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,9 @@ public class UserControllerTest extends ControllerTestUtil {
 
     @MockBean
     UserService userService;
+    @MockBean
+    UserRepository userRepository;
+
 
     @Test
     @DisplayName("저축하기 성공")
@@ -45,11 +53,22 @@ public class UserControllerTest extends ControllerTestUtil {
                 .savingAmount(5000L)
                 .build();
 
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+        String jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
+
+        given(userRepository.findByEmail(user.getEmail()))
+                .willReturn(user);
 
         String content = objectMapper.writeValueAsString(createSavingDto);
 
-        mockMvc.perform(post("/api/v1/users/challenges/1/saving")
+        mockMvc.perform(post("/api/v1/challenges/1/saving")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .content(content))
                 .andExpect(status().isOk());
 
@@ -61,6 +80,17 @@ public class UserControllerTest extends ControllerTestUtil {
     void retrieveMyChallenges() throws Exception {
 
         createUserAndChallenge();
+
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+        String jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
+
+        given(userRepository.findByEmail(user.getEmail()))
+                .willReturn(user);
 
         List<ResponseMyChallengeDto> myChallengeList = Arrays.asList(challenge3, challenge1).stream()
                 .map(challenge -> {
@@ -74,6 +104,7 @@ public class UserControllerTest extends ControllerTestUtil {
         //when
         ResultActions result = mockMvc.perform(
                 get("/api/v1/users/challenges?page=0")
+                        .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
