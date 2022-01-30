@@ -1,6 +1,5 @@
 package com.savle.togethersaving.entity;
 
-import com.savle.togethersaving.config.RoleConverter;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -43,10 +42,7 @@ public class User {
     @ColumnDefault("'닉네임을 설정해주세요.'")
     private String nickname;
 
-    @NotNull
-    @Convert(converter = RoleConverter.class)
-    @ColumnDefault("'USER'")
-    private Role role;
+    private String role;
 
     @ColumnDefault("0")
     private Long point;
@@ -62,6 +58,5 @@ public class User {
 
     @OneToMany(mappedBy = "reviewer")
     private final List<ChallengeReview> reviewList = new ArrayList<>();
-
 
 }

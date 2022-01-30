@@ -4,7 +4,6 @@ package com.savle.togethersaving.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.Role;
 import com.savle.togethersaving.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,7 +38,7 @@ public class ControllerTestUtil {
                 .phoneNumber("010-1234-5678")
                 .profilePicture("http://asdasd.com")
                 .nickname("NICK")
-                .role(Role.USER)
+                .role("user")
                 .point(0L)
                 .reward(0L)
                 .build();

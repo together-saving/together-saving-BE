@@ -4,17 +4,23 @@ package com.savle.togethersaving.service;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.entity.*;
+
+import com.savle.togethersaving.repository.UserRepository;
+
 import com.savle.togethersaving.repository.*;
 import org.springframework.data.domain.Pageable;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -25,6 +31,7 @@ public class UserService {
     private final AccountRepository accountRepository;
     private final TransactionLogRepository transactionLogRepository;
     private final TagService tagService;
+
 
 
     public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
@@ -53,22 +60,20 @@ public class UserService {
         User user = userRepository.getUserByUserId(userId);
         Long amount = createSavingDto.getSavingAmount();
 
-        // 유저id로 physical 계좌를 찾기
+
         Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
 
         Account receiveAccount = null;
-        // physical 계좌에 저축할 돈보다 돈이 많은지 검사.
+
         if (sendAccount.getBalance() - amount >= 0) {
 
-            //해당 챌린지 조회
             Challenge challenge = challengeRepository.getById(challengeId);
 
-            // 받을 계좌 조회
             receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
             sendAccount.withdraw(amount);
             receiveAccount.deposit(amount);
-            //거래 내역 저장
+
             TransactionLog transactionLog = TransactionLog.builder()
                     .challenge(challenge)
                     .amount(createSavingDto.getSavingAmount())
@@ -89,6 +94,16 @@ public class UserService {
         }
     }
 
+
+    public User createUser(final User user) {
+
+        final String email = user.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            log.warn("Email already exists {}", email);
+            throw new RuntimeException("Email already exists");
+        }
+        return userRepository.save(user);
+    }
 }
 
 

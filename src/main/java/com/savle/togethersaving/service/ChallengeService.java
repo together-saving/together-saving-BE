@@ -56,7 +56,7 @@ public class ChallengeService {
     public void payForChallenge(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
         //중앙 cma 계좌 조회
-        User admin = userRepository.getUserByRole(Role.ADMIN);
+        User admin = userRepository.getUserByRole("ADMIN");
 
         Challenge challenge = getChallengeByChallengeId(challengeId);
         Long entryFee = challenge.getEntryFee();

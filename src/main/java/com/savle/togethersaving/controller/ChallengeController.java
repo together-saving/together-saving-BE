@@ -1,6 +1,8 @@
 package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.Data;
+import com.savle.togethersaving.repository.ChallengeRepository;
+import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

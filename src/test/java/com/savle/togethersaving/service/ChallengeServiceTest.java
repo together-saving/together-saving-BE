@@ -2,7 +2,6 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.entity.AccountType;
 import com.savle.togethersaving.entity.ChallengeUser;
-import com.savle.togethersaving.entity.Role;
 import com.savle.togethersaving.entity.TransactionLog;
 import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +40,7 @@ public class ChallengeServiceTest extends ServiceTestUtil {
                 .when(userRepository).getUserByUserId(user.getUserId());
 
         doReturn(admin)
-                .when(userRepository).getUserByRole(Role.ADMIN);
+                .when(userRepository).getUserByRole("ADMIN");
 
         doReturn(challenge)
                 .when(challengeRepository).getById(challenge.getChallengeId());
