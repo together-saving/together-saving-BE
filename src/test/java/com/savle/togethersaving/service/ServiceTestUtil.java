@@ -114,7 +114,7 @@ public class ServiceTestUtil {
 
     }
 
-    void createTransactionLog(){
+    void createTransactionLog() {
         saveTransactionLog = TransactionLog.builder()
                 .logId(1L)
                 .challenge(challenge)
@@ -132,9 +132,9 @@ public class ServiceTestUtil {
                 .build();
     }
 
-    void createChallengeUser(){
+    void createChallengeUser() {
         challengeUser = ChallengeUser.builder()
-                .challengeUserPK(new ChallengeUserPK(1L,user.getUserId()))
+                .challengeUserPK(new ChallengeUserPK(1L, user.getUserId()))
                 .accumulatedBalance(0L)
                 .isAutomated(false)
                 .challenge(challenge)
