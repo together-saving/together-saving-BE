@@ -1,6 +1,10 @@
 package com.savle.togethersaving.controller;
 
+import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
+import com.savle.togethersaving.dto.review.ChallengeReviewDto;
+import com.savle.togethersaving.entity.ChallengeReview;
+import com.savle.togethersaving.entity.Frequency;
 import com.savle.togethersaving.entity.Tag;
 import com.savle.togethersaving.service.ChallengeService;
 import org.junit.jupiter.api.Test;
@@ -72,6 +76,29 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
         ResultActions result = mockMvc.perform(
                 post("/api/v1/challenges/1/payment")
+                        .accept(MediaType.APPLICATION_JSON));
+
+
+        result.andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void detailChallenge() throws Exception {
+        createUserAndChallenge();
+
+        ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(previousChallenge);
+        dto.setTags(Arrays.asList(Tag.builder().name("tag1").build()));
+        dto.setWished(true);
+        dto.setParticipated(true);
+        dto.setChallengeFrequency(Arrays.asList(Frequency.MON, Frequency.TUE));
+        dto.setChallengeReviews(Arrays.asList(ChallengeReviewDto.builder().content("content").reviewerNickname("nick").build()));
+        given(challengeService.getChallengeDetail(previousChallenge.getChallengeId(), user.getUserId()))
+                .willReturn(dto);
+
+        ResultActions result = mockMvc.perform(
+                get("/api/v1/auth/challenges/"+previousChallenge.getChallengeId())
+                        .header("user-id", user.getUserId())
                         .accept(MediaType.APPLICATION_JSON));
 
 
