@@ -102,7 +102,11 @@ public class ChallengeService {
         dto.setTags(tagService.tagsOf(challenge));
         dto.setParticipated(wishService.isWished(challenge, userId));
         dto.setChallengeReviews(reviewService.reviewDtoOf(challenge.getChallengeId()));
-        dto.setChallengeFrequency(frequencyRepository.findAllByChallengeFrequencyPK_ChallengeId(challenge.getChallengeId()));
+        dto.setChallengeFrequency(frequencyRepository.findAllByChallengeFrequencyPK_ChallengeId(challenge.getChallengeId())
+                .stream()
+                .map(challengeFrequency -> challengeFrequency.getChallengeFrequencyPK().getFrequency())
+                .collect(Collectors.toList())
+        );
         return dto;
     }
 }
