@@ -1,5 +1,6 @@
 package com.savle.togethersaving.service;
 
+import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.repository.ChallengeRepository;
@@ -8,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -61,5 +65,26 @@ class ReviewServiceTest extends ServiceTestUtil {
 
     }
 
+    @Test
+    void mapToDto() {
+        createUserAndChallenge();
+
+        given(reviewRepository.findAllByChallenge_ChallengeId(challenge.getChallengeId()))
+                .will(review ->
+                        Arrays.asList(
+                            ChallengeReview.builder()
+                            .reviewId(1L)
+                            .challenge(challenge)
+                            .reviewer(user)
+                            .content("hey")
+                            .build()
+                        )
+                );
+
+        List<ChallengeReviewDto> dtos = reviewService.reviewDtoOf(challenge.getChallengeId());
+        assertEquals(dtos.size(), 1);
+        assertEquals(dtos.get(0).getReviewerNickname(), user.getNickname());
+        assertEquals(dtos.get(0).getContent(), "hey");
+    }
 
 }
