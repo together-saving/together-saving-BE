@@ -30,6 +30,8 @@ public class RepositoryTestUtil {
     protected ChallengeUserRepository challengeUserRepository;
     @Autowired
     protected AccountRepository accountRepository;
+    @Autowired
+    protected ChallengeFrequencyRepository challengeFrequencyRepository;
 
 
     protected User user;
@@ -216,5 +218,21 @@ public class RepositoryTestUtil {
 
         accountRepository.save(sendAccount);
         accountRepository.save(receiveAccount);
+    }
+
+    void setFrequency() {
+        ChallengeFrequency fre1 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre1.getChallengeFrequencyPK().setFrequency(Frequency.MON);
+        ChallengeFrequency fre2 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre2.getChallengeFrequencyPK().setFrequency(Frequency.TUE);
+        ChallengeFrequency fre3 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre3.getChallengeFrequencyPK().setFrequency(Frequency.WED);
+        challengeFrequencyRepository.save(fre1);
+        challengeFrequencyRepository.save(fre2);
+        challengeFrequencyRepository.save(fre3);
+
     }
 }
