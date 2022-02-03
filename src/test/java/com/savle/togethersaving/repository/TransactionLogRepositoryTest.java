@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -25,7 +27,10 @@ class TransactionLogRepositoryTest {
     void getSavingHistorys() {
         User user = userRepository.getById(1L);
         Challenge challenge = challengeRepository.getById(1L);
-        List<TransactionLog> savingHistorys = transactionLogRepository.getSavingHistorys(user.getUserId(), challenge.getChallengeId());
-        Assertions.assertThat(savingHistorys.size()).isEqualTo(1);
+        PageRequest pageRequest = PageRequest.of(0,1000, Sort.by("created_at").descending());
+        List<TransactionLog> savingHistorys = transactionLogRepository
+                .getSavingHistorys(user.getUserId(), challenge.getChallengeId()
+                                   , 5 , pageRequest);
+        Assertions.assertThat(savingHistorys.size()).isEqualTo(2);
     }
 }
