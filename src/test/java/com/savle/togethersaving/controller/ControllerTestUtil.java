@@ -8,13 +8,19 @@ import com.savle.togethersaving.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ControllerTestUtil {
+
+    protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(),
+            StandardCharsets.UTF_8);
 
     @Autowired
     protected MockMvc mockMvc;
