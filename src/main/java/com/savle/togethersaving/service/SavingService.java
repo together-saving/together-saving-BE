@@ -9,6 +9,8 @@ import com.savle.togethersaving.repository.AccountRepository;
 import com.savle.togethersaving.repository.ChallengeUserRepository;
 import com.savle.togethersaving.repository.TransactionLogRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +24,27 @@ public class SavingService {
     private final TransactionLogRepository transactionLogRepository;
 
 
-    public SavingStatusDto getSavingStatus(Long userId, Long challengeId) {
+    public SavingStatusDto getSavingStatus(Long userId, Long challengeId, String period, Pageable pageable) {
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(userId, challengeId);
-        List<TransactionLog> transactionLogs = transactionLogRepository.getSavingHistorys(userId,challengeId);
+        List<TransactionLog> transactionLogs = null;
+
+        switch (period) {
+            case "today" :
+                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 0 , pageable);
+                break;
+            case "1week" :
+                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 7 , pageable);
+                break;
+            case "1month" :
+                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 30 , pageable);
+                break;
+            case "3month" :
+                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 90 , pageable);
+                break;
+        }
+
+
         List<SavingStatusDto.History> histories = transactionLogs.stream().map(this::txLogToHistroty).collect(Collectors.toList());
 
         return SavingStatusDto.builder()
