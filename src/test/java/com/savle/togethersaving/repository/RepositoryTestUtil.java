@@ -30,6 +30,8 @@ public class RepositoryTestUtil {
     protected ChallengeUserRepository challengeUserRepository;
     @Autowired
     protected AccountRepository accountRepository;
+    @Autowired
+    protected ChallengeFrequencyRepository challengeFrequencyRepository;
 
 
     protected User user;
@@ -195,4 +197,42 @@ public class RepositoryTestUtil {
         challengeUserRepository.save(challengeUser3);
     }
 
+    void createAccount() {
+        sendAccount = Account
+                .builder()
+                .accountNumber("110-110")
+                .owner(user)
+                .balance(10000L)
+                .accountType(AccountType.PHYSICAL)
+                .bankName("kakao")
+                .build();
+
+        receiveAccount = Account
+                .builder()
+                .accountNumber("220-220")
+                .owner(user)
+                .balance(0L)
+                .accountType(AccountType.CMA)
+                .bankName("kakao-cma")
+                .build();
+
+        accountRepository.save(sendAccount);
+        accountRepository.save(receiveAccount);
+    }
+
+    void setFrequency() {
+        ChallengeFrequency fre1 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre1.getChallengeFrequencyPK().setFrequency(Frequency.MON);
+        ChallengeFrequency fre2 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre2.getChallengeFrequencyPK().setFrequency(Frequency.TUE);
+        ChallengeFrequency fre3 = ChallengeFrequency.builder()
+                .challenge(previousChallenge).build();
+        fre3.getChallengeFrequencyPK().setFrequency(Frequency.WED);
+        challengeFrequencyRepository.save(fre1);
+        challengeFrequencyRepository.save(fre2);
+        challengeFrequencyRepository.save(fre3);
+
+    }
 }

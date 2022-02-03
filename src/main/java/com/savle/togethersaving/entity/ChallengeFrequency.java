@@ -17,7 +17,6 @@ import javax.persistence.MapsId;
 
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -29,4 +28,9 @@ public class ChallengeFrequency {
     @JoinColumn(name = "challenge_id", nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     @MapsId("challengeId")
     private Challenge challenge;
+
+    public ChallengeFrequency(ChallengeFrequencyPK challengeFrequencyPK, Challenge challenge) {
+        this.challengeFrequencyPK = new ChallengeFrequencyPK();
+        this.challenge = challenge;
+    }
 }

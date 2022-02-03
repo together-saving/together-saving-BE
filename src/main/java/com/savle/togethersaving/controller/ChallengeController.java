@@ -2,7 +2,12 @@ package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
+
+import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
+
 import com.savle.togethersaving.service.ChallengeService;
+import com.savle.togethersaving.service.ChallengeUserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +26,11 @@ import org.springframework.web.bind.annotation.*;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
+    private final ChallengeUserService challengeUserService;
 
     @GetMapping("/auth/challenges")
     public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
-                                              @RequestParam String criteria,@RequestParam int page) {
+                                              @RequestParam String criteria, @RequestParam int page) {
 
         PageRequest pageable = null;
         if (criteria.equals("popularity")) {
@@ -32,7 +38,6 @@ public class ChallengeController {
         } else if (criteria.equals("valid")) {
             pageable = PageRequest.of(page, 7, Sort.by("challenge.members").descending());
         }
-
 
         return new ResponseEntity<>(new Data(challengeService.getChallenges(userId, pageable)), HttpStatus.OK);
     }
@@ -48,12 +53,19 @@ public class ChallengeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/auth/challenges/{challengeId}")
+    public HttpEntity<?> detailChallenge(@RequestHeader(name = "user-id") Long userId,
+                                         @PathVariable Long challengeId) {
+        ChallengeDetailDto detailDto = challengeService.getChallengeDetail(challengeId, userId);
+
+        return new ResponseEntity<>(new Data(detailDto), HttpStatus.OK);
+    }
+
     @PostMapping("/challenges/{challengeId}/auto")
     public HttpEntity<?> modifyAutoSetting(@PathVariable Long challengeId, Authentication auth) {
 
         CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
         Long userId = customDetails.getUser().getUserId();
-
         challengeService.changeAutoSettings(userId, challengeId);
 
         return new ResponseEntity<>(HttpStatus.OK);
