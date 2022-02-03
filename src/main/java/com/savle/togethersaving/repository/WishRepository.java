@@ -12,6 +12,6 @@ import com.savle.togethersaving.entity.Wish;
 
 @Repository
 public interface WishRepository extends JpaRepository<Wish, Long> {
-	boolean existsByHopingPerson_UserIdAndChallenge(Long userId, Challenge challenge);
+	boolean existsByHopingPerson_UserIdAndChallenge_ChallengeId(Long userId, Long challengeId);
 	Optional<Wish> findWishByChallenge_ChallengeIdAndHopingPerson_UserId(Long challengeId, Long userId);
 }
