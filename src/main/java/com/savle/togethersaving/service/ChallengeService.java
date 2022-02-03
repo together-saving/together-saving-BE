@@ -52,7 +52,11 @@ public class ChallengeService {
     private PopularChallengeDto mapToPopularDto(Challenge challenge, Long userId) {
         PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
         dto.setTags(tagService.tagsOf(challenge));
-        dto.setWished(wishService.isWished(challenge, userId));
+        if(userId == -1L) {
+            dto.setWished(false);
+        }else {
+            dto.setWished(wishService.isWished(challenge, userId));
+        }
         return dto;
     }
 
@@ -113,7 +117,8 @@ public class ChallengeService {
     private ChallengeDetailDto mapToDetailDto(Challenge challenge, Long userId) {
         ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(challenge);
         dto.setTags(tagService.tagsOf(challenge));
-        dto.setParticipated(wishService.isWished(challenge, userId));
+        dto.setWished(wishService.isWished(challenge, userId));
+        dto.setParticipated(challengeUserRepository.existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),userId));
         dto.setChallengeReviews(reviewService.reviewDtoOf(challenge.getChallengeId()));
         dto.setChallengeFrequency(frequencyRepository.findAllByChallengeFrequencyPK_ChallengeId(challenge.getChallengeId())
                 .stream()
