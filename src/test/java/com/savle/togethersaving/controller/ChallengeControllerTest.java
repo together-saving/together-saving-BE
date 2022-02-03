@@ -93,7 +93,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
     void payChallengeTest() throws Exception {
 
         createUserAndChallenge();
-        
+
         doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
         createJwtToken();
 

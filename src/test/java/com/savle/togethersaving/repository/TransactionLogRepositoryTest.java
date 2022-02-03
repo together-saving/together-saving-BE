@@ -23,8 +23,8 @@ class TransactionLogRepositoryTest {
 
     @Test
     void getSavingHistorys() {
-        User user = userRepository.getById(1L);
-        Challenge challenge = challengeRepository.getById(1L);
+        User user = userRepository.getUserByUserId(1L);
+        Challenge challenge = challengeRepository.getByChallengeId(1L);
         List<TransactionLog> savingHistorys = transactionLogRepository.getSavingHistorys(user.getUserId(), challenge.getChallengeId());
         Assertions.assertThat(savingHistorys.size()).isEqualTo(15);
     }

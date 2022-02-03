@@ -43,7 +43,7 @@ public class ChallengeServiceTest extends ServiceTestUtil {
                 .when(userRepository).getUserByRole("ADMIN");
 
         doReturn(challenge)
-                .when(challengeRepository).getById(challenge.getChallengeId());
+                .when(challengeRepository).getByChallengeId(challenge.getChallengeId());
 
         doReturn(sendAccount)
                 .when(accountRepository).findAccountByOwner_UserIdAndAccountType(user.getUserId(), AccountType.PHYSICAL);
