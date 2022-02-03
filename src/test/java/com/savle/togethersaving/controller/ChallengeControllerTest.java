@@ -1,11 +1,15 @@
 package com.savle.togethersaving.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.savle.togethersaving.config.security.JwtProperties;
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.Frequency;
 import com.savle.togethersaving.entity.Tag;
+import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.service.ChallengeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,9 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
     @MockBean
     private ChallengeService challengeService;
+
+    @MockBean
+    private UserRepository userRepository;
 
 
     @Test
@@ -73,9 +81,19 @@ class ChallengeControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
         doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+        String jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
+        given(userRepository.findByEmail(user.getEmail()))
+                .willReturn(user);
 
         ResultActions result = mockMvc.perform(
                 post("/api/v1/challenges/1/payment")
+                        .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .accept(MediaType.APPLICATION_JSON));
 
 
