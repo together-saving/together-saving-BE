@@ -45,6 +45,6 @@ class ChallengeRepositoryTest extends RepositoryTestUtil {
                 = challengeRepository
                 .findChallengesByStartDateGreaterThan(LocalDate.now(), PageRequest.of(1, 7, Sort.by("members").descending()));
         //then
-        Assertions.assertThat(popularChallenges.get(0).getMembers()).isEqualTo(11L);
+        Assertions.assertThat(popularChallenges.get(0).getMembers()).isEqualTo(13L);
     }
 }

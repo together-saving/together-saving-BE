@@ -66,7 +66,7 @@ public class UserControllerTest extends ControllerTestUtil {
 
         String content = objectMapper.writeValueAsString(createSavingDto);
 
-        mockMvc.perform(post("/api/v1/challenges/1/saving")
+        mockMvc.perform(post("/api/v1/users/challenges/1/saving")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .content(content))
@@ -95,7 +95,7 @@ public class UserControllerTest extends ControllerTestUtil {
         List<ResponseMyChallengeDto> myChallengeList = Arrays.asList(challenge3, challenge1).stream()
                 .map(challenge -> {
                     ResponseMyChallengeDto dto = ResponseMyChallengeDto.toDto(challenge);
-                    dto.setTags(Arrays.asList(Tag.builder().name("tag1").build(), Tag.builder().name("tag2").build()));
+                    dto.setTags(Arrays.asList("tag1","tag2"));
                     return dto;
                 }).collect(Collectors.toList());
         given(userService.getMyParticipatingChallenges(1L, PageRequest.of(0, 7, Sort.by("challenge.members").descending())))
@@ -103,7 +103,7 @@ public class UserControllerTest extends ControllerTestUtil {
 
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/v1/users/challenges?page=0")
+                get("/api/v1/users/my-challenges?page=0")
                         .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .accept(MediaType.APPLICATION_JSON)
         );

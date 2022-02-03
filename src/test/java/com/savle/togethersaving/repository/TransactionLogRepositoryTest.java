@@ -26,6 +26,6 @@ class TransactionLogRepositoryTest {
         User user = userRepository.getById(1L);
         Challenge challenge = challengeRepository.getById(1L);
         List<TransactionLog> savingHistorys = transactionLogRepository.getSavingHistorys(user.getUserId(), challenge.getChallengeId());
-        Assertions.assertThat(savingHistorys.size()).isEqualTo(1);
+        Assertions.assertThat(savingHistorys.size()).isEqualTo(15);
     }
 }
