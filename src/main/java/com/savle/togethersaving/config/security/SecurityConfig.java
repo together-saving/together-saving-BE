@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final UserRepository userRepository;
-//    private final CorsConfig corsConfig;
+    private final CorsConfig corsConfig;
 
 
     @Override
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-//                .addFilter(corsConfig.corsFilter())
+                .addFilter(corsConfig.corsFilter())
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
