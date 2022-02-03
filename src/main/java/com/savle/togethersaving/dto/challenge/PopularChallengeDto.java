@@ -31,7 +31,7 @@ public class PopularChallengeDto {
 
 	private long remainDate;
 
-	private List<Tag> tags;
+	private List<String> tags;
 
 	public static PopularChallengeDto challengeOf(Challenge challenge) {
 		PopularChallengeDto dto = new PopularChallengeDto();

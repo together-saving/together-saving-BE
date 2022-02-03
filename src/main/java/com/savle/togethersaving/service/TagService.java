@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.ChallengeTag;
-import com.savle.togethersaving.entity.Tag;
 import com.savle.togethersaving.repository.ChallengeTagRepository;
 
 @Service
@@ -21,9 +19,9 @@ public class TagService {
 		this.challengeTagRepository = challengeTagRepository;
 	}
 
-	public List<Tag> tagsOf(Challenge challenge) {
+	public List<String> tagsOf(Challenge challenge) {
 		return challengeTagRepository.findChallengeTagsByChallenge(challenge)
-			.stream().map(c -> c.getTag())
-			.collect(Collectors.toList());
+				.stream().map(c -> c.getTag().getName())
+				.collect(Collectors.toList());
 	}
 }
