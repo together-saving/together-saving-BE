@@ -36,7 +36,7 @@ public class ServiceTestUtil {
                 .phoneNumber("010-1234-5678")
                 .profilePicture("http://asdasd.com")
                 .nickname("NICK")
-                .role(Role.USER)
+                .role("user")
                 .point(0L)
                 .reward(0L)
                 .password("password")
@@ -50,7 +50,7 @@ public class ServiceTestUtil {
                 .phoneNumber("010-5678-1234")
                 .profilePicture("http://qweqweqweqwe.com")
                 .nickname("Admin-NICK")
-                .role(Role.ADMIN)
+                .role("ADMIN")
                 .point(0L)
                 .reward(0L)
                 .password("password")
@@ -114,7 +114,7 @@ public class ServiceTestUtil {
 
     }
 
-    void createTransactionLog(){
+    void createTransactionLog() {
         saveTransactionLog = TransactionLog.builder()
                 .logId(1L)
                 .challenge(challenge)
@@ -132,9 +132,9 @@ public class ServiceTestUtil {
                 .build();
     }
 
-    void createChallengeUser(){
+    void createChallengeUser() {
         challengeUser = ChallengeUser.builder()
-                .challengeUserPK(new ChallengeUserPK(1L,user.getUserId()))
+                .challengeUserPK(new ChallengeUserPK(1L, user.getUserId()))
                 .accumulatedBalance(0L)
                 .isAutomated(false)
                 .challenge(challenge)

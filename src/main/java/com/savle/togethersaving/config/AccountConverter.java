@@ -1,8 +1,6 @@
 package com.savle.togethersaving.config;
 
 import com.savle.togethersaving.entity.AccountType;
-import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.Role;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

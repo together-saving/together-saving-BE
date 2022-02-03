@@ -1,6 +1,8 @@
 package com.savle.togethersaving.service;
 
-import com.savle.togethersaving.entity.*;
+import com.savle.togethersaving.entity.AccountType;
+import com.savle.togethersaving.entity.ChallengeUser;
+import com.savle.togethersaving.entity.TransactionLog;
 import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,7 @@ import org.mockito.Mock;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class ChallengeServiceTest extends ServiceTestUtil{
+public class ChallengeServiceTest extends ServiceTestUtil {
 
     @Mock
     protected ChallengeRepository challengeRepository;
@@ -38,7 +40,7 @@ public class ChallengeServiceTest extends ServiceTestUtil{
                 .when(userRepository).getUserByUserId(user.getUserId());
 
         doReturn(admin)
-                .when(userRepository).getUserByRole(Role.ADMIN);
+                .when(userRepository).getUserByRole("ADMIN");
 
         doReturn(challenge)
                 .when(challengeRepository).getById(challenge.getChallengeId());
@@ -51,10 +53,10 @@ public class ChallengeServiceTest extends ServiceTestUtil{
 
         doReturn(payTransactionLog).when(transactionLogRepository).save(any(TransactionLog.class));
 
-        challengeService.payForChallenge(user.getUserId(),challenge.getChallengeId());
+        challengeService.payForChallenge(user.getUserId(), challenge.getChallengeId());
 
-        verify(transactionLogRepository,times(1)).save(any(TransactionLog.class));
-        verify(challengeUserRepository,times(1)).save(any(ChallengeUser.class));
+        verify(transactionLogRepository, times(1)).save(any(TransactionLog.class));
+        verify(challengeUserRepository, times(1)).save(any(ChallengeUser.class));
 
 
     }

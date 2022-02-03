@@ -26,13 +26,15 @@ public class ResponseMyChallengeDto {
 
     private int period;
 
-    // 챌린지 종료까지 남은 기간
-    // 시작 날짜 - 현재 날짜
+
     private long date;
 
     private List<Tag> tags;
 
     public static ResponseMyChallengeDto toDto(Challenge challenge) {
+
+        // 시작 날짜 + 진행기간(주차) - currentDay
+        LocalDate date=  challenge.getStartDate().plusWeeks(challenge.getPeriod());
 
        return ResponseMyChallengeDto.builder()
                 .id(challenge.getChallengeId())
@@ -40,7 +42,7 @@ public class ResponseMyChallengeDto {
                 .title(challenge.getTitle())
                 .mode(challenge.getMode())
                 .period(challenge.getPeriod())
-                .date(ChronoUnit.DAYS.between(challenge.getStartDate(), LocalDate.now()))
+                .date(ChronoUnit.DAYS.between(date, LocalDate.now()))
                 .build();
     }
 }

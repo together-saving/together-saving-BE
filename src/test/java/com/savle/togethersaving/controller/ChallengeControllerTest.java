@@ -41,7 +41,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
         //given
         createUserAndChallenge();
 
-        List<PopularChallengeDto> popularList = Arrays.asList(biggestChallenge, previousChallenge).stream()
+        List<PopularChallengeDto> popularList = Arrays.asList(challenge3, challenge1).stream()
                 .map(challenge -> {
                     PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
                     dto.setTags(Arrays.asList(Tag.builder().name("tag1").build(), Tag.builder().name("tag2").build()));
@@ -68,11 +68,11 @@ class ChallengeControllerTest extends ControllerTestUtil {
     }
 
     @Test
-    void payChallengeTest() throws Exception{
+    void payChallengeTest() throws Exception {
 
         createUserAndChallenge();
 
-       doNothing().when(challengeService).payForChallenge(any(Long.class),any(Long.class));
+        doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
 
         ResultActions result = mockMvc.perform(
                 post("/api/v1/challenges/1/payment")
@@ -87,17 +87,17 @@ class ChallengeControllerTest extends ControllerTestUtil {
     void detailChallenge() throws Exception {
         createUserAndChallenge();
 
-        ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(previousChallenge);
+        ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(challenge1);
         dto.setTags(Arrays.asList(Tag.builder().name("tag1").build()));
         dto.setWished(true);
         dto.setParticipated(true);
         dto.setChallengeFrequency(Arrays.asList(Frequency.MON, Frequency.TUE));
         dto.setChallengeReviews(Arrays.asList(ChallengeReviewDto.builder().content("content").reviewerNickname("nick").build()));
-        given(challengeService.getChallengeDetail(previousChallenge.getChallengeId(), user.getUserId()))
+        given(challengeService.getChallengeDetail(challenge1.getChallengeId(), user.getUserId()))
                 .willReturn(dto);
 
         ResultActions result = mockMvc.perform(
-                get("/api/v1/auth/challenges/"+previousChallenge.getChallengeId())
+                get("/api/v1/auth/challenges/"+challenge1.getChallengeId())
                         .header("user-id", user.getUserId())
                         .accept(MediaType.APPLICATION_JSON));
 

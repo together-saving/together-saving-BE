@@ -16,13 +16,10 @@ class WishServiceTest extends ServiceTestUtil {
 
     @Mock
     private ChallengeRepository challengeRepository;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private WishRepository wishRepository;
-
 
     @InjectMocks
     private WishService wishService;

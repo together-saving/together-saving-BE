@@ -21,6 +21,6 @@ public class ChallengeUserService {
     public List<ChallengeUser> getChallengeUser(User user, Pageable pageable) {
 
         // 유저를 찾는다.
-        return challengeUserRepository.findAllByUser(user, pageable);
+        return challengeUserRepository.findAllByUser_UserId(user.getUserId(), pageable);
     }
 }

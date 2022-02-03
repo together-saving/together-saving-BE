@@ -28,6 +28,19 @@ public class ChallengeService {
     private final ReviewService reviewService;
     private final ChallengeFrequencyRepository frequencyRepository;
 
+
+    @Transactional
+    public void changeAutoSettings(Long userId, Long challengeId){
+        ChallengeUser challengeUser = challengeUserRepository
+                .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
+
+        if(!challengeUser.getIsAutomated()){
+            challengeUser.setIsAutomated(true);
+        }else{
+            challengeUser.setIsAutomated(false);
+        }
+    }
+
     public List<PopularChallengeDto> getChallenges(Long userId, Pageable pageable) {
         List<Challenge> challengeList = challengeRepository
                 .findChallengesByStartDateGreaterThan(LocalDate.now(), pageable);
@@ -47,7 +60,7 @@ public class ChallengeService {
     public void payForChallenge(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
         //중앙 cma 계좌 조회
-        User admin = userRepository.getUserByRole(Role.ADMIN);
+        User admin = userRepository.getUserByRole("ADMIN");
 
         Challenge challenge = getChallengeByChallengeId(challengeId);
         Long entryFee = challenge.getEntryFee();

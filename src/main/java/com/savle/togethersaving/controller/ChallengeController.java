@@ -1,9 +1,9 @@
 package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.dto.Data;
+
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.repository.ChallengeUserRepository;
+
 import com.savle.togethersaving.service.ChallengeService;
 import com.savle.togethersaving.service.ChallengeUserService;
 
@@ -29,20 +29,20 @@ public class ChallengeController {
 
     @GetMapping("/auth/challenges")
     public ResponseEntity<Data> getChallenges(@RequestHeader(name = "user-id") Long userId,
-                                              @RequestParam String criteria,@RequestParam int page) {
+                                              @RequestParam String criteria, @RequestParam int page) {
 
         PageRequest pageable = null;
-        if(criteria.equals("popularity")){
-            pageable = PageRequest.of(page,7,Sort.by("members").descending());
-        }else if(criteria.equals("valid")){
-            pageable = PageRequest.of(page,7,Sort.by("challenge.members").descending());
+        if (criteria.equals("popularity")) {
+            pageable = PageRequest.of(page, 7, Sort.by("members").descending());
+        } else if (criteria.equals("valid")) {
+            pageable = PageRequest.of(page, 7, Sort.by("challenge.members").descending());
         }
 
         return new ResponseEntity<>(new Data(challengeService.getChallenges(userId, pageable)), HttpStatus.OK);
     }
 
     @PostMapping("/challenges/{challengeId}/payment")
-    public HttpEntity<?> payChallenge(@PathVariable Long challengeId) {
+    public HttpEntity<?> changeAutoSetting(@PathVariable Long challengeId) {
         Long userId = 1L;
         challengeService.payForChallenge(userId, challengeId);
 
@@ -55,5 +55,13 @@ public class ChallengeController {
         ChallengeDetailDto detailDto = challengeService.getChallengeDetail(challengeId, userId);
 
         return new ResponseEntity<>(new Data(detailDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/challenges/{challengeId}/auto")
+    public HttpEntity<?> modifyAutoSetting (@PathVariable Long challengeId){
+        Long userId = 1L;
+        challengeService.changeAutoSettings(userId, challengeId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
