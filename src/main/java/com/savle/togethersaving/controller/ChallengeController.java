@@ -1,5 +1,6 @@
 package com.savle.togethersaving.controller;
 
+import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
 
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
@@ -10,12 +11,12 @@ import com.savle.togethersaving.service.ChallengeUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -42,8 +43,11 @@ public class ChallengeController {
     }
 
     @PostMapping("/challenges/{challengeId}/payment")
-    public HttpEntity<?> changeAutoSetting(@PathVariable Long challengeId) {
-        Long userId = 1L;
+    public HttpEntity<?> payChallenge(@PathVariable Long challengeId, Authentication auth) {
+
+
+        CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+        Long userId = customDetails.getUser().getUserId();
         challengeService.payForChallenge(userId, challengeId);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -58,8 +62,10 @@ public class ChallengeController {
     }
 
     @PostMapping("/challenges/{challengeId}/auto")
-    public HttpEntity<?> modifyAutoSetting (@PathVariable Long challengeId){
-        Long userId = 1L;
+    public HttpEntity<?> modifyAutoSetting(@PathVariable Long challengeId, Authentication auth) {
+
+        CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+        Long userId = customDetails.getUser().getUserId();
         challengeService.changeAutoSettings(userId, challengeId);
 
         return new ResponseEntity<>(HttpStatus.OK);

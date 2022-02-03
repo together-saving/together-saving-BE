@@ -1,7 +1,9 @@
 package com.savle.togethersaving.controller;
 
+import com.savle.togethersaving.config.security.CustomUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,15 +25,20 @@ public class WishController {
 
 	@PostMapping("/users/challenges/{challengeId}/wish")
 	public ResponseEntity<HttpStatus> addWish(@PathVariable Long challengeId,
-		@RequestHeader("user-id") Long userId) {
-		wishService.addWish(userId, challengeId);
+											  Authentication auth) {
+
+		CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+
+		wishService.addWish(customDetails.getUser().getUserId(), challengeId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@DeleteMapping("/users/challenges/{challengeId}/wish")
 	public ResponseEntity<HttpStatus> deleteWish(@PathVariable Long challengeId,
-		@RequestHeader("user-id") Long userId) {
-		wishService.deleteWish(userId, challengeId);
+												 Authentication auth) {
+
+		CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+		wishService.deleteWish(customDetails.getUser().getUserId(), challengeId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
