@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final UserRepository userRepository;
-    private final CorsConfig corsConfig;
+//    private final CorsConfig corsConfig;
 
 
     @Override
