@@ -40,13 +40,7 @@ public class ReviewControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
 
-        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
-
-        String jwtToken = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", user.getUserId())
-                .withClaim("email", user.getEmail())
-                .sign(AL);
+        createJwtToken();
 
         ReviewCreateDto reviewCreateDto = ReviewCreateDto.builder()
                 .challengeId(challenge1.getChallengeId())

@@ -107,11 +107,11 @@ public class ChallengeService {
 
     public Challenge getChallengeByChallengeId(Long challengeId) {
 
-        return challengeRepository.getById(challengeId);
+        return challengeRepository.getByChallengeId(challengeId);
     }
 
     public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
-        return mapToDetailDto(challengeRepository.getById(challengeId), userId);
+        return mapToDetailDto(challengeRepository.getByChallengeId(challengeId), userId);
     }
 
     private ChallengeDetailDto mapToDetailDto(Challenge challenge, Long userId) {

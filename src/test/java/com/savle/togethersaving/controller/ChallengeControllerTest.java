@@ -94,18 +94,8 @@ class ChallengeControllerTest extends ControllerTestUtil {
 
         createUserAndChallenge();
 
-        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
-
-        String jwtToken = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", user.getUserId())
-                .withClaim("email", user.getEmail())
-                .sign(AL);
-
-        given(userRepository.findByEmail(user.getEmail()))
-                .willReturn(user);
-
         doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
+        createJwtToken();
 
         given(userRepository.findByEmail(user.getEmail()))
                 .willReturn(user);

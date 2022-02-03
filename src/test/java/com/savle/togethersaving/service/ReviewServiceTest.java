@@ -45,7 +45,7 @@ class ReviewServiceTest extends ServiceTestUtil {
                 .when(userService).getUserByUserId(user.getUserId());
 
         doReturn(challenge)
-                .when(challengeRepository).getById(reviewCreateDto.getChallengeId());
+                .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
 
         given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
                 .reviewId(1L)

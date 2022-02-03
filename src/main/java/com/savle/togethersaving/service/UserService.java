@@ -51,7 +51,7 @@ public class UserService {
 
     public User getUserByUserId(Long userId) {
 
-        return userRepository.getById(userId);
+        return userRepository.getUserByUserId(userId);
     }
 
 
@@ -67,7 +67,7 @@ public class UserService {
 
         if (sendAccount.getBalance() - amount >= 0) {
 
-            Challenge challenge = challengeRepository.getById(challengeId);
+            Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
             receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
@@ -88,8 +88,8 @@ public class UserService {
             savedTransactionLog.addChallengeLog(challenge);
 
 
-          ChallengeUser challengeUser = challengeUserRepository.getById(
-                  new ChallengeUserPK(challenge.getChallengeId(),user.getUserId()));
+          ChallengeUser challengeUser = challengeUserRepository.
+                  findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
            challengeUser.addBalance(amount);
         }
     }
