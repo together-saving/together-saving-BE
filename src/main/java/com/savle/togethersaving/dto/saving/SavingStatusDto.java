@@ -23,6 +23,8 @@ public class SavingStatusDto {
 
     @Builder
     @ToString
+    @Getter
+    @Setter
     public static class History {
         @Column(name = "created_at")
         private LocalDate   date;
