@@ -29,7 +29,7 @@ public class ReviewService {
     public ResponseReviewDto saveReview(Long userId,ReviewCreateDto reviewCreateDto) {
 
         User user = userService.getUserByUserId(userId);
-        Challenge challenge = challengeRepository.getById(reviewCreateDto.getChallengeId());
+        Challenge challenge = challengeRepository.getByChallengeId(reviewCreateDto.getChallengeId());
 
         ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
         ChallengeReview savedReview = reviewRepository.save(review);

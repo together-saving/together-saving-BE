@@ -16,4 +16,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
 	List<Challenge> findChallengesByStartDateGreaterThan(LocalDate localDate);
 	List<Challenge> findChallengesByStartDateGreaterThan(LocalDate localDate, Pageable pageable);
+	Challenge getByChallengeId(Long challengeId);
 }
