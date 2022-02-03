@@ -44,21 +44,22 @@ public class UserController {
 
 
     @GetMapping("/users/challenges")
-    public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(@RequestParam int page) {
+    public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(@RequestParam int page,
+                                                                             Authentication auth) {
 
         PageRequest pageable = PageRequest.of(page, 7, Sort.by("challenge.members").descending());
 
-
-        Long userId = 1L;
+        CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+        Long userId = customDetails.getUser().getUserId();
 
         return new ResponseEntity<>(new Data(userService.getMyParticipatingChallenges(userId, pageable)), HttpStatus.OK);
 
     }
 
     @PostMapping("/users/reviews")
-    public ResponseEntity<?> addReview(@RequestBody ReviewCreateDto review, Authentication authentication) {
+    public ResponseEntity<?> addReview(@RequestBody ReviewCreateDto review, Authentication auth) {
 
-        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 
         reviewService.saveReview(user.getUser().getUserId(), review);
         return new ResponseEntity<>(HttpStatus.OK);
