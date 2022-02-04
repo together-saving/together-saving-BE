@@ -2,6 +2,7 @@ package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
+import com.savle.togethersaving.dto.saving.SavingDetailDto;
 import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.service.SavingService;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,11 @@ public class SavingController {
         return new ResponseEntity<>(new Data(savingService.getSavingStatus(userId,challengeId,period,pageRequest)), HttpStatus.OK);
     }
 
+    @GetMapping("/users/challenges/{challengeId}/saving-detail")
+    public ResponseEntity<Data<SavingDetailDto>> getSavingDetail (@PathVariable Long challengeId,
+                                                                  Authentication auth) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+        Long userId = customUserDetails.getUser().getUserId();
+        return new ResponseEntity<>(new Data<>(savingService.getSavingDetail(userId,challengeId)),HttpStatus.OK);
+    }
 }

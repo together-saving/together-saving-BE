@@ -33,4 +33,11 @@ class TransactionLogRepositoryTest {
                                    , 5 , pageRequest);
         Assertions.assertThat(savingHistorys.size()).isEqualTo(1);
     }
+
+    @Test
+    void getSuccessCount() {
+        Integer successCount = transactionLogRepository.getSuccessCount(1L,1L);
+
+        Assertions.assertThat(successCount).isEqualTo(15);
+    }
 }

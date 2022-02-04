@@ -1,11 +1,11 @@
 package com.savle.togethersaving.service;
 
+import com.savle.togethersaving.dto.saving.SavingDetailDto;
 import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.entity.AccountType;
 import com.savle.togethersaving.entity.TransactionLog;
-import com.savle.togethersaving.repository.AccountRepository;
-import com.savle.togethersaving.repository.ChallengeUserRepository;
-import com.savle.togethersaving.repository.TransactionLogRepository;
+import com.savle.togethersaving.repository.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 //@DataJpaTest
@@ -34,6 +35,13 @@ class SavingServiceTest extends ServiceTestUtil {
     protected AccountRepository accountRepository;
     @Mock
     protected ChallengeUserRepository challengeUserRepository;
+    @Mock
+    protected UserRepository userRepository;
+    @Mock
+    protected ChallengeCountRepository challengeCountRepository;
+    @Mock
+    protected ChallengeRepository challengeRepository;
+
     @InjectMocks
     private SavingService savingService;
 
@@ -68,6 +76,38 @@ class SavingServiceTest extends ServiceTestUtil {
         assertEquals(savingStatusDto.getBalance(),10000L);
         assertEquals(savingStatusDto.getBankName(),"kakao");
         assertEquals(savingStatusDto.getSavingHistory().size(),1);
+    }
+
+    @DisplayName("내 저축 상세")
+    @Test
+    void getSavingDetail() {
+        //given
+        createUserAndChallenge();
+        createTwoKindsOfUserAccountsAndAdminAccount();
+        createDtos();
+        createTransactionLog();
+        createChallengeUser();
+        createChallengeCount();
+
+        doReturn(user).when(userRepository)
+                .getUserByUserId(user.getUserId());
+
+        doReturn(challenge).when(challengeRepository)
+                .getByChallengeId(challenge.getChallengeId());
+
+        doReturn(challengeUser).when(challengeUserRepository)
+                .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
+
+        doReturn(2).when(transactionLogRepository).getSuccessCount(user.getUserId(), challenge.getChallengeId());
+        doReturn(challengeCount).when(challengeCountRepository)
+                .getChallengeCountByChallengeId(challenge.getChallengeId());
+        //when
+        SavingDetailDto savingDetailDto = savingService.getSavingDetail(user.getUserId(),challenge.getChallengeId());
+        //then
+
+        Assertions.assertEquals(savingDetailDto.getAccumualtedAmount(),5000);
+        Assertions.assertEquals(savingDetailDto.getSavingRate(),8);
+        Assertions.assertEquals(savingDetailDto.getFailureCount(),5);
     }
 
 }
