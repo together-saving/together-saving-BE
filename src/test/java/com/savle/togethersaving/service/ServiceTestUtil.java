@@ -2,12 +2,16 @@ package com.savle.togethersaving.service;
 
 
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
+import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.entity.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceTestUtil {
@@ -124,7 +128,7 @@ public class ServiceTestUtil {
                 .build();
 
         payTransactionLog = TransactionLog.builder()
-                .logId(1L)
+                .logId(2L)
                 .challenge(challenge)
                 .amount(challenge.getEntryFee())
                 .sendAccount(sendAccount)
