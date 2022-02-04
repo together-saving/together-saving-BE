@@ -26,7 +26,7 @@ public class SavingService {
 
     public SavingStatusDto getSavingStatus(Long userId, Long challengeId, String period, Pageable pageable) {
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
-        ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(userId, challengeId);
+        ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
         List<TransactionLog> transactionLogs = null;
 
         switch (period) {

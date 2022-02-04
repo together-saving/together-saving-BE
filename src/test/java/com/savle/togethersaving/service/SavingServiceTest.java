@@ -53,7 +53,7 @@ class SavingServiceTest extends ServiceTestUtil {
                         user.getUserId(), AccountType.PHYSICAL);
         doReturn(challengeUser)
                 .when(challengeUserRepository).
-                findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(user.getUserId(),challenge.getChallengeId());
+                findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
 
         List<TransactionLog> transactionLogs = new ArrayList<>();
         saveTransactionLog.setCreatedAt(LocalDateTime.now());
