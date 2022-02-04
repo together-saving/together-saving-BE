@@ -33,17 +33,19 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    @PostMapping("/challenges/{challengeId}/saving")
+    @PostMapping("users/challenges/{challengeId}/saving")
     public HttpEntity<?> savingMoney(@PathVariable Long challengeId,
-                                     @RequestBody CreateSavingsDto createSavingDto) {
+                                     @RequestBody CreateSavingsDto createSavingDto,
+                                     Authentication auth) {
 
-        Long userId = 1L;
-        userService.saveMoney(userId, challengeId, createSavingDto);
+        CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+        userService.saveMoney(user.getUser().getUserId(), challengeId, createSavingDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    @GetMapping("/users/challenges")
+
+    @GetMapping("/users/my-challenges")
     public ResponseEntity<Data<ResponseMyChallengeDto>> retrieveMyChallenges(@RequestParam int page,
                                                                              Authentication auth) {
 

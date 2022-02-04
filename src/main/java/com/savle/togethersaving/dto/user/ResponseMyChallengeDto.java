@@ -29,7 +29,7 @@ public class ResponseMyChallengeDto {
 
     private long date;
 
-    private List<Tag> tags;
+    private List<String> tags;
 
     public static ResponseMyChallengeDto toDto(Challenge challenge) {
 
@@ -42,7 +42,7 @@ public class ResponseMyChallengeDto {
                 .title(challenge.getTitle())
                 .mode(challenge.getMode())
                 .period(challenge.getPeriod())
-                .date(ChronoUnit.DAYS.between(date, LocalDate.now()))
+                .date(ChronoUnit.DAYS.between(LocalDate.now(),date))
                 .build();
     }
 }

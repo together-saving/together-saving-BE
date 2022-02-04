@@ -1,7 +1,10 @@
 package com.savle.togethersaving.controller;
 
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.savle.togethersaving.config.security.JwtProperties;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
 import com.savle.togethersaving.entity.User;
@@ -13,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Date;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,7 +35,7 @@ public class ControllerTestUtil {
     protected Challenge challenge1;
     protected Challenge challenge2;
     protected Challenge challenge3;
-
+    protected String jwtToken;
 
     void createUserAndChallenge() {
 
@@ -89,6 +93,16 @@ public class ControllerTestUtil {
                 .period(3)
                 .thumbnail("http://qweqweqwe.com").build();
 
+    }
+
+    void createJwtToken(){
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+         jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
     }
 
 }

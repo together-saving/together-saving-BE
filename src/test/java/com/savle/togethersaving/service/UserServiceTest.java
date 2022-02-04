@@ -48,13 +48,14 @@ public class UserServiceTest extends ServiceTestUtil {
         doReturn(sendAccount)
                 .when(accountRepository).findAccountByOwner_UserIdAndAccountType(user.getUserId(), AccountType.PHYSICAL);
         doReturn(challenge)
-                .when(challengeRepository).getById(challenge.getChallengeId());
+                .when(challengeRepository).getByChallengeId(challenge.getChallengeId());
         doReturn(receiveAccount)
                 .when(accountRepository).findAccountByOwner_UserIdAndAccountType(user.getUserId(), AccountType.CMA);
         doReturn(saveTransactionLog)
                 .when(transactionLogRepository).save(any(TransactionLog.class));
         doReturn(challengeUser)
-                .when(challengeUserRepository).getById(any(ChallengeUserPK.class));
+                .when(challengeUserRepository).findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId
+                        (any(Long.class),any(Long.class));
 
         userService.saveMoney(user.getUserId(), challenge.getChallengeId(), createSavingDto);
 

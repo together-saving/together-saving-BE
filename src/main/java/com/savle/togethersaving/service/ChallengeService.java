@@ -52,7 +52,11 @@ public class ChallengeService {
     private PopularChallengeDto mapToPopularDto(Challenge challenge, Long userId) {
         PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
         dto.setTags(tagService.tagsOf(challenge));
-        dto.setWished(wishService.isWished(challenge, userId));
+        if(userId == -1L) {
+            dto.setWished(false);
+        }else {
+            dto.setWished(wishService.isWished(challenge, userId));
+        }
         return dto;
     }
 
@@ -103,17 +107,18 @@ public class ChallengeService {
 
     public Challenge getChallengeByChallengeId(Long challengeId) {
 
-        return challengeRepository.getById(challengeId);
+        return challengeRepository.getByChallengeId(challengeId);
     }
 
     public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
-        return mapToDetailDto(challengeRepository.getById(challengeId), userId);
+        return mapToDetailDto(challengeRepository.getByChallengeId(challengeId), userId);
     }
 
     private ChallengeDetailDto mapToDetailDto(Challenge challenge, Long userId) {
         ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(challenge);
         dto.setTags(tagService.tagsOf(challenge));
-        dto.setParticipated(wishService.isWished(challenge, userId));
+        dto.setWished(wishService.isWished(challenge, userId));
+        dto.setParticipated(challengeUserRepository.existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),userId));
         dto.setChallengeReviews(reviewService.reviewDtoOf(challenge.getChallengeId()));
         dto.setChallengeFrequency(frequencyRepository.findAllByChallengeFrequencyPK_ChallengeId(challenge.getChallengeId())
                 .stream()

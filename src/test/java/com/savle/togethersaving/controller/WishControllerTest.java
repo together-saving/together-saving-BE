@@ -34,14 +34,7 @@ class WishControllerTest extends ControllerTestUtil {
     @Test
     void addWish() throws Exception {
         createUserAndChallenge();
-        //given
-        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
-
-        String jwtToken = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", user.getUserId())
-                .withClaim("email", user.getEmail())
-                .sign(AL);
+        createJwtToken();
         given(userRepository.findByEmail(user.getEmail()))
                 .willReturn(user);
 
@@ -64,13 +57,7 @@ class WishControllerTest extends ControllerTestUtil {
     void deleteWish() throws Exception {
         createUserAndChallenge();
 
-        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
-
-        String jwtToken = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", user.getUserId())
-                .withClaim("email", user.getEmail())
-                .sign(AL);
+        createJwtToken();
 
         given(userRepository.findByEmail(user.getEmail()))
                 .willReturn(user);
@@ -81,7 +68,6 @@ class WishControllerTest extends ControllerTestUtil {
                         .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .accept(MediaType.APPLICATION_JSON)
         );
-        //then
         result.andDo(print())
                 .andExpect(status().isOk())
         ;

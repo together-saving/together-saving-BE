@@ -3,7 +3,9 @@ package com.savle.togethersaving.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.savle.togethersaving.config.security.JwtProperties;
+
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
+
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.entity.ChallengeReview;
@@ -49,20 +51,32 @@ class ChallengeControllerTest extends ControllerTestUtil {
         //given
         createUserAndChallenge();
 
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+        String jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
+
+        given(userRepository.findByEmail(user.getEmail()))
+                .willReturn(user);
+
         List<PopularChallengeDto> popularList = Arrays.asList(challenge3, challenge1).stream()
                 .map(challenge -> {
                     PopularChallengeDto dto = PopularChallengeDto.challengeOf(challenge);
-                    dto.setTags(Arrays.asList(Tag.builder().name("tag1").build(), Tag.builder().name("tag2").build()));
+                    dto.setTags(Arrays.asList("tag1","tag2"));
                     dto.setWished(true);
                     return dto;
                 }).collect(Collectors.toList());
+
         given(challengeService.getChallenges(1L, PageRequest.of(0, 7, Sort.by("members").descending())))
                 .willReturn(popularList);
 
         //when
         ResultActions result = mockMvc.perform(
                 get("/api/v1/auth/challenges?criteria=popularity&page=0")
-                        .header("user-id", 1L)
+                        .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -81,13 +95,8 @@ class ChallengeControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
         doNothing().when(challengeService).payForChallenge(any(Long.class), any(Long.class));
-        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+        createJwtToken();
 
-        String jwtToken = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", user.getUserId())
-                .withClaim("email", user.getEmail())
-                .sign(AL);
         given(userRepository.findByEmail(user.getEmail()))
                 .willReturn(user);
 
@@ -106,7 +115,7 @@ class ChallengeControllerTest extends ControllerTestUtil {
         createUserAndChallenge();
 
         ChallengeDetailDto dto = ChallengeDetailDto.challengeOf(challenge1);
-        dto.setTags(Arrays.asList(Tag.builder().name("tag1").build()));
+        dto.setTags(Arrays.asList("tag"));
         dto.setWished(true);
         dto.setParticipated(true);
         dto.setChallengeFrequency(Arrays.asList(Frequency.MON, Frequency.TUE));
