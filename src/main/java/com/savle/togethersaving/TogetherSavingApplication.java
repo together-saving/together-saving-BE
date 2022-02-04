@@ -30,6 +30,7 @@ public class TogetherSavingApplication {
                 registry.addMapping("/**").allowedOriginPatterns("*");
                 registry.addMapping("/**").allowedHeaders("*");
                 registry.addMapping("/**").allowedMethods("*");
+                registry.addMapping("/**").allowCredentials(true);
             }
         };
     }
