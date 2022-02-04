@@ -26,7 +26,7 @@ public class ServiceTestUtil {
     protected TransactionLog saveTransactionLog;
     protected TransactionLog payTransactionLog;
     protected ChallengeUser challengeUser;
-
+    protected ChallengeCount challengeCount;
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
 
@@ -139,10 +139,19 @@ public class ServiceTestUtil {
     void createChallengeUser() {
         challengeUser = ChallengeUser.builder()
                 .challengeUserPK(new ChallengeUserPK(1L, user.getUserId()))
-                .accumulatedBalance(0L)
+                .accumulatedBalance(5000L)
                 .isAutomated(false)
                 .challenge(challenge)
                 .user(user)
+                .build();
+    }
+    void createChallengeCount() {
+        challengeCount = ChallengeCount.builder()
+                .challengeId(challenge.getChallengeId())
+                .challenge(challenge)
+                .maxCount(12)
+                .remainCount(5)
+                .currentCount(7)
                 .build();
     }
 

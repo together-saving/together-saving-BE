@@ -10,7 +10,7 @@ import lombok.*;
 public class SavingDetailDto {
     private String thumbnail;
     private Long accumualtedAmount;
-    private Integer dDay;
+    private String nickname;
     private Integer savingRate;
     private Integer successCount;
     private Integer failureCount;
