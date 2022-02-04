@@ -38,6 +38,8 @@ public class ChallengeController {
         if (criteria.equals("popularity")) {
             pageable = PageRequest.of(page, 7, Sort.by("members").descending());
         } else if (criteria.equals("valid")) {
+            pageable = PageRequest.of(page, 7, Sort.by("challengeId").ascending());
+        } else if (criteria.equals("deadline")) {
             pageable = PageRequest.of(page, 7, Sort.by("startDate").ascending());
         }
 
