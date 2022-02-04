@@ -86,7 +86,6 @@ public class SavingControllerTest extends ControllerTestUtil{
         result.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.account_number", is("1111-2222")))
-                .andExpect(jsonPath("$.data.saving_history[0].date", is("2022-02-02")))
         ;
     }
 }

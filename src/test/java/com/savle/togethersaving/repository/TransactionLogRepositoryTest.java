@@ -31,6 +31,6 @@ class TransactionLogRepositoryTest {
         List<TransactionLog> savingHistorys = transactionLogRepository
                 .getSavingHistorys(user.getUserId(), challenge.getChallengeId()
                                    , 5 , pageRequest);
-        Assertions.assertThat(savingHistorys.size()).isEqualTo(2);
+        Assertions.assertThat(savingHistorys.size()).isEqualTo(1);
     }
 }
