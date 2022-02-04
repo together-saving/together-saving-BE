@@ -28,6 +28,8 @@ public class TogetherSavingApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("*");
                 registry.addMapping("/**").allowedOriginPatterns("*");
+                registry.addMapping("/**").allowedHeaders("*");
+                registry.addMapping("/**").allowedMethods("*");
             }
         };
     }
