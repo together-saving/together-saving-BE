@@ -1,9 +1,6 @@
 package com.savle.togethersaving.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,13 +10,14 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@ToString
 public class ChallengeUser {
 
     @EmbeddedId
     private ChallengeUserPK challengeUserPK;
 
 
-    private Long accumulatedBalance;
+    private long accumulatedBalance;
 
 
     private Boolean isAutomated; // 자동 저축 여부
@@ -38,7 +36,7 @@ public class ChallengeUser {
     public ChallengeUser(ChallengeUserPK challengeUserPK, Long accumulatedBalance, Boolean isAutomated
             , Challenge challenge, User user) {
         this.challengeUserPK = new ChallengeUserPK();
-        this.accumulatedBalance = 0L;
+        this.accumulatedBalance = accumulatedBalance;
         this.isAutomated = false;
         this.challenge = challenge;
         this.user = user;
