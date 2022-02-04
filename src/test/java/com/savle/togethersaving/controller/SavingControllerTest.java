@@ -3,6 +3,7 @@ package com.savle.togethersaving.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.savle.togethersaving.config.security.JwtProperties;
+import com.savle.togethersaving.dto.saving.SavingDetailDto;
 import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.service.SavingService;
@@ -87,5 +88,46 @@ public class SavingControllerTest extends ControllerTestUtil{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.account_number", is("1111-2222")))
         ;
+    }
+
+    @Test
+    @DisplayName("내 저축 상세")
+    void savingDetail() throws Exception {
+        //given
+        createUserAndChallenge();
+
+        Algorithm AL = Algorithm.HMAC512(JwtProperties.SECRET);
+
+        String jwtToken = JWT.create()
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", user.getUserId())
+                .withClaim("email", user.getEmail())
+                .sign(AL);
+
+        given(userRepository.findByEmail(user.getEmail()))
+                .willReturn(user);
+
+        SavingDetailDto savingDetailDto = SavingDetailDto.builder()
+                .savingRate(8)
+                .accumualtedAmount(5000L)
+                .failureCount(5)
+                .remainCount(5)
+                .successCount(5)
+                .thumbnail(user.getProfilePicture())
+                .nickname(user.getNickname())
+                .build();
+
+                given(savingService.getSavingDetail(user.getUserId(),challenge1.getChallengeId()))
+                .willReturn(savingDetailDto);
+        //when
+        ResultActions result = mockMvc.perform(
+                get("/api/v1/users/challenges/1/saving-detail").contentType(contentType)
+                        .header("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken)
+        );
+        //then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.success_count", is(5)));
+
     }
 }
