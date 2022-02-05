@@ -44,26 +44,11 @@ public class SavingService {
                 transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 90 , pageable);
                 break;
         }
-
-
-        List<SavingStatusDto.History> histories = transactionLogs.stream().map(this::txLogToHistroty).collect(Collectors.toList());
-
-        return SavingStatusDto.builder()
-                .accountNumber(account.getAccountNumber())
-                .balance(account.getBalance())
-                .bankName(account.getBankName())
-                .thumbnail(account.getThumbnail())
-                .isAutomated(challengeUser.getIsAutomated())
-                .savingHistory(histories)
-                .build();
+        assert transactionLogs != null;
+        return SavingStatusDto.of(account,challengeUser,transactionLogs);
     }
 
-    public SavingStatusDto.History txLogToHistroty(TransactionLog tx) {
-        return SavingStatusDto.History.builder()
-                .amount(tx.getAmount())
-                .dayOfWeek(tx.getCreatedAt().getDayOfWeek())
-                .date(tx.getCreatedAt().toLocalDate()).build();
-    }
+
 
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
