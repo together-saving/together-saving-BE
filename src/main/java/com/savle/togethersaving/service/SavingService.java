@@ -5,6 +5,7 @@ import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class SavingService {
-    private final  AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
     private final ChallengeUserRepository challengeUserRepository;
     private final TransactionLogRepository transactionLogRepository;
     private final UserRepository userRepository;
