@@ -28,10 +28,13 @@ class TransactionLogRepositoryTest {
         User user = userRepository.getUserByUserId(1L);
         Challenge challenge = challengeRepository.getByChallengeId(1L);
         PageRequest pageRequest = PageRequest.of(0,1000, Sort.by("created_at").descending());
-        List<TransactionLog> savingHistorys = transactionLogRepository
+        List<TransactionLog> savingHistories = transactionLogRepository
                 .getSavingHistorys(user.getUserId(), challenge.getChallengeId()
                                    , 5 , pageRequest);
-        Assertions.assertThat(savingHistorys.size()).isEqualTo(1);
+        for (TransactionLog log : savingHistories) {
+            Assertions.assertThat(log.getChallenge().getChallengeId()).isEqualTo(1L);
+        }
+
     }
 
     @Test
