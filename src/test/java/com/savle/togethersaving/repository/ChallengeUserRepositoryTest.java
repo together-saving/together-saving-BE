@@ -40,4 +40,15 @@ public class ChallengeUserRepositoryTest extends RepositoryTestUtil {
                 afterChallenge.getChallengeId(), user.getUserId());
         Assertions.assertThat(isParticipated).isTrue();
     }
+
+    @Test
+    void 챌린지참여중인유저리스트테스트() {
+
+        createUserAndChallengeSaved();
+        createChallengeUser();
+
+        List<ChallengeUser> userList = challengeUserRepository.findAllByChallenge_ChallengeId(2L);
+        System.out.println(userList);
+        Assertions.assertThat(userList.size()).isEqualTo(2);
+    }
 }

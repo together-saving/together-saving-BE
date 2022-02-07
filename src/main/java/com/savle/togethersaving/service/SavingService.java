@@ -1,23 +1,28 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.saving.SavingDetailDto;
+import com.savle.togethersaving.dto.saving.SavingRankingDto;
 import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class SavingService {
-    private final  AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
     private final ChallengeUserRepository challengeUserRepository;
     private final TransactionLogRepository transactionLogRepository;
     private final UserRepository userRepository;
@@ -44,25 +49,8 @@ public class SavingService {
                 transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 90 , pageable);
                 break;
         }
-
-
-        List<SavingStatusDto.History> histories = transactionLogs.stream().map(this::txLogToHistroty).collect(Collectors.toList());
-
-        return SavingStatusDto.builder()
-                .accountNumber(account.getAccountNumber())
-                .balance(account.getBalance())
-                .bankName(account.getBankName())
-                .thumbnail(account.getThumbnail())
-                .isAutomated(challengeUser.getIsAutomated())
-                .savingHistory(histories)
-                .build();
-    }
-
-    public SavingStatusDto.History txLogToHistroty(TransactionLog tx) {
-        return SavingStatusDto.History.builder()
-                .amount(tx.getAmount())
-                .dayOfWeek(tx.getCreatedAt().getDayOfWeek())
-                .date(tx.getCreatedAt().toLocalDate()).build();
+        assert transactionLogs != null;
+        return SavingStatusDto.of(account,challengeUser,transactionLogs);
     }
 
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
@@ -72,7 +60,7 @@ public class SavingService {
         Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
         Integer savingRate =
-                Math.toIntExact(challengeUser.getAccumulatedBalance()*100 / (challengeCount.getMaxCount() * challenge.getPayment()) ) ;
+                calculateSavingRatio(Math.toIntExact(challengeUser.getAccumulatedBalance()),challengeCount.getMaxCount(),Math.toIntExact(challenge.getPayment()));
 
         Integer successCount =
                 transactionLogRepository.getSuccessCount(userId, challengeId);
@@ -86,5 +74,21 @@ public class SavingService {
                 .failureCount(challengeCount.getCurrentCount() - successCount)
                 .thumbnail(user.getProfilePicture())
         .build();
+    }
+
+    public List<SavingRankingDto> getSavingRanking(Long challengeId) {
+        List<ChallengeUser> challengeUsers = challengeUserRepository.findAllByChallenge_ChallengeId(challengeId);
+        Integer maxCount = challengeCountRepository.getChallengeCountByChallengeId(challengeId).getMaxCount();
+        Integer challengePayment = Math.toIntExact(challengeRepository.getByChallengeId(challengeId).getPayment());
+
+        return challengeUsers.stream().map(challengeUser -> {
+            SavingRankingDto savingRankingDto = SavingRankingDto.userFrom(challengeUser.getUser());
+            savingRankingDto.setSavingRate( calculateSavingRatio(Math.toIntExact(challengeUser.getAccumulatedBalance()),maxCount,challengePayment) );
+            return savingRankingDto;
+        }).sorted(Comparator.comparing(SavingRankingDto::getSavingRate).reversed()).collect(Collectors.toList());
+    }
+
+    private Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
+        return  (( (accumulatedBalance*100) / ( maxCount * payment )));
     }
 }

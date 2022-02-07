@@ -53,23 +53,21 @@ public class SavingControllerTest extends ControllerTestUtil{
         given(userRepository.findByEmail(user.getEmail()))
                 .willReturn(user);
 
-        SavingStatusDto.History history1 = SavingStatusDto.History.builder()
-                .date(LocalDate.now().minusDays(1))
-                .dayOfWeek(DayOfWeek.MONDAY)
-                .amount(10000L)
-                .build();
-        SavingStatusDto.History history2 = SavingStatusDto.History.builder()
-                .date(LocalDate.now().minusDays(2))
-                .dayOfWeek(DayOfWeek.SUNDAY)
-                .amount(10000L)
-                .build();
-        SavingStatusDto savingStatusDto = SavingStatusDto.builder()
-                .accountNumber("1111-2222")
-                .bankName("test bank")
-                .thumbnail("imgur/testimage.png")
-                .balance(100000L)
-                .isAutomated(false)
-                .savingHistory(Arrays.asList(history1,history2)).build();
+        SavingStatusDto.History history1 = new SavingStatusDto.History();
+                history1.setDate(LocalDate.now().minusDays(1));
+                history1.setDayOfWeek(DayOfWeek.MONDAY);
+                history1.setAmount(10000L);
+        SavingStatusDto.History history2 = new SavingStatusDto.History();
+                history2.setDate(LocalDate.now().minusDays(2));
+                history2.setDayOfWeek(DayOfWeek.SUNDAY);
+                history2.setAmount(10000L);
+        SavingStatusDto savingStatusDto = new SavingStatusDto();
+                savingStatusDto.setAccountNumber("1111-2222");
+                savingStatusDto.setBankName("test bank");
+                savingStatusDto.setThumbnail("imgur/testimage.png");
+                savingStatusDto.setBalance(100000L);
+                savingStatusDto.setIsAutomated(false);
+                savingStatusDto.setSavingHistory(Arrays.asList(history1,history2));
 
 
         PageRequest pageRequest = PageRequest.of(0,1000, Sort.by("created_at").descending());
