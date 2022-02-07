@@ -32,6 +32,8 @@ public class RepositoryTestUtil {
     protected AccountRepository accountRepository;
     @Autowired
     protected ChallengeFrequencyRepository challengeFrequencyRepository;
+    @Autowired
+    protected CommentRepository commentRepository;
 
 
     protected User user;
