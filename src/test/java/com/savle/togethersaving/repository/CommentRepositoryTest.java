@@ -23,6 +23,6 @@ class CommentRepositoryTest extends RepositoryTestUtil{
         commentRepository.save(comment);
         List<ChallengeComment> comments = commentRepository.findCommentFrom(previousChallenge.getChallengeId(), 0);
         Assertions.assertThat(comments.size()).isEqualTo(1);
-        Assertions.assertThat(comments.get(0).getUser()).isEqualTo(user);
+        Assertions.assertThat(comments.get(0).getUser().getUserId()).isEqualTo(user.getUserId());
     }
 }

@@ -14,13 +14,13 @@ public class CommentDto {
     private String nickname;
     private String content;
 
-    public static CommentDto of(long client, User commentWriter, ChallengeComment comment) {
+    public static CommentDto of(long clientId, User commentWriter, ChallengeComment comment) {
         CommentDto dto = new CommentDto();
         dto.userId = commentWriter.getUserId();
         dto.nickname = commentWriter.getNickname();
         dto.profilePicture = commentWriter.getProfilePicture();
         dto.content = comment.getContent();
-        dto.writtenByMe = dto.isWrittenByMe(client);
+        dto.writtenByMe = dto.isWrittenByMe(clientId);
         return dto;
     }
 

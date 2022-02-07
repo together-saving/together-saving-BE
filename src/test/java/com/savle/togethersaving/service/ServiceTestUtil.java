@@ -29,6 +29,7 @@ public class ServiceTestUtil {
     protected ChallengeCount challengeCount;
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
+    protected CommentService commentService;
 
     void createUserAndChallenge() {
 
