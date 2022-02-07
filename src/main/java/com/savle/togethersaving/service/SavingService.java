@@ -5,6 +5,7 @@ import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class SavingService {
-    private final  AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
     private final ChallengeUserRepository challengeUserRepository;
     private final TransactionLogRepository transactionLogRepository;
     private final UserRepository userRepository;
@@ -44,26 +45,11 @@ public class SavingService {
                 transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 90 , pageable);
                 break;
         }
-
-
-        List<SavingStatusDto.History> histories = transactionLogs.stream().map(this::txLogToHistroty).collect(Collectors.toList());
-
-        return SavingStatusDto.builder()
-                .accountNumber(account.getAccountNumber())
-                .balance(account.getBalance())
-                .bankName(account.getBankName())
-                .thumbnail(account.getThumbnail())
-                .isAutomated(challengeUser.getIsAutomated())
-                .savingHistory(histories)
-                .build();
+        assert transactionLogs != null;
+        return SavingStatusDto.of(account,challengeUser,transactionLogs);
     }
 
-    public SavingStatusDto.History txLogToHistroty(TransactionLog tx) {
-        return SavingStatusDto.History.builder()
-                .amount(tx.getAmount())
-                .dayOfWeek(tx.getCreatedAt().getDayOfWeek())
-                .date(tx.getCreatedAt().toLocalDate()).build();
-    }
+
 
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
