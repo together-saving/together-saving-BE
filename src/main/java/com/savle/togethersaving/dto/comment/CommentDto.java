@@ -9,16 +9,22 @@ import lombok.Setter;
 @Setter
 public class CommentDto {
     private long userId;
+    private boolean writtenByMe;
     private String profilePicture;
     private String nickname;
     private String content;
 
-    public static CommentDto of(User user, ChallengeComment comment) {
+    public static CommentDto of(long client, User commentWriter, ChallengeComment comment) {
         CommentDto dto = new CommentDto();
-        dto.userId = user.getUserId();
-        dto.nickname = user.getNickname();
-        dto.profilePicture = user.getProfilePicture();
+        dto.userId = commentWriter.getUserId();
+        dto.nickname = commentWriter.getNickname();
+        dto.profilePicture = commentWriter.getProfilePicture();
         dto.content = comment.getContent();
+        dto.writtenByMe = dto.isWrittenByMe(client);
         return dto;
+    }
+
+    public boolean isWrittenByMe(long userId) {
+        return this.userId == userId;
     }
 }
