@@ -3,6 +3,7 @@ package com.savle.togethersaving.controller;
 
 import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
+import com.savle.togethersaving.dto.comment.CreateCommentDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
@@ -31,6 +32,17 @@ public class UserController {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    @PostMapping("users/challenges/{challengeId}/comment")
+    public HttpEntity<?> writeComment(@PathVariable Long challengeId,
+                                      @RequestBody CreateCommentDto createCommentDto,
+                                      Authentication auth) {
+
+        CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+        userService.addComment(user.getUser().getUserId(), challengeId, createCommentDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     @PostMapping("users/challenges/{challengeId}/saving")
