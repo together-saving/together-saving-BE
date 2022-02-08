@@ -2,12 +2,16 @@ package com.savle.togethersaving.service;
 
 
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
+import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.entity.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceTestUtil {
@@ -22,9 +26,10 @@ public class ServiceTestUtil {
     protected TransactionLog saveTransactionLog;
     protected TransactionLog payTransactionLog;
     protected ChallengeUser challengeUser;
-
+    protected ChallengeCount challengeCount;
     protected ReviewCreateDto reviewCreateDto;
     protected CreateSavingsDto createSavingDto;
+    protected CommentService commentService;
 
     void createUserAndChallenge() {
 
@@ -124,7 +129,7 @@ public class ServiceTestUtil {
                 .build();
 
         payTransactionLog = TransactionLog.builder()
-                .logId(1L)
+                .logId(2L)
                 .challenge(challenge)
                 .amount(challenge.getEntryFee())
                 .sendAccount(sendAccount)
@@ -135,10 +140,19 @@ public class ServiceTestUtil {
     void createChallengeUser() {
         challengeUser = ChallengeUser.builder()
                 .challengeUserPK(new ChallengeUserPK(1L, user.getUserId()))
-                .accumulatedBalance(0L)
+                .accumulatedBalance(5000L)
                 .isAutomated(false)
                 .challenge(challenge)
                 .user(user)
+                .build();
+    }
+    void createChallengeCount() {
+        challengeCount = ChallengeCount.builder()
+                .challengeId(challenge.getChallengeId())
+                .challenge(challenge)
+                .maxCount(12)
+                .remainCount(5)
+                .currentCount(7)
                 .build();
     }
 
