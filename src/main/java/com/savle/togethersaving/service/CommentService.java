@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,8 @@ public class CommentService {
     public CommentDto getComments(long challengeId, long client, int offset) {
         CommentDto commentDto = new CommentDto();
         commentDto.setComments(
-         commentRepository.findCommentFrom(challengeId, offset)
-                .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed())
+         commentRepository.findCommentFrom(challengeId)
+                .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).filter(c-> c.getCreatedAt().toLocalDate().equals(LocalDate.now().minusDays(offset)))
                 .map(comment -> CommentDto.Comment.of(client, comment.getWriter(), comment))
                 .collect(Collectors.toList()));
         commentDto.setDate(LocalDate.now().minusDays(offset));

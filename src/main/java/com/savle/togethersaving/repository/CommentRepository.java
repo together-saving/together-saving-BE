@@ -11,10 +11,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<ChallengeComment, Long> {
 
-    @Query(value = "select *"
-            + "from challenge_comment "
-            + "where date(created_at) = date_sub(CURDATE(), INTERVAL :offset day ) "
-            + "and challenge_id = :challengeId"
-            , nativeQuery = true)
-    List<ChallengeComment> findCommentFrom(@Param("challengeId") long challengeId, @Param("offset") int offset);
+    @Query("select cmm from ChallengeComment cmm join fetch cmm.writer where cmm.challenge.challengeId=:challengeId " )
+    List<ChallengeComment> findCommentFrom(@Param("challengeId") long challengeId);
 }
