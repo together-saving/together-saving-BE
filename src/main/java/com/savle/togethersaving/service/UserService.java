@@ -5,12 +5,7 @@ import com.savle.togethersaving.dto.comment.CreateCommentDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.entity.*;
-
-import com.savle.togethersaving.repository.UserRepository;
-
 import com.savle.togethersaving.repository.*;
-import org.springframework.data.domain.Pageable;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

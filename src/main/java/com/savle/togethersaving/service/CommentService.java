@@ -1,6 +1,7 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.comment.CommentDto;
+import com.savle.togethersaving.entity.BaseTime;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
@@ -9,7 +10,9 @@ import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +21,15 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public List<CommentDto> getComments(long challengeId, long client, int offset) {
-        return commentRepository.findCommentFrom(challengeId, offset)
-                .stream()
-                .map(comment -> CommentDto.of(client, comment.getWriter(), comment))
-                .collect(Collectors.toList());
+    public CommentDto getComments(long challengeId, long client, int offset) {
+        CommentDto commentDto = new CommentDto();
+        commentDto.setComments(
+         commentRepository.findCommentFrom(challengeId, offset)
+                .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed())
+                .map(comment -> CommentDto.Comment.of(client, comment.getWriter(), comment))
+                .collect(Collectors.toList()));
+        commentDto.setDate(LocalDate.now().minusDays(offset));
+
+        return commentDto;
     }
 }

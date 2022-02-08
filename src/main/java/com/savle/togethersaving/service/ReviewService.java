@@ -1,24 +1,21 @@
 package com.savle.togethersaving.service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
-import com.savle.togethersaving.dto.review.ResponseReviewDto;
 import com.savle.togethersaving.entity.BaseTime;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
-
 import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

@@ -1,7 +1,5 @@
 package com.savle.togethersaving.entity;
 
-import java.util.Locale;
-
 public enum AccountType {
 	PHYSICAL, CMA;
 

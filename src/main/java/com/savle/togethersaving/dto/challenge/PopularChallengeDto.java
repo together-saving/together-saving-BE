@@ -1,17 +1,15 @@
 package com.savle.togethersaving.dto.challenge;
 
-import static java.time.temporal.ChronoUnit.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.Mode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.Tag;
-
-import lombok.Getter;
-import lombok.Setter;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Getter
 @Setter

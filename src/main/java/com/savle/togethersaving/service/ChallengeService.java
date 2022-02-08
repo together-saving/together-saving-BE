@@ -2,7 +2,6 @@ package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
-import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import lombok.RequiredArgsConstructor;
