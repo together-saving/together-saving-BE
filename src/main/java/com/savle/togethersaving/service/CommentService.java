@@ -21,7 +21,7 @@ public class CommentService {
     public List<CommentDto> getComments(long challengeId, long client, int offset) {
         return commentRepository.findCommentFrom(challengeId, offset)
                 .stream()
-                .map(comment -> CommentDto.of(client, comment.getUser(), comment))
+                .map(comment -> CommentDto.of(client, comment.getWriter(), comment))
                 .collect(Collectors.toList());
     }
 }

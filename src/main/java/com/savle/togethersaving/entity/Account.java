@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@ToString
 public class Account {
 
     @Id

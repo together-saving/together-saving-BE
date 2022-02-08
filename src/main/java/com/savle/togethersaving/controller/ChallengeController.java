@@ -3,6 +3,7 @@ package com.savle.togethersaving.controller;
 import com.savle.togethersaving.config.security.CustomUserDetails;
 import com.savle.togethersaving.dto.Data;
 import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
+import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +12,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -81,6 +85,16 @@ public class ChallengeController {
         Long userId = customDetails.getUser().getUserId();
         challengeService.changeAutoSettings(userId, challengeId);
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/challenges")
+    public HttpEntity<?> openChallenge(Authentication auth) {
+
+
+        CustomUserDetails customDetails = (CustomUserDetails) auth.getPrincipal();
+        User user = customDetails.getUser();
+        challengeService.createChallenge(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

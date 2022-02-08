@@ -2,6 +2,7 @@ package com.savle.togethersaving.entity;
 
 import lombok.*;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 import java.time.LocalDate;
@@ -61,6 +62,9 @@ public class Challenge {
 
     @OneToMany(mappedBy = "challenge")
     private final List<ChallengeComment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "challenge")
+    private final List<ChallengeFrequency> days = new ArrayList<>();
 
     public void addMember(){
         this.members ++;

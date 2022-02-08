@@ -34,36 +34,36 @@ class ReviewServiceTest extends ServiceTestUtil {
     private ReviewService reviewService;
 
 
-    @DisplayName("SaveReview() -리뷰 저장 성공")
-    @Test
-    void shouldSavedReviewSuccessfully() {
-
-        createUserAndChallenge();
-        createDtos();
-
-        doReturn(user)
-                .when(userService).getUserByUserId(user.getUserId());
-
-        doReturn(challenge)
-                .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
-
-        given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
-                .reviewId(1L)
-                .reviewer(user)
-                .challenge(challenge)
-                .content(reviewCreateDto.getReviewContent())
-                .build());
-
-
-        ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(), reviewCreateDto);
-
-
-        assertEquals(savedReviewDto.getChallengeId(), 1L);
-        assertEquals(savedReviewDto.getReviewId(), 1L);
-        assertEquals(savedReviewDto.getUserId(), 1L);
-        assertEquals(savedReviewDto.getContent(), "즐겁네요");
-
-    }
+//    @DisplayName("SaveReview() -리뷰 저장 성공")
+//    @Test
+//    void shouldSavedReviewSuccessfully() {
+//
+//        createUserAndChallenge();
+//        createDtos();
+//
+//        doReturn(user)
+//                .when(userService).getUserByUserId(user.getUserId());
+//
+//        doReturn(challenge)
+//                .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
+//
+//        given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
+//                .reviewId(1L)
+//                .reviewer(user)
+//                .challenge(challenge)
+//                .content(reviewCreateDto.getReviewContent())
+//                .build());
+//
+//
+//        ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(), reviewCreateDto);
+//
+//
+//        assertEquals(savedReviewDto.getChallengeId(), 1L);
+//        assertEquals(savedReviewDto.getReviewId(), 1L);
+//        assertEquals(savedReviewDto.getUserId(), 1L);
+//        assertEquals(savedReviewDto.getContent(), "즐겁네요");
+//
+//    }
 
     @Test
     void mapToDto() {

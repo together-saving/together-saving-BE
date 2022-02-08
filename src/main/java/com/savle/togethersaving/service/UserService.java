@@ -99,7 +99,6 @@ public class UserService {
                     .build();
 
             TransactionLog savedTransactionLog = transactionLogRepository.save(transactionLog);
-
             savedTransactionLog.addSendAccountLog(sendAccount);
             savedTransactionLog.addReceiveAccountLog(receiveAccount);
             savedTransactionLog.addChallengeLog(challenge);

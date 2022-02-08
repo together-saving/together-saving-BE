@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
+@ToString
 public class TransactionLog extends BaseTime {
 
     @Id
