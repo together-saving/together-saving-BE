@@ -38,7 +38,7 @@ public class ChallengeDetailDto {
     private Long challengeMembers;
 
     private String hostNickname;
-
+    private String hostThumbnail;
     private String challengeDescription;
 
     private List<String> tags;
@@ -61,6 +61,7 @@ public class ChallengeDetailDto {
         dto.period = challenge.getPeriod();
         dto.thumbnail = challenge.getThumbnail();
         dto.hostNickname = challenge.getHost().getNickname();
+        dto.setHostThumbnail(challenge.getHost().getProfilePicture());
         dto.challengeDescription = challenge.getContent();
         dto.challengeEntryFee = challenge.getEntryFee();
         return dto;
