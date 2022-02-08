@@ -12,6 +12,7 @@ import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
 
+import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -21,14 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ReviewService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final ChallengeRepository challengeRepository;
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ResponseReviewDto saveReview(Long userId,ReviewCreateDto reviewCreateDto) {
+    public void saveReview(Long userId,ReviewCreateDto reviewCreateDto) {
 
-        User user = userService.getUserByUserId(userId);
+        User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(reviewCreateDto.getChallengeId());
 
         ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
@@ -36,15 +37,6 @@ public class ReviewService {
 
         savedReview.changeReviewListOfUser(user);
         savedReview.changeReviewListOfChallenge(challenge);
-
-
-        return ResponseReviewDto.builder()
-                .challengeId(savedReview.getChallenge().getChallengeId())
-                .userId(savedReview.getReviewer().getUserId())
-                .writeDate(savedReview.getCreatedAt())
-                .reviewId(savedReview.getReviewId())
-                .content(savedReview.getContent())
-                .build();
     }
 
     public List<ChallengeReviewDto> reviewDtoOf(Long challengeId) {
