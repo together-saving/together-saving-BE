@@ -49,19 +49,19 @@ public class Challenge {
 
     private String thumbnail;
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<ChallengeReview> challengeReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<TransactionLog> logList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<ChallengeTag> tagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<ChallengeComment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge",fetch = FetchType.LAZY)
     private final List<ChallengeFrequency> days = new ArrayList<>();
 
     public void addMember(){

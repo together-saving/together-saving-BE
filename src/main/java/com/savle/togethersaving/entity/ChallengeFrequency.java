@@ -16,7 +16,7 @@ public class ChallengeFrequency {
     @EmbeddedId
     private ChallengeFrequencyPK challengeFrequencyPK;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "challenge_id", nullable = false, insertable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     @MapsId("challengeId")
     private Challenge challenge;
