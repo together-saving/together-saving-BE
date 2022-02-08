@@ -1,6 +1,10 @@
 package com.savle.togethersaving.controller;
 
+
 import com.savle.togethersaving.service.AOPTestService;
+
+import com.savle.togethersaving.repository.TransactionLogRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +17,7 @@ public class AOPTestController {
 
 	@GetMapping("/")
 	public String methodNameTest() {
-		service.aopService(1);
 		return "Response";
 	}
+
 }

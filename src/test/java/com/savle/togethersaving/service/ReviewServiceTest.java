@@ -65,6 +65,7 @@ class ReviewServiceTest extends ServiceTestUtil {
 
     }
 
+
     @Test
     void mapToDto() {
         createUserAndChallenge();
