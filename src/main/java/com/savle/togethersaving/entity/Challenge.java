@@ -59,6 +59,9 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge")
     private final List<ChallengeTag> tagList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "challenge")
+    private final List<ChallengeComment> commentList = new ArrayList<>();
+
     public void addMember(){
         this.members ++;
     }

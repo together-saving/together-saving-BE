@@ -59,4 +59,6 @@ public class User {
     @OneToMany(mappedBy = "reviewer")
     private final List<ChallengeReview> reviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "writer")
+    private final List<ChallengeComment> commentList = new ArrayList<>();
 }

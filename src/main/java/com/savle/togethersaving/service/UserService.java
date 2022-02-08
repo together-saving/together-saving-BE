@@ -1,6 +1,7 @@
 package com.savle.togethersaving.service;
 
 
+import com.savle.togethersaving.dto.comment.CreateCommentDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;
 import com.savle.togethersaving.dto.user.ResponseMyChallengeDto;
 import com.savle.togethersaving.entity.*;
@@ -30,9 +31,25 @@ public class UserService {
     private final ChallengeUserRepository challengeUserRepository;
     private final AccountRepository accountRepository;
     private final TransactionLogRepository transactionLogRepository;
+    private final CommentRepository commentRepository;
     private final TagService tagService;
 
 
+
+    @Transactional
+    public void addComment(Long userId, Long challengeId, CreateCommentDto createCommentDto){
+
+
+        User user = userRepository.getUserByUserId(userId);
+        Challenge challenge = challengeRepository.getByChallengeId(challengeId);
+
+        ChallengeComment comment = ChallengeComment.createComment(user,challenge,createCommentDto.getContent());
+        ChallengeComment savedComment = commentRepository.save(comment);
+
+        savedComment.changeCommentListOfUser(user);
+        savedComment.changeCommentListOfChallenge(challenge);
+
+    }
 
     public List<ResponseMyChallengeDto> getMyParticipatingChallenges(Long userId,Pageable pageable) {
         List<ChallengeUser> challengeUserList = challengeUserRepository.findAllByUser_UserId(userId, pageable);
