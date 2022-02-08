@@ -2,7 +2,6 @@ package com.savle.togethersaving.dto.user;
 
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.Tag;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

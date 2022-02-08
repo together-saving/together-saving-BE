@@ -1,6 +1,5 @@
 package com.savle.togethersaving.dto.review;
 
-import com.savle.togethersaving.entity.ChallengeReview;
 import lombok.*;
 
 import java.time.LocalDateTime;

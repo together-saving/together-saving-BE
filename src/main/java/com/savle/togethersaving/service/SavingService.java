@@ -5,19 +5,13 @@ import com.savle.togethersaving.dto.saving.SavingRankingDto;
 import com.savle.togethersaving.dto.saving.SavingStatusDto;
 import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

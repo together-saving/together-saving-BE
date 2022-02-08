@@ -1,15 +1,10 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.comment.CommentDto;
-import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.User;
-import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.CommentRepository;
-import com.savle.togethersaving.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,10 +3,11 @@ package com.savle.togethersaving.dto.saving;
 import com.savle.togethersaving.entity.Account;
 import com.savle.togethersaving.entity.ChallengeUser;
 import com.savle.togethersaving.entity.TransactionLog;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
-import javax.persistence.Table;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;

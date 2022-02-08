@@ -1,10 +1,9 @@
 package com.savle.togethersaving.controller;
 
+import com.savle.togethersaving.service.AOPTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.savle.togethersaving.service.AOPTestService;
 
 @RestController
 public class AOPTestController {

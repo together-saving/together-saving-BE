@@ -1,15 +1,13 @@
 package com.savle.togethersaving.entity;
 
+import com.savle.togethersaving.config.ModeConverter;
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.savle.togethersaving.config.ModeConverter;
-import com.sun.istack.NotNull;
 
 
 @Builder
