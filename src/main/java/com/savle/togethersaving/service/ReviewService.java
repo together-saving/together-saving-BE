@@ -1,11 +1,13 @@
 package com.savle.togethersaving.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.dto.review.ResponseReviewDto;
+import com.savle.togethersaving.entity.BaseTime;
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
@@ -41,7 +43,7 @@ public class ReviewService {
 
     public List<ChallengeReviewDto> reviewDtoOf(Long challengeId) {
         return reviewRepository.findAllByChallenge_ChallengeId(challengeId)
-            .stream().map(review -> reviewDtoFrom(review)).collect(Collectors.toList());
+            .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).map(this::reviewDtoFrom).collect(Collectors.toList());
     }
 
     private ChallengeReviewDto reviewDtoFrom(ChallengeReview review) {

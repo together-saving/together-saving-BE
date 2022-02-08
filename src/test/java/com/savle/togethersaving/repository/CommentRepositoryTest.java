@@ -16,13 +16,13 @@ class CommentRepositoryTest extends RepositoryTestUtil{
     void findComment() {
         createUserAndChallengeSaved();
         ChallengeComment comment = ChallengeComment.builder()
-                .Challenge(previousChallenge)
-                .user(user)
+                .challenge(previousChallenge)
+                .writer(user)
                 .content("test").build();
         comment.setCreatedAt(LocalDateTime.now());
         commentRepository.save(comment);
         List<ChallengeComment> comments = commentRepository.findCommentFrom(previousChallenge.getChallengeId(), 0);
         Assertions.assertThat(comments.size()).isEqualTo(1);
-        Assertions.assertThat(comments.get(0).getUser().getUserId()).isEqualTo(user.getUserId());
+        Assertions.assertThat(comments.get(0).getWriter().getUserId()).isEqualTo(user.getUserId());
     }
 }
