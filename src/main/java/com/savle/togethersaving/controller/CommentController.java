@@ -26,6 +26,6 @@ public class CommentController {
 
         CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
         Long userId = user.getUser().getUserId();
-        return new ResponseEntity<>(new Data(commentService.getComments(challengeId, userId, offset)), HttpStatus.OK);
+        return new ResponseEntity<>(new Data<>(commentService.getComments(challengeId, userId, offset)), HttpStatus.OK);
     }
 }
