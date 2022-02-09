@@ -26,7 +26,7 @@ public class CommentService {
         CommentDto commentDto = new CommentDto();
         commentDto.setComments(
          commentRepository.findCommentFrom(challengeId)
-                .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).filter(c-> c.getCreatedAt().toLocalDate().equals(LocalDate.now().minusDays(offset)))
+                .stream().filter(c-> c.getCreatedAt().toLocalDate().equals(LocalDate.now().minusDays(offset)))
                 .map(comment -> CommentDto.Comment.of(client, comment.getWriter(), comment))
                 .collect(Collectors.toList()));
         commentDto.setDate(LocalDate.now().minusDays(offset));
