@@ -8,26 +8,35 @@ import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.savle.togethersaving.service.fixture.AccountFixture.createTwoKindsOfUserAccounts;
+import static com.savle.togethersaving.service.fixture.AccountFixture.sendAccount;
+import static com.savle.togethersaving.service.fixture.ChallengeCountFixture.challengeCount;
+import static com.savle.togethersaving.service.fixture.ChallengeCountFixture.createChallengeCount;
+import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.challengeUser;
+import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.createChallengeUser;
+import static com.savle.togethersaving.service.fixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.fixture.TransactionLogFixture.createTransactionLog;
+import static com.savle.togethersaving.service.fixture.TransactionLogFixture.saveTransactionLog;
+import static com.savle.togethersaving.service.fixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.fixture.UserFixture.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class SavingServiceTest extends ServiceTestUtil {
+
+@ExtendWith(MockitoExtension.class)
+class SavingServiceTest {
 
     @Mock
     protected TransactionLogRepository transactionLogRepository;
@@ -49,19 +58,20 @@ class SavingServiceTest extends ServiceTestUtil {
     @Test
     void getMySavingHistory() {
         //given
-        createUserAndChallenge();
-        createTwoKindsOfUserAccountsAndAdminAccount();
-        createDtos();
+        createUser();
+        createTwoKindsOfUserAccounts();
+        createSavingDto();
         createTransactionLog();
         createChallengeUser();
-        PageRequest pageRequest = PageRequest.of(0,1000, Sort.by("created_at").descending());
+
+        PageRequest pageRequest = PageRequest.of(0, 1000, Sort.by("created_at").descending());
         //when
         doReturn(sendAccount)
                 .when(accountRepository).findAccountByOwner_UserIdAndAccountType(
                         user.getUserId(), AccountType.PHYSICAL);
         doReturn(challengeUser)
                 .when(challengeUserRepository).
-                findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
+                findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(), user.getUserId());
 
         List<TransactionLog> transactionLogs = new ArrayList<>();
         saveTransactionLog.setCreatedAt(LocalDateTime.now());
@@ -70,21 +80,21 @@ class SavingServiceTest extends ServiceTestUtil {
                 .when(transactionLogRepository).
                 getSavingHistorys(user.getUserId(), challenge.getChallengeId(), 0, pageRequest);
 
-        SavingStatusDto savingStatusDto =  savingService.getSavingStatus(
+        SavingStatusDto savingStatusDto = savingService.getSavingStatus(
                 user.getUserId(), challenge.getChallengeId(), "today", pageRequest);
         //then
-        assertEquals(savingStatusDto.getBalance(),10000L);
-        assertEquals(savingStatusDto.getBankName(),"kakao");
-        assertEquals(savingStatusDto.getSavingHistory().size(),1);
+        assertEquals(savingStatusDto.getBalance(), 10000L);
+        assertEquals(savingStatusDto.getBankName(), "kakao");
+        assertEquals(savingStatusDto.getSavingHistory().size(), 1);
     }
 
     @DisplayName("내 저축 상세")
     @Test
     void getSavingDetail() {
         //given
-        createUserAndChallenge();
-        createTwoKindsOfUserAccountsAndAdminAccount();
-        createDtos();
+        createUser();
+        createTwoKindsOfUserAccounts();
+        createSavingDto();
         createTransactionLog();
         createChallengeUser();
         createChallengeCount();
@@ -96,18 +106,18 @@ class SavingServiceTest extends ServiceTestUtil {
                 .getByChallengeId(challenge.getChallengeId());
 
         doReturn(challengeUser).when(challengeUserRepository)
-                .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
+                .findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(), user.getUserId());
 
         doReturn(2).when(transactionLogRepository).getSuccessCount(user.getUserId(), challenge.getChallengeId());
         doReturn(challengeCount).when(challengeCountRepository)
                 .getChallengeCountByChallengeId(challenge.getChallengeId());
         //when
-        SavingDetailDto savingDetailDto = savingService.getSavingDetail(user.getUserId(),challenge.getChallengeId());
+        SavingDetailDto savingDetailDto = savingService.getSavingDetail(user.getUserId(), challenge.getChallengeId());
         //then
 
-        Assertions.assertEquals(savingDetailDto.getAccumualtedAmount(),5000);
-        Assertions.assertEquals(savingDetailDto.getSavingRate(),8);
-        Assertions.assertEquals(savingDetailDto.getFailureCount(),5);
+        Assertions.assertEquals(savingDetailDto.getAccumualtedAmount(), 5000);
+        Assertions.assertEquals(savingDetailDto.getSavingRate(), 8);
+        Assertions.assertEquals(savingDetailDto.getFailureCount(), 5);
     }
 
 }

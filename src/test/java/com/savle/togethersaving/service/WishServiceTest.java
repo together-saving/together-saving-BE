@@ -1,21 +1,27 @@
 package com.savle.togethersaving.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.savle.togethersaving.entity.Wish;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.repository.WishRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.fixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.fixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.fixture.UserFixture.user;
 import static org.mockito.BDDMockito.given;
 
 
-class WishServiceTest extends ServiceTestUtil {
+@ExtendWith(MockitoExtension.class)
+class WishServiceTest {
 
 
     @Mock
@@ -32,9 +38,11 @@ class WishServiceTest extends ServiceTestUtil {
     @Test
     void addWish() {
         //given
-        createUserAndChallenge();
+        createUser();
+        createChallenge();
 
-        given(wishRepository.existsByHopingPerson_UserIdAndChallenge_ChallengeId(user.getUserId(), challenge.getChallengeId()))
+        given(wishRepository.existsByHopingPerson_UserIdAndChallenge_ChallengeId(
+                user.getUserId(), challenge.getChallengeId()))
                 .willReturn(false);
 
         //when
@@ -46,7 +54,8 @@ class WishServiceTest extends ServiceTestUtil {
     @Test
     void addWishDuplicated() {
         //given
-        createUserAndChallenge();
+        createUser();
+        createChallenge();
 
         given(wishRepository.existsByHopingPerson_UserIdAndChallenge_ChallengeId(user.getUserId(), challenge.getChallengeId()))
                 .willReturn(true);

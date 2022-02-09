@@ -1,19 +1,28 @@
 package com.savle.togethersaving.service;
 
-import com.savle.togethersaving.entity.AccountType;
-import com.savle.togethersaving.entity.ChallengeUserPK;
-import com.savle.togethersaving.entity.TransactionLog;
+import com.savle.togethersaving.entity.*;
 import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.savle.togethersaving.service.fixture.AccountFixture.*;
+import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.fixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.challengeUser;
+import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.createChallengeUser;
+import static com.savle.togethersaving.service.fixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.fixture.TransactionLogFixture.createTransactionLog;
+import static com.savle.togethersaving.service.fixture.TransactionLogFixture.saveTransactionLog;
+import static com.savle.togethersaving.service.fixture.UserFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
-public class UserServiceTest extends ServiceTestUtil {
+@ExtendWith(MockitoExtension.class)
+public class UserServiceTest {
 
     @Mock
     protected AccountRepository accountRepository;
@@ -37,9 +46,12 @@ public class UserServiceTest extends ServiceTestUtil {
     @Test
     void shouldSavingSuccessfully() {
 
-        createUserAndChallenge();
-        createTwoKindsOfUserAccountsAndAdminAccount();
-        createDtos();
+        createUser();
+        createAdmin();
+        createAdminAccount();
+        createChallenge();
+        createTwoKindsOfUserAccounts();
+        createSavingDto();
         createTransactionLog();
         createChallengeUser();
 
