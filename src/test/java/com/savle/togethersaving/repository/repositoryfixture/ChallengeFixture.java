@@ -10,7 +10,6 @@ public class ChallengeFixture {
 
     public static Challenge createChallenge(User user){
 
-
     return Challenge.builder()
             .host(user)
                 .startDate(LocalDate.now().plusDays(2L))
