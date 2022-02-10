@@ -26,9 +26,7 @@ public class TogetherSavingApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://183.99.247.17:8881")
-                        .allowCredentials(true)
-                        .exposedHeaders("Authorization");
+                registry.addMapping("/**").allowedOrigins("*");
                 registry.addMapping("/**").allowedOriginPatterns("*");
                 registry.addMapping("/**").allowedHeaders("*");
                 registry.addMapping("/**").allowedMethods("*");
