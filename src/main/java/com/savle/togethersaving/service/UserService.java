@@ -38,8 +38,8 @@ public class UserService {
         User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
-        ChallengeComment comment = ChallengeComment.createComment(user,challenge,createCommentDto.getContent());
-        ChallengeComment savedComment = commentRepository.save(comment);
+        Comment comment = Comment.createComment(user,challenge,createCommentDto.getContent());
+        Comment savedComment = commentRepository.save(comment);
 
         savedComment.changeCommentListOfUser(user);
         savedComment.changeCommentListOfChallenge(challenge);

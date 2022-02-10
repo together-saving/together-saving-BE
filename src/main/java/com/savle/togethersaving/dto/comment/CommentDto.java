@@ -1,11 +1,10 @@
 package com.savle.togethersaving.dto.comment;
 
-import com.savle.togethersaving.entity.ChallengeComment;
+import com.savle.togethersaving.entity.Comment;
 import com.savle.togethersaving.entity.User;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,10 +14,10 @@ import java.util.List;
 public class CommentDto {
 
     private LocalDate date;
-    private List<Comment> comments;
+    private List<ChallengeComment> comments;
 
     @Data
-    public static class Comment {
+    public static class ChallengeComment {
         private long userId;
         private boolean writtenByMe;
         private String profilePicture;
@@ -26,8 +25,8 @@ public class CommentDto {
         private String content;
         private LocalDate createdAt;
 
-        public static Comment of(long clientId, User commentWriter, ChallengeComment comment) {
-            Comment dto = new Comment();
+        public static ChallengeComment of(long clientId, User commentWriter, Comment comment) {
+            ChallengeComment dto = new ChallengeComment();
             dto.userId = commentWriter.getUserId();
             dto.nickname = commentWriter.getNickname();
             dto.profilePicture = commentWriter.getProfilePicture();
