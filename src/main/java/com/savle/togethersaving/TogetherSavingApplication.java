@@ -27,7 +27,8 @@ public class TogetherSavingApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://183.99.247.17:8881")
-                                .exposedHeaders("Authorization");
+                        .allowCredentials(true)
+                        .exposedHeaders("Authorization");
                 registry.addMapping("/**").allowedOriginPatterns("*");
                 registry.addMapping("/**").allowedHeaders("*");
                 registry.addMapping("/**").allowedMethods("*");
