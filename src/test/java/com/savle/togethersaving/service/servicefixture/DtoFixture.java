@@ -1,4 +1,4 @@
-package com.savle.togethersaving.service.fixture;
+package com.savle.togethersaving.service.servicefixture;
 
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.dto.user.CreateSavingsDto;

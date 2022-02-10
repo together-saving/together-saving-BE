@@ -1,11 +1,11 @@
-package com.savle.togethersaving.service.fixture;
+package com.savle.togethersaving.service.servicefixture;
 
 import com.savle.togethersaving.entity.TransactionLog;
 
-import static com.savle.togethersaving.service.fixture.AccountFixture.receiveAccount;
-import static com.savle.togethersaving.service.fixture.AccountFixture.sendAccount;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.receiveAccount;
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.sendAccount;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createSavingDto;
 
 public class TransactionLogFixture {
 

@@ -1,12 +1,11 @@
-package com.savle.togethersaving.service.fixture;
+package com.savle.togethersaving.service.servicefixture;
 
 import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.Mode;
-import com.savle.togethersaving.entity.User;
 
 import java.time.LocalDate;
 
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 
 public class ChallengeFixture {
 

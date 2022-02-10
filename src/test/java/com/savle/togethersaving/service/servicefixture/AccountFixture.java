@@ -1,11 +1,10 @@
-package com.savle.togethersaving.service.fixture;
+package com.savle.togethersaving.service.servicefixture;
 
 import com.savle.togethersaving.entity.Account;
 import com.savle.togethersaving.entity.AccountType;
-import com.savle.togethersaving.entity.User;
 
-import static com.savle.togethersaving.service.fixture.UserFixture.admin;
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.admin;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 
 public class AccountFixture {
 

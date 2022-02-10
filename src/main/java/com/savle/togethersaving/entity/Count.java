@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class ChallengeCount {
+public class Count {
 
     @Id
     private Long challengeId;

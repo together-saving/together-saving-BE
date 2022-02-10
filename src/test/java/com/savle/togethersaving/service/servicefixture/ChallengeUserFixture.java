@@ -1,10 +1,10 @@
-package com.savle.togethersaving.service.fixture;
+package com.savle.togethersaving.service.servicefixture;
 
 import com.savle.togethersaving.entity.ChallengeUser;
 import com.savle.togethersaving.entity.ChallengeUserPK;
 
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 
 public class ChallengeUserFixture {
 
