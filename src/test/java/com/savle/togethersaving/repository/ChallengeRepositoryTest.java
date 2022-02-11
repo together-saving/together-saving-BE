@@ -65,7 +65,7 @@ class ChallengeRepositoryTest {
         challengeRepository.saveAll(createFinishedChallenge(savedUser));
 
         //when
-        List<Challenge> finishedChallenge = challengeRepository.findChallengesByEndDate(LocalDate.now().minusDays(1));
+        List<Challenge> finishedChallenge = challengeRepository.findByEndDate(LocalDate.now().minusDays(1));
 
         //then
         Assertions.assertThat(finishedChallenge.get(0).getMembers()).isEqualTo(11L);
