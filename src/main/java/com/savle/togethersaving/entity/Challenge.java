@@ -49,6 +49,8 @@ public class Challenge {
 
     private Boolean isActive;
 
+    private LocalDate endDate;
+
     private String thumbnail;
 
     @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
