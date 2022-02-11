@@ -5,6 +5,7 @@ import com.savle.togethersaving.entity.ChallengeTag;
 import com.savle.togethersaving.entity.Tag;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.repositoryfixture.ChallengeTagFixture;
+import com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture;
 import com.savle.togethersaving.repository.repositoryfixture.TagFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallenge;
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeTagFixture.createChallengeTag;
+import static com.savle.togethersaving.repository.repositoryfixture.TagFixture.createTagsAndChallengeTag;
 import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
 
 
@@ -36,7 +38,7 @@ class ChallengeTagRepositoryTest {
         //given
         User savedUser = userRepository.save(createUser());
         Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
-        List<Tag> savedTags = tagRepository.saveAll(TagFixture.createTagsAndChallengeTag());
+        List<Tag> savedTags = tagRepository.saveAll(createTagsAndChallengeTag());
         challengeTagRepository.saveAll(createChallengeTag(savedChallenge,savedTags));
         //when
         List<ChallengeTag> tagList = challengeTagRepository.findChallengeTagsByChallenge(savedChallenge);
