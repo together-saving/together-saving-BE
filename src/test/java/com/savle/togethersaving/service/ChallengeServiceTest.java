@@ -11,13 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.savle.togethersaving.service.fixture.AccountFixture.*;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.createChallenge;
-import static com.savle.togethersaving.service.fixture.DtoFixture.createSavingDto;
-import static com.savle.togethersaving.service.fixture.TransactionLogFixture.createTransactionLog;
-import static com.savle.togethersaving.service.fixture.TransactionLogFixture.payTransactionLog;
-import static com.savle.togethersaving.service.fixture.UserFixture.*;
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.*;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.createTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.payTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

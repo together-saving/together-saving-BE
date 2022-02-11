@@ -15,8 +15,8 @@ public interface TransactionLogRepository extends JpaRepository<TransactionLog, 
             "and date_add(curdate() , interval - :period day ) <= date(created_at)" +
             "and date(created_at) <= curdate() "
             , nativeQuery = true)
-    List<TransactionLog> getSavingHistorys(@Param("user") Long user, @Param("challenge") Long challenge,
-                                           @Param("period") Integer period , Pageable pageable);
+    List<TransactionLog> getSavingHistories(@Param("user") Long user, @Param("challenge") Long challenge,
+                                            @Param("period") Integer period , Pageable pageable);
 
 
     @Query(value = "select count(log_id) from transaction_log tx inner join account ac  " +

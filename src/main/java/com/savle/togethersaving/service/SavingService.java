@@ -31,16 +31,16 @@ public class SavingService {
 
         switch (period) {
             case "today" :
-                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 0 , pageable);
+                transactionLogs = transactionLogRepository.getSavingHistories(userId, challengeId, 0 , pageable);
                 break;
             case "1week" :
-                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 7 , pageable);
+                transactionLogs = transactionLogRepository.getSavingHistories(userId, challengeId, 7 , pageable);
                 break;
             case "1month" :
-                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 30 , pageable);
+                transactionLogs = transactionLogRepository.getSavingHistories(userId, challengeId, 30 , pageable);
                 break;
             case "3month" :
-                transactionLogs = transactionLogRepository.getSavingHistorys(userId, challengeId, 90 , pageable);
+                transactionLogs = transactionLogRepository.getSavingHistories(userId, challengeId, 90 , pageable);
                 break;
         }
         assert transactionLogs != null;
@@ -50,7 +50,7 @@ public class SavingService {
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
-        Count challengeCount = challengeCountRepository.getChallengeCountByChallengeId(challengeId);
+        Count challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
         Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
         Integer savingRate =
@@ -72,7 +72,7 @@ public class SavingService {
 
     public List<SavingRankingDto> getSavingRanking(Long challengeId) {
         List<ChallengeUser> challengeUsers = challengeUserRepository.findAllByChallenge_ChallengeId(challengeId);
-        Integer maxCount = challengeCountRepository.getChallengeCountByChallengeId(challengeId).getMaxCount();
+        Integer maxCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId).getMaxCount();
         Integer challengePayment = Math.toIntExact(challengeRepository.getByChallengeId(challengeId).getPayment());
 
         return challengeUsers.stream().map(challengeUser -> {
