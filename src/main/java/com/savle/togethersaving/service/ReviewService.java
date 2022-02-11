@@ -4,7 +4,7 @@ import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.entity.BaseTime;
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Review;
+import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
@@ -31,11 +31,11 @@ public class ReviewService {
         User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(reviewCreateDto.getChallengeId());
 
-        Review review = Review.createReview(user,challenge,reviewCreateDto.getReviewContent());
-        Review savedReview = reviewRepository.save(review);
+        ChallengeReview challengeReview = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
+        ChallengeReview savedChallengeReview = reviewRepository.save(challengeReview);
 
-        savedReview.changeReviewListOfUser(user);
-        savedReview.changeReviewListOfChallenge(challenge);
+        savedChallengeReview.changeReviewListOfUser(user);
+        savedChallengeReview.changeReviewListOfChallenge(challenge);
     }
 
     public List<ChallengeReviewDto> reviewDtoOf(Long challengeId) {
@@ -43,11 +43,11 @@ public class ReviewService {
             .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).map(this::reviewDtoFrom).collect(Collectors.toList());
     }
 
-    private ChallengeReviewDto reviewDtoFrom(Review review) {
+    private ChallengeReviewDto reviewDtoFrom(ChallengeReview challengeReview) {
         return ChallengeReviewDto.builder()
-            .content(review.getContent())
-            .reviewerNickname(review.getReviewer().getNickname())
-            .profilePicture(review.getReviewer().getProfilePicture())
+            .content(challengeReview.getContent())
+            .reviewerNickname(challengeReview.getReviewer().getNickname())
+            .profilePicture(challengeReview.getReviewer().getProfilePicture())
             .build();
     }
 }

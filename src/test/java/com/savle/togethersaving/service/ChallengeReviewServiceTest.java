@@ -1,7 +1,7 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
-import com.savle.togethersaving.entity.Review;
+import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
 import com.savle.togethersaving.repository.UserRepository;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.times;
 
 
 @ExtendWith(MockitoExtension.class)
-class ReviewServiceTest{
+class ChallengeReviewServiceTest {
 
     @Mock
     protected UserRepository userRepository;
@@ -56,7 +56,7 @@ class ReviewServiceTest{
         doReturn(challenge)
                 .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
 
-        given(reviewRepository.save(any(Review.class))).will(invocation -> Review.builder()
+        given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
                 .reviewId(1L)
                 .reviewer(user)
                 .challenge(challenge)
@@ -66,9 +66,10 @@ class ReviewServiceTest{
 
         reviewService.saveReview(user.getUserId(), reviewCreateDto);
 
-        verify(reviewRepository, times(1)).save(any(Review.class));
+        verify(reviewRepository, times(1)).save(any(ChallengeReview.class));
 
     }
+
 
     @Test
     void mapToDto() {
@@ -78,7 +79,7 @@ class ReviewServiceTest{
         given(reviewRepository.findAllByChallenge_ChallengeId(challenge.getChallengeId()))
                 .will(review ->
                         Arrays.asList(
-                            Review.builder()
+                            ChallengeReview.builder()
                             .reviewId(1L)
                             .challenge(challenge)
                             .reviewer(user)

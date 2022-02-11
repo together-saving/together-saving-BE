@@ -46,22 +46,29 @@ public class Challenge {
 
     private int period;
 
+    private Boolean isActive;
+
+    private LocalDate endDate;
+
     private String thumbnail;
 
     @OneToOne(mappedBy = "challenge" )
     private ChallengeCount challengeCount;
 
     @OneToMany(mappedBy = "challenge")
-    private final List<Review> challengeReviewList = new ArrayList<>();
+    private final List<ChallengeReview> challengeChallengeReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<TransactionLog> logList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<ChallengeTag> tagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "challenge")
     private final List<ChallengeComment> challengeCommentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "challenge",fetch = FetchType.LAZY)
+    private final List<ChallengeFrequency> days = new ArrayList<>();
 
     public void addMember(){
         this.members ++;

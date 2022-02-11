@@ -1,7 +1,7 @@
 package com.savle.togethersaving.repository;
 
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Review;
+import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
-class ReviewRepositoryTest {
+class ChallengeReviewRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -33,16 +33,16 @@ class ReviewRepositoryTest {
         //given
         User savedUser = userRepository.save(createUser());
         Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
-        Review savedReview = reviewRepository.save(creteReview(savedUser, savedChallenge));
+        ChallengeReview savedChallengeReview = reviewRepository.save(creteReview(savedUser, savedChallenge));
 
         //when
-        Review findReview = reviewRepository.findById(savedReview.getReviewId()).orElseThrow();
+        ChallengeReview findChallengeReview = reviewRepository.findById(savedChallengeReview.getReviewId()).orElseThrow();
 
         //then
-        assertThat(findReview.getReviewId()).isEqualTo(savedReview.getReviewId());
-        assertThat(findReview.getChallenge().getTitle()).isEqualTo("돈 모으자");
-        assertThat(findReview.getReviewer().getUserId()).isEqualTo(savedUser.getUserId());
-        assertThat(findReview.getContent()).isEqualTo("이거 재미있네요");
+        assertThat(findChallengeReview.getReviewId()).isEqualTo(savedChallengeReview.getReviewId());
+        assertThat(findChallengeReview.getChallenge().getTitle()).isEqualTo("돈 모으자");
+        assertThat(findChallengeReview.getReviewer().getUserId()).isEqualTo(savedUser.getUserId());
+        assertThat(findChallengeReview.getContent()).isEqualTo("이거 재미있네요");
     }
 
 
@@ -51,13 +51,13 @@ class ReviewRepositoryTest {
         //given
         User savedUser = userRepository.save(createUser());
         Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
-        Review savedReview = reviewRepository.save(creteReview(savedUser, savedChallenge));
+        ChallengeReview savedChallengeReview = reviewRepository.save(creteReview(savedUser, savedChallenge));
 
         //when
-        List<Review> allReview = reviewRepository.findAllByChallenge_ChallengeId(savedChallenge.getChallengeId());
+        List<ChallengeReview> allChallengeReview = reviewRepository.findAllByChallenge_ChallengeId(savedChallenge.getChallengeId());
 
         //then
-        assertThat(allReview.size()).isEqualTo(1);
-        assertThat(allReview.get(0).getReviewId()).isEqualTo(savedReview.getReviewId());
+        assertThat(allChallengeReview.size()).isEqualTo(1);
+        assertThat(allChallengeReview.get(0).getReviewId()).isEqualTo(savedChallengeReview.getReviewId());
     }
 }
