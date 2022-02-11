@@ -1,36 +1,60 @@
 package com.savle.togethersaving.repository;
 
+import com.savle.togethersaving.entity.Challenge;
+import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.entity.Wish;
+import com.savle.togethersaving.repository.repositoryfixture.WishFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-class WishRepositoryTest extends RepositoryTestUtil {
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
+import static com.savle.togethersaving.repository.repositoryfixture.WishFixture.createWish;
 
+@DataJpaTest
+class WishRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ChallengeRepository challengeRepository;
+    @Autowired
+    private WishRepository wishRepository;
 
     @Test
     void existsByHopingPerson_UserIdAndChallenge() {
-        createUserAndChallengeSaved();
-        createWish();
 
-        wishRepository.save(wish);
-        Wish wish1 = wishRepository.findById(wish.getWishId()).get();
-        Assertions.assertThat(wish.getChallenge()).isEqualTo(wish1.getChallenge());
-        Assertions.assertThat(wish.getHopingPerson()).isEqualTo(wish1.getHopingPerson());
+        //given
+        User savedUser = userRepository.save(createUser());
+        Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
+        Wish savedWish = wishRepository.save(createWish(savedUser,savedChallenge));
+
+        //when
+        Wish findWish = wishRepository.findById(savedWish.getWishId()).get();
+
+        //then
+        Assertions.assertThat(savedWish.getChallenge()).isEqualTo(findWish.getChallenge());
+        Assertions.assertThat(savedWish.getHopingPerson()).isEqualTo(findWish.getHopingPerson());
         Assertions.assertThat(wishRepository.existsByHopingPerson_UserIdAndChallenge_ChallengeId(
-                user.getUserId(), previousChallenge.getChallengeId())).isEqualTo(true);
+                savedUser.getUserId(), savedChallenge.getChallengeId())).isEqualTo(true);
     }
 
     @Test
     void deleteWish() {
-        createUserAndChallengeSaved();
-        createWish();
-        Wish wish1 = wishRepository
-                .findWishByChallenge_ChallengeIdAndHopingPerson_UserId
-                        (this.wish.getChallenge().getChallengeId(), this.wish.getHopingPerson().getUserId()).get();
-        Assertions.assertThat(wish.getChallenge()).isEqualTo(wish1.getChallenge());
-        Assertions.assertThat(wish.getHopingPerson()).isEqualTo(wish1.getHopingPerson());
-        wishRepository.delete(wish);
-        Wish invalidWish = wishRepository.findById(this.wish.getWishId()).orElse(null);
+        //given
+        User savedUser = userRepository.save(createUser());
+        Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
+        Wish savedWish = wishRepository.save(createWish(savedUser,savedChallenge));
+
+        //when
+        wishRepository.delete(savedWish);
+        Wish invalidWish = wishRepository.findById(savedWish.getWishId()).orElse(null);
+
+        //then
         Assertions.assertThat(invalidWish).isNull();
     }
+
 }
