@@ -22,7 +22,6 @@ public class CommentDto {
         private String profilePicture;
         private String nickname;
         private String content;
-        private LocalDate createdAt;
 
         public static ChallengeComment of(long clientId, User commentWriter, com.savle.togethersaving.entity.ChallengeComment challengeComment) {
             ChallengeComment dto = new ChallengeComment();
@@ -31,7 +30,6 @@ public class CommentDto {
             dto.profilePicture = commentWriter.getProfilePicture();
             dto.content = challengeComment.getContent();
             dto.writtenByMe = dto.isWrittenByMe(clientId);
-            dto.setCreatedAt(challengeComment.getCreatedAt().toLocalDate());
             return dto;
         }
         private boolean isWrittenByMe(long userId) {
