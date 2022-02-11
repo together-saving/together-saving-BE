@@ -29,10 +29,10 @@ public class SavingService {
         List<Account> adminAccountList = accountRepository.findAllByOwner_UserId(admin.getUserId());
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
         List<TransactionLog> transactionLogs = account.getSendLogList().stream().filter(transactionLog -> {
-                    return transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
+                    return  transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
+                            transactionLog.getChallenge().getChallengeId().equals(challengeId)&&
                             !adminAccountList.contains(transactionLog.getReceiveAccount());
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
 
@@ -64,49 +64,49 @@ public class SavingService {
         } else if (ordering.equals("asc")) {
             transactionLogs = transactionLogs.stream().sorted(Comparator.comparing(TransactionLog::getCreatedAt)).collect(Collectors.toList());
         }
-
-        assert transactionLogs != null;
         return SavingStatusDto.of(account, challengeUser, transactionLogs);
     }
 
 
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
-        User user = userRepository.getUserByUserId(userId);
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
         ChallengeCount challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
-        Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
-        Integer savingRate =
-                calculateSavingRatio(Math.toIntExact(challengeUser.getAccumulatedBalance()), challengeCount.getMaxCount(), Math.toIntExact(challenge.getPayment()));
+        User admin = userRepository.getUserByRole("ADMIN");
+        List<Account> adminAccountList = accountRepository.findAllByOwner_UserId(admin.getUserId());
+        Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
 
-        Integer successCount =
-                transactionLogRepository.getSuccessCount(userId, challengeId);
+
+        Integer successCount = Math.toIntExact(account.getSendLogList().stream().filter(transactionLog -> {
+                    return  transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
+                            transactionLog.getChallenge().getChallengeId().equals(challengeId)&&
+                            !adminAccountList.contains(transactionLog.getReceiveAccount());
+                }).count());
 
         return SavingDetailDto.builder()
                 .accumualtedAmount(challengeUser.getAccumulatedBalance())
                 .remainCount(challengeCount.getRemainCount())
-                .savingRate(savingRate)
+                .savingRate(challengeUser.getSavingRate())
                 .successCount(successCount)
-                .nickname(user.getNickname())
+                .nickname(challengeUser.getUser().getNickname())
                 .failureCount(challengeCount.getCurrentCount() - successCount)
-                .thumbnail(user.getProfilePicture())
+                .thumbnail(challengeUser.getUser().getProfilePicture())
                 .build();
     }
 
     public List<SavingRankingDto> getSavingRanking(Long challengeId) {
         List<ChallengeUser> challengeUsers = challengeUserRepository.findAllByChallenge_ChallengeId(challengeId);
-        Integer maxCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId).getMaxCount();
-        Integer challengePayment = Math.toIntExact(challengeRepository.getByChallengeId(challengeId).getPayment());
+//        Integer maxCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId).getMaxCount();
+//        Integer challengePayment = Math.toIntExact(challengeRepository.getByChallengeId(challengeId).getPayment());
 
         return challengeUsers.stream().map(challengeUser -> {
             SavingRankingDto savingRankingDto = SavingRankingDto.userFrom(challengeUser.getUser());
-            savingRankingDto.setSavingRate(calculateSavingRatio(Math.toIntExact(challengeUser.getAccumulatedBalance()), maxCount, challengePayment));
+            savingRankingDto.setSavingRate(challengeUser.getSavingRate());
             return savingRankingDto;
         }).sorted(Comparator.comparing(SavingRankingDto::getSavingRate).reversed()).collect(Collectors.toList());
     }
 
-
-    public Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
+   /* public Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
         return  (( (accumulatedBalance*100) / ( maxCount * payment )));
-    }
+    }*/
 }
