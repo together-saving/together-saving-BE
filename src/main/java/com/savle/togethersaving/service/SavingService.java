@@ -82,7 +82,7 @@ public class SavingService {
         }).sorted(Comparator.comparing(SavingRankingDto::getSavingRate).reversed()).collect(Collectors.toList());
     }
 
-    private Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
+    public Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
         return  (( (accumulatedBalance*100) / ( maxCount * payment )));
     }
 }
