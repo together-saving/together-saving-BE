@@ -5,12 +5,12 @@ import lombok.*;
 import javax.persistence.*;
 
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Setter
 @Getter
-@ToString
 public class ChallengeUser {
 
     @EmbeddedId
@@ -20,7 +20,9 @@ public class ChallengeUser {
     private long accumulatedBalance;
 
 
-    private Boolean isAutomated; // 자동 저축 여부
+    private Boolean isAutomated;
+
+    private Integer savingRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
@@ -32,15 +34,6 @@ public class ChallengeUser {
     @MapsId("userId")
     private User user;
 
-
-    public ChallengeUser(ChallengeUserPK challengeUserPK, Long accumulatedBalance, Boolean isAutomated
-            , Challenge challenge, User user) {
-        this.challengeUserPK = new ChallengeUserPK();
-        this.accumulatedBalance = accumulatedBalance;
-        this.isAutomated = false;
-        this.challenge = challenge;
-        this.user = user;
-    }
 
     public void addBalance(Long amount) {
         this.accumulatedBalance += amount;

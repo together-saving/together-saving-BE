@@ -26,7 +26,7 @@ public class ChallengeComment extends BaseTime {
 
     private String content;
 
-    public static ChallengeComment createComment(User writer, Challenge challenge,String content) {
+    public static ChallengeComment createComment(User writer, Challenge challenge, String content) {
 
         return ChallengeComment.builder()
                 .writer(writer)
@@ -38,12 +38,12 @@ public class ChallengeComment extends BaseTime {
 
     public void changeCommentListOfUser(User user){
         this.writer = user;
-        this.writer.getCommentList().add(this);
+        this.writer.getChallengeCommentList().add(this);
     }
 
     public void changeCommentListOfChallenge(Challenge challenge){
         this.challenge = challenge;
-        this.challenge.getCommentList().add(this);
+        this.challenge.getChallengeCommentList().add(this);
     }
 
 }

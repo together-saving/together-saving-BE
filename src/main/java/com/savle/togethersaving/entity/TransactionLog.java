@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
+@ToString
 public class TransactionLog extends BaseTime {
 
     @Id
@@ -32,17 +33,18 @@ public class TransactionLog extends BaseTime {
     @JoinColumn(name = "receive_account", nullable = false)
     private Account receiveAccount;
 
+
     public void addSendAccountLog(Account sendAccount) {
         this.sendAccount = sendAccount;
-        this.sendAccount.getLogList().add(this);
+        this.sendAccount.getSendLogList().add(this);
     }
 
     public void addReceiveAccountLog(Account receiveAccount) {
         this.receiveAccount = receiveAccount;
-        this.receiveAccount.getLogList().add(this);
+        this.receiveAccount.getReceiveLogList().add(this);
     }
 
-    public void addChallengeLog(Challenge challenge){
+    public void addChallengeLog(Challenge challenge) {
         this.challenge = challenge;
         this.challenge.getLogList().add(this);
     }

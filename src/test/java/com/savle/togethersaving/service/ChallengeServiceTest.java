@@ -6,13 +6,24 @@ import com.savle.togethersaving.entity.TransactionLog;
 import com.savle.togethersaving.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.*;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.createTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.payTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class ChallengeServiceTest extends ServiceTestUtil {
+
+@ExtendWith(MockitoExtension.class)
+public class ChallengeServiceTest {
 
     @Mock
     protected ChallengeRepository challengeRepository;
@@ -31,9 +42,11 @@ public class ChallengeServiceTest extends ServiceTestUtil {
     @DisplayName("payForChallenge() - 결제 성공")
     @Test
     void shouldSavedReviewSuccessfully() {
-        createUserAndChallenge();
-        createTwoKindsOfUserAccountsAndAdminAccount();
-        createDtos();
+        createUser();
+        createAdmin();
+        createChallenge();
+        createTwoKindsOfUserAccounts();
+        createSavingDto();
         createTransactionLog();
 
         doReturn(user)

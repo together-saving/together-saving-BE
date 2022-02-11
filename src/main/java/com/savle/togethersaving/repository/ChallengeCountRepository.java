@@ -4,5 +4,5 @@ import com.savle.togethersaving.entity.ChallengeCount;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChallengeCountRepository extends JpaRepository<ChallengeCount,Long> {
-    ChallengeCount getChallengeCountByChallengeId(Long challengeId);
+    ChallengeCount getChallengeCountByChallenge_ChallengeId(Long challengeId);
 }

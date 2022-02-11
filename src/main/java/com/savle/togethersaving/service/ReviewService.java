@@ -31,11 +31,11 @@ public class ReviewService {
         User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(reviewCreateDto.getChallengeId());
 
-        ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
-        ChallengeReview savedReview = reviewRepository.save(review);
+        ChallengeReview challengeReview = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
+        ChallengeReview savedChallengeReview = reviewRepository.save(challengeReview);
 
-        savedReview.changeReviewListOfUser(user);
-        savedReview.changeReviewListOfChallenge(challenge);
+        savedChallengeReview.changeReviewListOfUser(user);
+        savedChallengeReview.changeReviewListOfChallenge(challenge);
     }
 
     public List<ChallengeReviewDto> reviewDtoOf(Long challengeId) {
@@ -43,11 +43,11 @@ public class ReviewService {
             .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).map(this::reviewDtoFrom).collect(Collectors.toList());
     }
 
-    private ChallengeReviewDto reviewDtoFrom(ChallengeReview review) {
+    private ChallengeReviewDto reviewDtoFrom(ChallengeReview challengeReview) {
         return ChallengeReviewDto.builder()
-            .content(review.getContent())
-            .reviewerNickname(review.getReviewer().getNickname())
-            .profilePicture(review.getReviewer().getProfilePicture())
+            .content(challengeReview.getContent())
+            .reviewerNickname(challengeReview.getReviewer().getNickname())
+            .profilePicture(challengeReview.getReviewer().getProfilePicture())
             .build();
     }
 }

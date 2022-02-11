@@ -31,7 +31,7 @@ public class ChallengeReview extends BaseTime {
     private String content;
 
 
-    public static ChallengeReview createReview(User reviewer, Challenge challenge,String content) {
+    public static ChallengeReview createReview(User reviewer, Challenge challenge, String content) {
 
         return ChallengeReview.builder()
                 .reviewer(reviewer)
@@ -43,11 +43,11 @@ public class ChallengeReview extends BaseTime {
 
     public void changeReviewListOfUser(User user){
         this.reviewer = user;
-        this.reviewer.getReviewList().add(this);
+        this.reviewer.getChallengeReviewList().add(this);
     }
 
     public void changeReviewListOfChallenge(Challenge challenge){
         this.challenge = challenge;
-        this.challenge.getChallengeReviewList().add(this);
+        this.challenge.getChallengeChallengeReviewList().add(this);
     }
 }

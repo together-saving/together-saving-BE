@@ -38,11 +38,11 @@ public class UserService {
         User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
-        ChallengeComment comment = ChallengeComment.createComment(user,challenge,createCommentDto.getContent());
-        ChallengeComment savedComment = commentRepository.save(comment);
+        ChallengeComment challengeComment = ChallengeComment.createComment(user,challenge,createCommentDto.getContent());
+        ChallengeComment savedChallengeComment = commentRepository.save(challengeComment);
 
-        savedComment.changeCommentListOfUser(user);
-        savedComment.changeCommentListOfChallenge(challenge);
+        savedChallengeComment.changeCommentListOfUser(user);
+        savedChallengeComment.changeCommentListOfChallenge(challenge);
 
     }
 
@@ -94,7 +94,6 @@ public class UserService {
                     .build();
 
             TransactionLog savedTransactionLog = transactionLogRepository.save(transactionLog);
-
             savedTransactionLog.addSendAccountLog(sendAccount);
             savedTransactionLog.addReceiveAccountLog(receiveAccount);
             savedTransactionLog.addChallengeLog(challenge);

@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @DisplayName("Review Controller test")
-public class ReviewControllerTest extends ControllerTestUtil {
+public class ChallengeReviewControllerTest extends ControllerTestUtil {
 
 
     @MockBean
