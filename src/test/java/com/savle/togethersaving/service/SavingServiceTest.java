@@ -19,18 +19,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.savle.togethersaving.service.fixture.AccountFixture.createTwoKindsOfUserAccounts;
-import static com.savle.togethersaving.service.fixture.AccountFixture.sendAccount;
-import static com.savle.togethersaving.service.fixture.ChallengeCountFixture.challengeCount;
-import static com.savle.togethersaving.service.fixture.ChallengeCountFixture.createChallengeCount;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.challengeUser;
-import static com.savle.togethersaving.service.fixture.ChallengeUserFixture.createChallengeUser;
-import static com.savle.togethersaving.service.fixture.DtoFixture.createSavingDto;
-import static com.savle.togethersaving.service.fixture.TransactionLogFixture.createTransactionLog;
-import static com.savle.togethersaving.service.fixture.TransactionLogFixture.saveTransactionLog;
-import static com.savle.togethersaving.service.fixture.UserFixture.createUser;
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.createTwoKindsOfUserAccounts;
+import static com.savle.togethersaving.service.servicefixture.AccountFixture.sendAccount;
+import static com.savle.togethersaving.service.servicefixture.CountFixture.challengeCount;
+import static com.savle.togethersaving.service.servicefixture.CountFixture.createChallengeCount;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeUserFixture.challengeUser;
+import static com.savle.togethersaving.service.servicefixture.ChallengeUserFixture.createChallengeUser;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createSavingDto;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.createTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.TransactionLogFixture.saveTransactionLog;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
@@ -78,7 +78,7 @@ class SavingServiceTest {
         transactionLogs.add(saveTransactionLog);
         doReturn(transactionLogs)
                 .when(transactionLogRepository).
-                getSavingHistorys(user.getUserId(), challenge.getChallengeId(), 0, pageRequest);
+                getSavingHistories(user.getUserId(), challenge.getChallengeId(), 0, pageRequest);
 
         SavingStatusDto savingStatusDto = savingService.getSavingStatus(
                 user.getUserId(), challenge.getChallengeId(), "today", pageRequest);
@@ -110,7 +110,7 @@ class SavingServiceTest {
 
         doReturn(2).when(transactionLogRepository).getSuccessCount(user.getUserId(), challenge.getChallengeId());
         doReturn(challengeCount).when(challengeCountRepository)
-                .getChallengeCountByChallengeId(challenge.getChallengeId());
+                .getChallengeCountByChallenge_ChallengeId(challenge.getChallengeId());
         //when
         SavingDetailDto savingDetailDto = savingService.getSavingDetail(user.getUserId(), challenge.getChallengeId());
         //then

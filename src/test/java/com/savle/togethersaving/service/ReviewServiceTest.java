@@ -1,10 +1,7 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
-import com.savle.togethersaving.dto.review.ResponseReviewDto;
-import com.savle.togethersaving.entity.ChallengeReview;
-import com.savle.togethersaving.entity.ChallengeUser;
-import com.savle.togethersaving.entity.TransactionLog;
+import com.savle.togethersaving.entity.Review;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
 import com.savle.togethersaving.repository.UserRepository;
@@ -18,12 +15,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.createChallenge;
-import static com.savle.togethersaving.service.fixture.DtoFixture.createReviewDto;
-import static com.savle.togethersaving.service.fixture.DtoFixture.reviewCreateDto;
-import static com.savle.togethersaving.service.fixture.UserFixture.createUser;
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createReviewDto;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.reviewCreateDto;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -59,7 +56,7 @@ class ReviewServiceTest{
         doReturn(challenge)
                 .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
 
-        given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
+        given(reviewRepository.save(any(Review.class))).will(invocation -> Review.builder()
                 .reviewId(1L)
                 .reviewer(user)
                 .challenge(challenge)
@@ -69,7 +66,7 @@ class ReviewServiceTest{
 
         reviewService.saveReview(user.getUserId(), reviewCreateDto);
 
-        verify(reviewRepository, times(1)).save(any(ChallengeReview.class));
+        verify(reviewRepository, times(1)).save(any(Review.class));
 
     }
 
@@ -81,7 +78,7 @@ class ReviewServiceTest{
         given(reviewRepository.findAllByChallenge_ChallengeId(challenge.getChallengeId()))
                 .will(review ->
                         Arrays.asList(
-                            ChallengeReview.builder()
+                            Review.builder()
                             .reviewId(1L)
                             .challenge(challenge)
                             .reviewer(user)

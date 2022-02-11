@@ -13,10 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.challenge;
-import static com.savle.togethersaving.service.fixture.ChallengeFixture.createChallenge;
-import static com.savle.togethersaving.service.fixture.UserFixture.createUser;
-import static com.savle.togethersaving.service.fixture.UserFixture.user;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 import static org.mockito.BDDMockito.given;
 
 

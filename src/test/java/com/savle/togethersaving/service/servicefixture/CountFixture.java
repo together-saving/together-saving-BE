@@ -4,13 +4,13 @@ import com.savle.togethersaving.entity.Count;
 
 import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
 
-public class ChallengeCountFixture {
+public class CountFixture {
 
     public static Count challengeCount;
 
     public static void createChallengeCount() {
         challengeCount = Count.builder()
-                .challengeId(challenge.getChallengeId())
+                .countId(1L)
                 .challenge(challenge)
                 .maxCount(12)
                 .remainCount(5)
