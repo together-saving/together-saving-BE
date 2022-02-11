@@ -13,10 +13,11 @@ import javax.persistence.*;
 public class Count {
 
     @Id
-    private Long challengeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long countId;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @PrimaryKeyJoinColumn(name = "challenge_id")
+    @JoinColumn(name = "challenge_id")
     private Challenge challenge;
 
     private Integer maxCount;
