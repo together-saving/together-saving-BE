@@ -24,7 +24,6 @@ public class UserFixture {
 
     public User createAdmin() {
         return User.builder()
-                .userId(2L)
                 .email("admin@naver.com")
                 .birth(LocalDate.of(2021, 11, 11))
                 .gender(true)
