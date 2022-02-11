@@ -62,4 +62,43 @@ public class ChallengeFixture {
 
         return challengeList;
     }
+
+    public static List<Challenge> createFinishedChallenge(User user) {
+
+        List<Challenge> challengeList = new ArrayList<>();
+
+        for (int i = 1; i <= 10; i++) {
+            challengeList.add(
+                    Challenge.builder()
+                            .host(user)
+                            .startDate(LocalDate.now().plusDays(i))
+                            .title("돈 모으자")
+                            .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+                            .payment((long) i * 1000)
+                            .members((long) i)
+                            .mode(Mode.FREE)
+                            .entryFee(5000L)
+                            .period(i)
+                            .thumbnail("http://qweqweqwe.com")
+                            .build()
+            );
+        }
+        challengeList.add(
+                Challenge.builder()
+                        .host(user)
+                        .startDate(LocalDate.now().minusDays(8))
+                        .title("돈 모으자")
+                        .content("이 챌린지는 담배를 아껴서 돈 모으는 챌린지다")
+                        .payment(11000L)
+                        .members(11L)
+                        .mode(Mode.FREE)
+                        .entryFee(5000L)
+                        .period(1)
+                        .endDate(LocalDate.now().minusDays(1))
+                        .thumbnail("http://qweqweqwe.com")
+                        .build()
+        );
+
+        return challengeList;
+    }
 }

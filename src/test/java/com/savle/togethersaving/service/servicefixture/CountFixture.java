@@ -10,7 +10,7 @@ public class CountFixture {
 
     public static void createChallengeCount() {
         challengeCount = ChallengeCount.builder()
-                .countId(1L)
+                //.countId(1L)
                 .challenge(challenge)
                 .maxCount(12)
                 .remainCount(5)

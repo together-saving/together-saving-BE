@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallengeList;
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createFinishedChallenge;
 import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
 
 
@@ -54,5 +55,20 @@ class ChallengeRepositoryTest {
                 .findChallengesByStartDateGreaterThan(LocalDate.now(), PageRequest.of(0, 7, Sort.by("members").descending()));
         //then
         Assertions.assertThat(popularChallenges.get(0).getMembers()).isEqualTo(10L);
+    }
+
+    @Test
+    @DisplayName("종료된 챌린지를 찾는다.")
+    void finishedChallengeList() {
+        //given
+        User savedUser = userRepository.save(createUser());
+        challengeRepository.saveAll(createFinishedChallenge(savedUser));
+
+        //when
+        List<Challenge> finishedChallenge = challengeRepository.findChallengesByEndDate(LocalDate.now().minusDays(1));
+
+        //then
+        Assertions.assertThat(finishedChallenge.get(0).getMembers()).isEqualTo(11L);
+
     }
 }

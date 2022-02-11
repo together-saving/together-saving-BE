@@ -30,4 +30,6 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 	void openChallenge();
 	@Query("select c from Challenge c join fetch c.days where c.challengeId = ?1")
 	Challenge findChallengeByChallengeId(Long challengeId);
+
+	List<Challenge> findChallengesByEndDate(LocalDate now);
 }
