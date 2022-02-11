@@ -1,30 +1,38 @@
 package com.savle.togethersaving.service;
 
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
-import com.savle.togethersaving.dto.review.ResponseReviewDto;
-import com.savle.togethersaving.entity.ChallengeReview;
+import com.savle.togethersaving.entity.Review;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
+import com.savle.togethersaving.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
+import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.createReviewDto;
+import static com.savle.togethersaving.service.servicefixture.DtoFixture.reviewCreateDto;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 
-class ReviewServiceTest extends ServiceTestUtil {
+@ExtendWith(MockitoExtension.class)
+class ReviewServiceTest{
 
     @Mock
-    protected UserService userService;
-    //@Mock
-    //protected ChallengeService challengeService;
+    protected UserRepository userRepository;
     @Mock
     protected ChallengeRepository challengeRepository;
     @Mock
@@ -38,16 +46,17 @@ class ReviewServiceTest extends ServiceTestUtil {
     @Test
     void shouldSavedReviewSuccessfully() {
 
-        createUserAndChallenge();
-        createDtos();
+        createUser();
+        createChallenge();
+        createReviewDto();
 
         doReturn(user)
-                .when(userService).getUserByUserId(user.getUserId());
+                .when(userRepository).getUserByUserId(user.getUserId());
 
         doReturn(challenge)
                 .when(challengeRepository).getByChallengeId(reviewCreateDto.getChallengeId());
 
-        given(reviewRepository.save(any(ChallengeReview.class))).will(invocation -> ChallengeReview.builder()
+        given(reviewRepository.save(any(Review.class))).will(invocation -> Review.builder()
                 .reviewId(1L)
                 .reviewer(user)
                 .challenge(challenge)
@@ -55,24 +64,21 @@ class ReviewServiceTest extends ServiceTestUtil {
                 .build());
 
 
-      /*  ResponseReviewDto savedReviewDto = reviewService.saveReview(user.getUserId(), reviewCreateDto);
+        reviewService.saveReview(user.getUserId(), reviewCreateDto);
 
-
-        assertEquals(savedReviewDto.getChallengeId(), 1L);
-        assertEquals(savedReviewDto.getReviewId(), 1L);
-        assertEquals(savedReviewDto.getUserId(), 1L);
-        assertEquals(savedReviewDto.getContent(), "즐겁네요");*/
+        verify(reviewRepository, times(1)).save(any(Review.class));
 
     }
 
     @Test
     void mapToDto() {
-        createUserAndChallenge();
+        createUser();
+        createChallenge();
 
         given(reviewRepository.findAllByChallenge_ChallengeId(challenge.getChallengeId()))
                 .will(review ->
                         Arrays.asList(
-                            ChallengeReview.builder()
+                            Review.builder()
                             .reviewId(1L)
                             .challenge(challenge)
                             .reviewer(user)

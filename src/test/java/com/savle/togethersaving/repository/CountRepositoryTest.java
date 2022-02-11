@@ -1,43 +1,36 @@
 package com.savle.togethersaving.repository;
 
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Comment;
+import com.savle.togethersaving.entity.Count;
 import com.savle.togethersaving.entity.User;
-import com.savle.togethersaving.repository.repositoryfixture.CommentFixture;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallenge;
-import static com.savle.togethersaving.repository.repositoryfixture.CommentFixture.createComment;
+import static com.savle.togethersaving.repository.repositoryfixture.CountFixture.createCount;
 import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
 
 @DataJpaTest
-class CommentRepositoryTest{
+class CountRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private ChallengeRepository challengeRepository;
     @Autowired
-    private CommentRepository commentRepository;
+    private ChallengeCountRepository challengeCountRepository;
 
     @Test
-    void findComment() {
-        // given
+    @DisplayName("챌린지 카운트 레포지토리 테스트")
+    void findChallengeCountRepository() {
         User savedUser = userRepository.save(createUser());
         Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
-        commentRepository.saveAll(createComment(savedUser,savedChallenge));
+        challengeCountRepository.save(createCount(savedChallenge));
 
-        //when
-        List<Comment> comments = commentRepository.findCommentFrom(savedChallenge.getChallengeId());
-
-        //then
-        Assertions.assertThat(comments.size()).isEqualTo(10);
-        Assertions.assertThat(comments.get(0).getWriter().getUserId()).isEqualTo(savedUser.getUserId());
+        Count findCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(savedChallenge.getChallengeId());
+        Assertions.assertEquals(findCount.getMaxCount(),10);
     }
 }

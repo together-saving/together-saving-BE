@@ -1,8 +1,10 @@
 package com.savle.togethersaving.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+
 
 @Builder
 @NoArgsConstructor
@@ -10,40 +12,42 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class ChallengeComment extends BaseTime {
+public class Review extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private User writer;
+    private User reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Challenge challenge;
 
+
+    @NotNull
     private String content;
 
-    public static ChallengeComment createComment(User writer, Challenge challenge,String content) {
 
-        return ChallengeComment.builder()
-                .writer(writer)
+    public static Review createReview(User reviewer, Challenge challenge, String content) {
+
+        return Review.builder()
+                .reviewer(reviewer)
                 .challenge(challenge)
                 .content(content)
                 .build();
 
     }
 
-    public void changeCommentListOfUser(User user){
-        this.writer = user;
-        this.writer.getCommentList().add(this);
+    public void changeReviewListOfUser(User user){
+        this.reviewer = user;
+        this.reviewer.getReviewList().add(this);
     }
 
-    public void changeCommentListOfChallenge(Challenge challenge){
+    public void changeReviewListOfChallenge(Challenge challenge){
         this.challenge = challenge;
-        this.challenge.getCommentList().add(this);
+        this.challenge.getChallengeReviewList().add(this);
     }
-
 }

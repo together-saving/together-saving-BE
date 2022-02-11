@@ -48,8 +48,11 @@ public class Challenge {
 
     private String thumbnail;
 
+    @OneToOne(mappedBy = "challenge" )
+    private Count count;
+
     @OneToMany(mappedBy = "challenge")
-    private final List<ChallengeReview> challengeReviewList = new ArrayList<>();
+    private final List<Review> challengeReviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "challenge")
     private final List<TransactionLog> logList = new ArrayList<>();
@@ -58,7 +61,7 @@ public class Challenge {
     private final List<ChallengeTag> tagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "challenge")
-    private final List<ChallengeComment> commentList = new ArrayList<>();
+    private final List<Comment> commentList = new ArrayList<>();
 
     public void addMember(){
         this.members ++;

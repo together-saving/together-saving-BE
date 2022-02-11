@@ -4,7 +4,7 @@ import com.savle.togethersaving.dto.review.ChallengeReviewDto;
 import com.savle.togethersaving.dto.review.ReviewCreateDto;
 import com.savle.togethersaving.entity.BaseTime;
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.ChallengeReview;
+import com.savle.togethersaving.entity.Review;
 import com.savle.togethersaving.entity.User;
 import com.savle.togethersaving.repository.ChallengeRepository;
 import com.savle.togethersaving.repository.ReviewRepository;
@@ -31,8 +31,8 @@ public class ReviewService {
         User user = userRepository.getUserByUserId(userId);
         Challenge challenge = challengeRepository.getByChallengeId(reviewCreateDto.getChallengeId());
 
-        ChallengeReview review = ChallengeReview.createReview(user,challenge,reviewCreateDto.getReviewContent());
-        ChallengeReview savedReview = reviewRepository.save(review);
+        Review review = Review.createReview(user,challenge,reviewCreateDto.getReviewContent());
+        Review savedReview = reviewRepository.save(review);
 
         savedReview.changeReviewListOfUser(user);
         savedReview.changeReviewListOfChallenge(challenge);
@@ -43,7 +43,7 @@ public class ReviewService {
             .stream().sorted(Comparator.comparing(BaseTime::getCreatedAt).reversed()).map(this::reviewDtoFrom).collect(Collectors.toList());
     }
 
-    private ChallengeReviewDto reviewDtoFrom(ChallengeReview review) {
+    private ChallengeReviewDto reviewDtoFrom(Review review) {
         return ChallengeReviewDto.builder()
             .content(review.getContent())
             .reviewerNickname(review.getReviewer().getNickname())
