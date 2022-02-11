@@ -12,5 +12,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<ChallengeComment, Long> {
 
     @Query("select cmm from ChallengeComment cmm join fetch cmm.writer where cmm.challenge.challengeId=:challengeId " )
-    List<ChallengeComment> findCommentFrom(@Param("challengeId") long challengeId);
+    List<ChallengeComment> findCommentFrom(@Param("challengeId") Long challengeId);
 }

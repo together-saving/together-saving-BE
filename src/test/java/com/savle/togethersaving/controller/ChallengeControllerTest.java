@@ -8,9 +8,7 @@ import com.savle.togethersaving.dto.challenge.ChallengeDetailDto;
 
 import com.savle.togethersaving.dto.challenge.PopularChallengeDto;
 import com.savle.togethersaving.dto.review.ChallengeReviewDto;
-import com.savle.togethersaving.entity.ChallengeReview;
 import com.savle.togethersaving.entity.Frequency;
-import com.savle.togethersaving.entity.Tag;
 import com.savle.togethersaving.repository.UserRepository;
 import com.savle.togethersaving.service.ChallengeService;
 import org.junit.jupiter.api.Test;

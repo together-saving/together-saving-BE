@@ -53,8 +53,12 @@ public class Challenge {
 
     private String thumbnail;
 
-    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
-    private final List<ChallengeReview> challengeReviewList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "challenge" )
+    private ChallengeCount challengeCount;
+
+    @OneToMany(mappedBy = "challenge")
+    private final List<Review> challengeReviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<TransactionLog> logList = new ArrayList<>();
@@ -62,8 +66,9 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private final List<ChallengeTag> tagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
-    private final List<ChallengeComment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "challenge")
+    private final List<ChallengeComment> challengeCommentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "challenge",fetch = FetchType.LAZY)
     private final List<ChallengeFrequency> days = new ArrayList<>();

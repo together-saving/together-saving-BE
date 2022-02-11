@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class ChallengeReview extends BaseTime {
+public class Review extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +31,9 @@ public class ChallengeReview extends BaseTime {
     private String content;
 
 
-    public static ChallengeReview createReview(User reviewer, Challenge challenge,String content) {
+    public static Review createReview(User reviewer, Challenge challenge, String content) {
 
-        return ChallengeReview.builder()
+        return Review.builder()
                 .reviewer(reviewer)
                 .challenge(challenge)
                 .content(content)

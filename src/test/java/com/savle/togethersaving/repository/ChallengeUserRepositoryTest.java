@@ -1,54 +1,70 @@
 package com.savle.togethersaving.repository;
 
+import com.savle.togethersaving.entity.Challenge;
 import com.savle.togethersaving.entity.ChallengeUser;
+import com.savle.togethersaving.entity.User;
+import com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture;
+import com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-public class ChallengeUserRepositoryTest extends RepositoryTestUtil {
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallenge;
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallengeList;
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture.createChallengeUser;
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture.createChallengeUserList;
+import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
+import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
+
+@DataJpaTest
+public class ChallengeUserRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ChallengeRepository challengeRepository;
+    @Autowired
+    private ChallengeUserRepository challengeUserRepository;
 
     @Test
     @DisplayName("참여중인 챌린지 조회 테스트")
     void beforeStartChallengeTest() {
         //given
-        createUserAndChallengeSaved();
-        createChallengeUser();
-        //when
+        User savedUser = userRepository.save(createUser());
+        List<Challenge> challengeList = challengeRepository.saveAll(createChallengeList(savedUser));
+        challengeUserRepository.saveAll(createChallengeUserList(savedUser, challengeList));
 
+        //when
         List<ChallengeUser> participatingChallenges
-                = challengeUserRepository.findAllByUser_UserId(user.getUserId(), PageRequest.of(
+                = challengeUserRepository.findAllByUser_UserId(savedUser.getUserId(), PageRequest.of(
                         0, 2,Sort.by("challenge.members").descending()));
 
         //then
         Assertions.assertThat(participatingChallenges.size()).isEqualTo(2);
-        Assertions.assertThat(participatingChallenges.get(0).getChallenge().getMembers()).isEqualTo(15L);
+        Assertions.assertThat(participatingChallenges.get(0).getChallenge().getMembers()).isEqualTo(11L);
 
     }
 
     @Test
     void 참여여부테스트() {
-        createUserAndChallengeSaved();
-        createChallengeUser();
+        //given
+        User savedUser = userRepository.save(createUser());
+        Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
+        challengeUserRepository.save(createChallengeUser(savedUser,savedChallenge));
 
+        //when
         boolean isParticipated = challengeUserRepository
             .existsByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(
-                afterChallenge.getChallengeId(), user.getUserId());
+                    savedChallenge.getChallengeId(), savedUser.getUserId());
+
+        //then
         Assertions.assertThat(isParticipated).isTrue();
     }
 
-    @Test
-    void 챌린지참여중인유저리스트테스트() {
-
-        createUserAndChallengeSaved();
-        createChallengeUser();
-
-        List<ChallengeUser> userList = challengeUserRepository.findAllByChallenge_ChallengeId(2L);
-        System.out.println(userList);
-        Assertions.assertThat(userList.size()).isEqualTo(2);
-    }
 }

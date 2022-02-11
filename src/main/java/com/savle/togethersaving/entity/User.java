@@ -57,8 +57,8 @@ public class User {
     private final List<Wish> wishedChallengesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
-    private final List<ChallengeReview> reviewList = new ArrayList<>();
+    private final List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
-    private final List<ChallengeComment> commentList = new ArrayList<>();
+    private final List<ChallengeComment> challengeCommentList = new ArrayList<>();
 }

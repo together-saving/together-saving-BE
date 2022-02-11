@@ -20,8 +20,7 @@ public class Account {
     private String accountNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false
-            , foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User owner;
 
     @NotNull
@@ -38,8 +37,12 @@ public class Account {
 
     private String thumbnail;
 
-    @OneToMany(mappedBy = "logId")
-    private final List<TransactionLog> logList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sendAccount")
+    private final List<TransactionLog> sendLogList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiveAccount")
+    private final List<TransactionLog> receiveLogList = new ArrayList<>();
 
     public void withdraw(Long withdrawalAmount) {
         this.balance -= withdrawalAmount;
