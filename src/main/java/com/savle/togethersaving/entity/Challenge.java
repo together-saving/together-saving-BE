@@ -48,6 +48,9 @@ public class Challenge {
 
     private String thumbnail;
 
+    @OneToOne(mappedBy = "challenge" )
+    private Count count;
+
     @OneToMany(mappedBy = "challenge")
     private final List<Review> challengeReviewList = new ArrayList<>();
 
