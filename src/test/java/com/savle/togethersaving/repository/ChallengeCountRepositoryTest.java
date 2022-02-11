@@ -1,7 +1,7 @@
 package com.savle.togethersaving.repository;
 
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Count;
+import com.savle.togethersaving.entity.ChallengeCount;
 import com.savle.togethersaving.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,7 @@ import static com.savle.togethersaving.repository.repositoryfixture.CountFixture
 import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
 
 @DataJpaTest
-class CountRepositoryTest {
+class ChallengeCountRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +30,7 @@ class CountRepositoryTest {
         Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
         challengeCountRepository.save(createCount(savedChallenge));
 
-        Count findCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(savedChallenge.getChallengeId());
-        Assertions.assertEquals(findCount.getMaxCount(),10);
+        ChallengeCount findChallengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(savedChallenge.getChallengeId());
+        Assertions.assertEquals(findChallengeCount.getMaxCount(),10);
     }
 }

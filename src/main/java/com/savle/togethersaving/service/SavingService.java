@@ -73,7 +73,7 @@ public class SavingService {
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
         User user = userRepository.getUserByUserId(userId);
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
-        Count challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
+        ChallengeCount challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
         Challenge challenge = challengeRepository.getByChallengeId(challengeId);
 
         Integer savingRate =

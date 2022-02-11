@@ -1,15 +1,15 @@
 package com.savle.togethersaving.service.servicefixture;
 
-import com.savle.togethersaving.entity.Count;
+import com.savle.togethersaving.entity.ChallengeCount;
 
 import static com.savle.togethersaving.service.servicefixture.ChallengeFixture.challenge;
 
 public class CountFixture {
 
-    public static Count challengeCount;
+    public static ChallengeCount challengeCount;
 
     public static void createChallengeCount() {
-        challengeCount = Count.builder()
+        challengeCount = ChallengeCount.builder()
                 .countId(1L)
                 .challenge(challenge)
                 .maxCount(12)

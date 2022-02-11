@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class Count {
+public class ChallengeCount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

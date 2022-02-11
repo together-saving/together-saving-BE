@@ -1,6 +1,5 @@
 package com.savle.togethersaving.dto.comment;
 
-import com.savle.togethersaving.entity.Comment;
 import com.savle.togethersaving.entity.User;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import java.util.List;
 public class CommentDto {
 
     private LocalDate date;
-    private List<ChallengeComment> comments;
+    private List<ChallengeComment> challengeComments;
 
     @Data
     public static class ChallengeComment {
@@ -25,14 +24,14 @@ public class CommentDto {
         private String content;
         private LocalDate createdAt;
 
-        public static ChallengeComment of(long clientId, User commentWriter, Comment comment) {
+        public static ChallengeComment of(long clientId, User commentWriter, com.savle.togethersaving.entity.ChallengeComment challengeComment) {
             ChallengeComment dto = new ChallengeComment();
             dto.userId = commentWriter.getUserId();
             dto.nickname = commentWriter.getNickname();
             dto.profilePicture = commentWriter.getProfilePicture();
-            dto.content = comment.getContent();
+            dto.content = challengeComment.getContent();
             dto.writtenByMe = dto.isWrittenByMe(clientId);
-            dto.setCreatedAt(comment.getCreatedAt().toLocalDate());
+            dto.setCreatedAt(challengeComment.getCreatedAt().toLocalDate());
             return dto;
         }
         private boolean isWrittenByMe(long userId) {

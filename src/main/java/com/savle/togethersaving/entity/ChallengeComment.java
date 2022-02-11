@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class Comment extends BaseTime {
+public class ChallengeComment extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,9 @@ public class Comment extends BaseTime {
 
     private String content;
 
-    public static Comment createComment(User writer, Challenge challenge, String content) {
+    public static ChallengeComment createComment(User writer, Challenge challenge, String content) {
 
-        return Comment.builder()
+        return ChallengeComment.builder()
                 .writer(writer)
                 .challenge(challenge)
                 .content(content)
@@ -38,12 +38,12 @@ public class Comment extends BaseTime {
 
     public void changeCommentListOfUser(User user){
         this.writer = user;
-        this.writer.getCommentList().add(this);
+        this.writer.getChallengeCommentList().add(this);
     }
 
     public void changeCommentListOfChallenge(Challenge challenge){
         this.challenge = challenge;
-        this.challenge.getCommentList().add(this);
+        this.challenge.getChallengeCommentList().add(this);
     }
 
 }

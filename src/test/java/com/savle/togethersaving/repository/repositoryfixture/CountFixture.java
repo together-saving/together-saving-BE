@@ -1,13 +1,13 @@
 package com.savle.togethersaving.repository.repositoryfixture;
 
 import com.savle.togethersaving.entity.Challenge;
-import com.savle.togethersaving.entity.Count;
+import com.savle.togethersaving.entity.ChallengeCount;
 
 public class CountFixture {
 
-    public static Count createCount(Challenge challenge) {
+    public static ChallengeCount createCount(Challenge challenge) {
 
-        return Count.builder()
+        return ChallengeCount.builder()
                 .challenge(challenge)
                 .maxCount(10)
                 .remainCount(5)
