@@ -94,8 +94,9 @@ public class ChallengeService {
             savedTransactionLog.addChallengeLog(challenge);
 
             ChallengeUser challengeUser = ChallengeUser.builder()
-                    .challenge(challenge)
+                    .challengeUserPK(new ChallengeUserPK(challengeId,userId))
                     .user(user)
+                    .challenge(challenge)
                     .build();
 
             challengeUserRepository.save(challengeUser);

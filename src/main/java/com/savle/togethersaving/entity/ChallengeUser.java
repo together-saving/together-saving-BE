@@ -1,6 +1,7 @@
 package com.savle.togethersaving.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@DynamicInsert
 public class ChallengeUser {
 
     @EmbeddedId
