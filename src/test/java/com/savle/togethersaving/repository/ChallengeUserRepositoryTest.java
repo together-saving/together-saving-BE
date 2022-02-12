@@ -17,8 +17,7 @@ import java.util.List;
 
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallenge;
 import static com.savle.togethersaving.repository.repositoryfixture.ChallengeFixture.createChallengeList;
-import static com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture.createChallengeUser;
-import static com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture.createChallengeUserList;
+import static com.savle.togethersaving.repository.repositoryfixture.ChallengeUserFixture.*;
 import static com.savle.togethersaving.repository.repositoryfixture.UserFixture.createUser;
 import static com.savle.togethersaving.service.servicefixture.UserFixture.user;
 
@@ -65,6 +64,34 @@ public class ChallengeUserRepositoryTest {
 
         //then
         Assertions.assertThat(isParticipated).isTrue();
+    }
+
+    @Test
+    @DisplayName("사용자 저축금액 조회")
+    void getChallengeUserSavingAmountTest() {
+        //given
+        User savedUser = userRepository.save(createUser());
+        Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
+        challengeUserRepository.save(createSavedMoneyChallengeUser(savedUser,savedChallenge));
+
+        ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(savedChallenge.getChallengeId(), savedUser.getUserId());
+        Assertions.assertThat(challengeUser.getAccumulatedBalance()).isEqualTo(1000L);
+    }
+
+    @Test
+    @DisplayName("사용자 저축 금액 제거")
+    void removeChallengeUserSavingAmountTest() {
+        //given
+        User savedUser = userRepository.save(createUser());
+        Challenge savedChallenge = challengeRepository.save(createChallenge(savedUser));
+        challengeUserRepository.save(createSavedMoneyChallengeUser(savedUser,savedChallenge));
+
+        ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(savedChallenge.getChallengeId(), savedUser.getUserId());
+        challengeUser.setAccumulatedBalance(0L);
+        challengeUserRepository.save(challengeUser);
+        challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(savedChallenge.getChallengeId(), savedUser.getUserId());
+
+        Assertions.assertThat(challengeUser.getAccumulatedBalance()).isEqualTo(0L);
     }
 
 }

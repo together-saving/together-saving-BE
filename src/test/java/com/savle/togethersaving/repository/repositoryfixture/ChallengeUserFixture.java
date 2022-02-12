@@ -39,4 +39,16 @@ public class ChallengeUserFixture {
                 .user(user)
                 .build();
     }
+
+    public static ChallengeUser createSavedMoneyChallengeUser(User user, Challenge challenge) {
+
+        return ChallengeUser.builder()
+                .challengeUserPK(new ChallengeUserPK(challenge.getChallengeId(), user.getUserId()))
+                .accumulatedBalance(1000L)
+                .isAutomated(false)
+                .savingRate(0)
+                .challenge(challenge)
+                .user(user)
+                .build();
+    }
 }
