@@ -18,11 +18,8 @@ import java.util.stream.Collectors;
 public class SavingService {
     private final AccountRepository accountRepository;
     private final ChallengeUserRepository challengeUserRepository;
-    private final TransactionLogRepository transactionLogRepository;
     private final UserRepository userRepository;
     private final ChallengeCountRepository challengeCountRepository;
-    private final ChallengeRepository challengeRepository;
-
 
     public SavingStatusDto getSavingStatus(Long userId, Long challengeId, String period, String ordering) {
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
@@ -100,12 +97,8 @@ public class SavingService {
 
 
     public void setSavingRate(Long userId, Long challengeId) {
-        // SavingRate 계산법
-        // 누적저축액 * 100 / 챌린지의 maxCount * 챌린지의 Payment
-        // ChallengeUser         ChallengeCount       Challenge
         ChallengeUser challengeUser = challengeUserRepository.
                 findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
-
         ChallengeCount challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
 
         challengeUser.setSavingRate((int) ((challengeUser.getAccumulatedBalance()*100 )

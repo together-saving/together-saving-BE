@@ -28,6 +28,7 @@ public class UserService {
     private final TransactionLogRepository transactionLogRepository;
     private final CommentRepository commentRepository;
     private final TagService tagService;
+    private final SavingService savingService;
 
 
 
@@ -71,16 +72,11 @@ public class UserService {
     public void saveMoney(Long userId, Long challengeId, CreateSavingsDto createSavingDto) {
         User user = userRepository.getUserByUserId(userId);
         Long amount = createSavingDto.getSavingAmount();
-
-
         Account sendAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
-
         Account receiveAccount = null;
 
         if (sendAccount.getBalance() - amount >= 0) {
-
             Challenge challenge = challengeRepository.getByChallengeId(challengeId);
-
             receiveAccount = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.CMA);
 
             sendAccount.withdraw(amount);
@@ -102,6 +98,8 @@ public class UserService {
           ChallengeUser challengeUser = challengeUserRepository.
                   findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challenge.getChallengeId(),user.getUserId());
            challengeUser.addBalance(amount);
+
+           savingService.setSavingRate(userId,challengeId);
         }
     }
 
