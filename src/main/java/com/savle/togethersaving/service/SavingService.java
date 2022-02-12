@@ -25,14 +25,8 @@ public class SavingService {
 
 
     public SavingStatusDto getSavingStatus(Long userId, Long challengeId, String period, String ordering) {
-        User admin = userRepository.getUserByRole("ADMIN");
-        List<Account> adminAccountList = accountRepository.findAllByOwner_UserId(admin.getUserId());
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
-        List<TransactionLog> transactionLogs = account.getSendLogList().stream().filter(transactionLog -> {
-                    return  transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
-                            transactionLog.getChallenge().getChallengeId().equals(challengeId)&&
-                            !adminAccountList.contains(transactionLog.getReceiveAccount());
-                }).collect(Collectors.toList());
+        List<TransactionLog> transactionLogs = getSendLogListByChallengeId(account,challengeId);
 
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
 
@@ -71,17 +65,8 @@ public class SavingService {
     public SavingDetailDto getSavingDetail(Long userId, Long challengeId) {
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId, userId);
         ChallengeCount challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
-
-        User admin = userRepository.getUserByRole("ADMIN");
-        List<Account> adminAccountList = accountRepository.findAllByOwner_UserId(admin.getUserId());
         Account account = accountRepository.findAccountByOwner_UserIdAndAccountType(userId, AccountType.PHYSICAL);
-
-
-        Integer successCount = Math.toIntExact(account.getSendLogList().stream().filter(transactionLog -> {
-                    return  transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
-                            transactionLog.getChallenge().getChallengeId().equals(challengeId)&&
-                            !adminAccountList.contains(transactionLog.getReceiveAccount());
-                }).count());
+        Integer successCount = getSendLogListByChallengeId(account,challengeId).size();
 
         return SavingDetailDto.builder()
                 .accumualtedAmount(challengeUser.getAccumulatedBalance())
@@ -96,9 +81,6 @@ public class SavingService {
 
     public List<SavingRankingDto> getSavingRanking(Long challengeId) {
         List<ChallengeUser> challengeUsers = challengeUserRepository.findAllByChallenge_ChallengeId(challengeId);
-//        Integer maxCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId).getMaxCount();
-//        Integer challengePayment = Math.toIntExact(challengeRepository.getByChallengeId(challengeId).getPayment());
-
         return challengeUsers.stream().map(challengeUser -> {
             SavingRankingDto savingRankingDto = SavingRankingDto.userFrom(challengeUser.getUser());
             savingRankingDto.setSavingRate(challengeUser.getSavingRate());
@@ -106,7 +88,13 @@ public class SavingService {
         }).sorted(Comparator.comparing(SavingRankingDto::getSavingRate).reversed()).collect(Collectors.toList());
     }
 
-   /* public Integer calculateSavingRatio(Integer accumulatedBalance, Integer maxCount, Integer payment) {
-        return  (( (accumulatedBalance*100) / ( maxCount * payment )));
-    }*/
+    private List<TransactionLog> getSendLogListByChallengeId(Account account, Long challengeId) {
+        User admin = userRepository.getUserByRole("ADMIN");
+        List<Account> adminAccountList = accountRepository.findAllByOwner_UserId(admin.getUserId());
+        return account.getSendLogList().stream().filter(transactionLog -> {
+            return  transactionLog.getSendAccount().getAccountType().equals(AccountType.PHYSICAL) &&
+                    transactionLog.getChallenge().getChallengeId().equals(challengeId)&&
+                    !adminAccountList.contains(transactionLog.getReceiveAccount());
+        }).collect(Collectors.toList());
+    }
 }
