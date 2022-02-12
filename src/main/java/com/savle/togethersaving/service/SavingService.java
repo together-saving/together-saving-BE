@@ -97,4 +97,19 @@ public class SavingService {
                     !adminAccountList.contains(transactionLog.getReceiveAccount());
         }).collect(Collectors.toList());
     }
+
+
+    public void setSavingRate(Long userId, Long challengeId) {
+        // SavingRate 계산법
+        // 누적저축액 * 100 / 챌린지의 maxCount * 챌린지의 Payment
+        // ChallengeUser         ChallengeCount       Challenge
+        ChallengeUser challengeUser = challengeUserRepository.
+                findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(challengeId,userId);
+
+        ChallengeCount challengeCount = challengeCountRepository.getChallengeCountByChallenge_ChallengeId(challengeId);
+
+        challengeUser.setSavingRate((int) ((challengeUser.getAccumulatedBalance()*100 )
+                / (challengeCount.getMaxCount() * challengeCount.getChallenge().getPayment())));
+        challengeUserRepository.save(challengeUser);
+    }
 }
