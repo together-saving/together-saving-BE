@@ -16,12 +16,8 @@ public class ChallengeUser {
     @EmbeddedId
     private ChallengeUserPK challengeUserPK;
 
-
     private long accumulatedBalance;
-
-
     private Boolean isAutomated;
-
     private Integer savingRate;
 
     @ManyToOne(fetch = FetchType.LAZY)

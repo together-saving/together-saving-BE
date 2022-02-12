@@ -12,6 +12,8 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, Ch
 
 
     List<ChallengeUser> findAllByUser_UserId(Long userId, Pageable pageable);
+
+    @Query(value = "select cu from ChallengeUser cu join fetch cu.challenge join fetch  cu.user where cu.challenge.challengeId=:challengeId and cu.user.userId=:userId")
     ChallengeUser findByChallengeUserPK_ChallengeIdAndChallengeUserPK_UserId(Long challengeId, Long userId);
 
     List<ChallengeUser> findAllByChallenge_ChallengeId (Long challengeId);

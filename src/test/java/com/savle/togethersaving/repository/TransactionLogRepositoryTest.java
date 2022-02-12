@@ -29,12 +29,4 @@ class TransactionLogRepositoryTest {
     @Autowired
     private AccountRepository accountRepository;
 
-
-
-    @Test
-    void getSuccessCount() {
-        Integer successCount = transactionLogRepository.getSuccessCount(1L, 1L);
-
-        Assertions.assertThat(successCount).isEqualTo(15);
-    }
 }
